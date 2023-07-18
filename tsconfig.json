@@ -45,6 +45,9 @@
         "resources/ts/@core/utils/validators"
       ],
       "@core-scss/*": [
+        "resources/styles/@core/*"
+      ],
+      "@core-scss": [
         "resources/styles/@core"
       ]
     },

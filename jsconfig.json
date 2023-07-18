@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "resources/ts/*"
+      ],
+      "@themeConfig": [
+        "themeConfig.ts"
+      ],
+      "@layouts/*": [
+        "resources/ts/@layouts/*"
+      ],
+      "@layouts": [
+        "resources/ts/@layouts"
+      ],
+      "@core/*": [
+        "resources/ts/@core/*"
+      ],
+      "@core": [
+        "resources/ts/@core"
+      ],
+      "@images/*": [
+        "resources/images/*"
+      ],
+      "@styles/*": [
+        "resources/styles/*"
+      ],
+      "@axios": [
+        "resources/ts/plugins/axios"
+      ],
+      "@validators": [
+        "resources/ts/@core/utils/validators"
+      ],
+      "@core-scss/*": [
+        "resources/styles/@core/*"
+      ],
+      "@core-scss": [
+        "resources/styles/@core"
+      ]
+    }
+  }
+}
