@@ -10,7 +10,7 @@ defineProps<{
 }>()
 
 const { width: windowWidth } = useWindowSize()
-const { isVerticalNavMini, dynamicI18nProps } = useLayouts()
+const { isVerticalNavMini } = useLayouts()
 
 const hideTitleAndBadge = isVerticalNavMini(windowWidth)
 </script>
@@ -33,28 +33,24 @@ const hideTitleAndBadge = isVerticalNavMini(windowWidth)
       />
       <TransitionGroup name="transition-slide-x">
         <!-- 👉 Title -->
-        <Component
-          :is="config.app.enableI18n ? 'i18n-t' : 'span'"
+        <span
           v-show="!hideTitleAndBadge"
           key="title"
           class="nav-item-title"
-          v-bind="dynamicI18nProps(item.title, 'span')"
         >
           {{ item.title }}
-        </Component>
+        </span>
 
         <!-- 👉 Badge -->
-        <Component
-          :is="config.app.enableI18n ? 'i18n-t' : 'span'"
+        <span
           v-if="item.badgeContent"
           v-show="!hideTitleAndBadge"
           key="badge"
           class="nav-item-badge"
           :class="item.badgeClass"
-          v-bind="dynamicI18nProps(item.badgeContent, 'span')"
         >
           {{ item.badgeContent }}
-        </Component>
+        </span>
       </TransitionGroup>
     </Component>
   </li>

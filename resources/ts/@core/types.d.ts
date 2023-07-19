@@ -1,6 +1,6 @@
-import type { UserConfig as UserLayoutConfig } from '@layouts/types';
-import type { Ref } from 'vue';
-import { RouteTransitions, Skins } from './enums';
+import type {UserConfig as UserLayoutConfig} from '@layouts/types';
+import type {Ref} from 'vue';
+import {RouteTransitions, Skins} from './enums';
 
 export interface UserThemeConfig {
   app: {
@@ -9,11 +9,10 @@ export interface UserThemeConfig {
     contentWidth: UserLayoutConfig['app']['contentWidth']
     contentLayoutNav: UserLayoutConfig['app']['contentLayoutNav']
     overlayNavFromBreakpoint: UserLayoutConfig['app']['overlayNavFromBreakpoint']
-    enableI18n: UserLayoutConfig['app']['enableI18n']
     theme: string
     isRtl: UserLayoutConfig['app']['isRtl']
     skin: typeof Skins[keyof typeof Skins]
-    routeTransition:typeof RouteTransitions[keyof typeof RouteTransitions]
+    routeTransition: typeof RouteTransitions[keyof typeof RouteTransitions]
     iconRenderer: UserLayoutConfig['app']['iconRenderer']
   }
   navbar: {
@@ -53,7 +52,6 @@ export interface ThemeConfig {
     contentWidth: Ref<UserThemeConfig['app']['contentWidth']>
     contentLayoutNav: Ref<UserThemeConfig['app']['contentLayoutNav']>
     overlayNavFromBreakpoint: UserThemeConfig['app']['overlayNavFromBreakpoint']
-    enableI18n: UserThemeConfig['app']['enableI18n']
     theme: Ref<UserThemeConfig['app']['theme']>
     isRtl: Ref<UserThemeConfig['app']['isRtl']>
     skin: Ref<UserThemeConfig['app']['skin']>
@@ -93,7 +91,7 @@ export interface CustomInputContent {
   value: string
   subtitle?: string
   icon?: { icon: string, size?: string, color?: string }
-  images?:string
+  images?: string
 }
 
 
@@ -103,15 +101,15 @@ export interface GridColumn {
   md?: string
   lg?: string
   xl?: string
-  xxl?:string
+  xxl?: string
 }
 
 // Data table
 export type SortItem = { key: string, order?: boolean | 'asc' | 'desc' }
 
-export interface Options { 
+export interface Options {
   page: number
-  itemsPerPage:  number
+  itemsPerPage: number
   sortBy: readonly SortItem[]
   groupBy: readonly SortItem[]
   search: string | undefined
