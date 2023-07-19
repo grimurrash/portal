@@ -30,6 +30,9 @@ const userProfileList = [
   { type: 'divider' },
   { type: 'navItem', icon: 'tabler-user', title: 'Profile', to: { name: 'apps-user-view-id', params: { id: 21 } } },
   { type: 'navItem', icon: 'tabler-settings', title: 'Settings', to: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+
+  //  { type: 'navItem', icon: 'tabler-credit-card', title: 'Billing', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '3' } },
+
   { type: 'divider' },
   { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'pages-help-center' } },
   { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'pages-faq' } },
@@ -122,13 +125,13 @@ const userProfileList = [
                 </template>
 
                 <VListItemTitle>{{ item.title }}</VListItemTitle>
-
-                <template
-                  v-if="item.badgeProps"
-                  #append
-                >
-                  <VBadge v-bind="item.badgeProps" />
-                </template>
+                <!-- новые сообщение или т.п. -->
+                <!-- <template -->
+                <!-- v-if="item.badgeProps" -->
+                <!-- #append -->
+                <!-- > -->
+                <!-- <VBadge v-bind="item.badgeProps" /> -->
+                <!-- </template> -->
               </VListItem>
 
               <VDivider
