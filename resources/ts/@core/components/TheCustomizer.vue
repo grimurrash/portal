@@ -3,7 +3,7 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useTheme } from 'vuetify'
 import { staticPrimaryColor } from '@/plugins/vuetify/theme'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
-import { RouteTransitions, Skins } from '@core/enums'
+import { Skins } from '@core/enums'
 import { AppContentLayoutNav, ContentWidth, FooterType, NavbarType } from '@layouts/enums'
 import { themeConfig } from '@themeConfig'
 
@@ -14,14 +14,12 @@ const isNavDrawerOpen = ref(false)
 const {
   theme,
   skin,
-  appRouteTransition,
   navbarType,
   footerType,
   isVerticalNavCollapsed,
   isVerticalNavSemiDark,
   appContentWidth,
   appContentLayoutNav,
-  isAppRtl,
   isNavbarBlurEnabled,
   isLessThanOverlayNavBreakpoint,
 } = useThemeConfig()
@@ -297,55 +295,6 @@ const headerValues = computed(() => {
                 class="ms-2"
               />
             </div>
-          </div>
-        </CustomizerSection>
-        <!-- !SECTION -->
-
-        <!-- SECTION MISC -->
-        <CustomizerSection title="MISC">
-          <!-- 👉 RTL -->
-          <div class="d-flex align-center justify-space-between">
-            <VLabel
-              for="customizer-rtl"
-              class="text-high-emphasis"
-            >
-              RTL
-            </VLabel>
-            <div>
-              <VSwitch
-                id="customizer-rtl"
-                v-model="isAppRtl"
-                class="ms-2"
-              />
-            </div>
-          </div>
-
-          <!-- 👉 Route Transition -->
-          <div class="mt-6">
-            <VRow>
-              <VCol
-                cols="5"
-                class="d-flex align-center"
-              >
-                <VLabel
-                  for="route-transition"
-                  class="text-high-emphasis"
-                >
-                  Router Transition
-                </VLabel>
-              </VCol>
-
-              <VCol cols="7">
-                <AppSelect
-                  id="route-transition"
-                  v-model="appRouteTransition"
-                  :items="Object.entries(RouteTransitions).map(([key, value]) => ({ key, value }))"
-                  item-title="key"
-                  item-value="value"
-                  single-line
-                />
-              </VCol>
-            </VRow>
           </div>
         </CustomizerSection>
         <!-- !SECTION -->
