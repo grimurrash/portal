@@ -15,12 +15,14 @@ export default [
       },
       { title: 'FAQ', icon: { icon: 'tabler-help' }, to: 'pages-faq' },
       { title: 'Help Center', icon: { icon: 'tabler-lifebuoy' }, to: 'pages-help-center' },
-      { title: 'Pricing', icon: { icon: 'tabler-diamond' }, to: 'pages-pricing' },
+
+      // { title: 'Pricing', icon: { icon: 'tabler-diamond' }, to: 'pages-pricing' },
       {
         title: 'Misc',
         icon: { icon: 'tabler-3d-cube-sphere' },
         children: [
-          { title: 'Coming Soon', to: 'pages-misc-coming-soon' },
+
+          // { title: 'Coming Soon', to: 'pages-misc-coming-soon' },
           { title: 'Under Maintenance', to: 'pages-misc-under-maintenance', target: '_blank' },
           { title: 'Page Not Found - 404', to: 'pages-misc-not-found', target: '_blank' },
           { title: 'Not Authorized - 401', to: 'pages-misc-not-authorized', target: '_blank' },
@@ -76,15 +78,16 @@ export default [
           },
         ],
       },
-      {
-        title: 'Wizard Pages',
-        icon: { icon: 'tabler-forms' },
-        children: [
-          { title: 'Checkout', to: { name: 'wizard-examples-checkout' } },
-          { title: 'Property Listing', to: { name: 'wizard-examples-property-listing' } },
-          { title: 'Create Deal', to: { name: 'wizard-examples-create-deal' } },
-        ],
-      },
+
+      // {
+      //   title: 'Wizard Pages',
+      //   icon: { icon: 'tabler-forms' },
+      //   children: [
+      //     { title: 'Checkout', to: { name: 'wizard-examples-checkout' } },
+      //     { title: 'Property Listing', to: { name: 'wizard-examples-property-listing' } },
+      //     { title: 'Create Deal', to: { name: 'wizard-examples-create-deal' } },
+      //   ],
+      // },
       { title: 'Dialog Examples', icon: { icon: 'tabler-square' }, to: 'pages-dialog-examples' },
     ],
   },
