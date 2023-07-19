@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
-import AnalyticsEarningReportsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsEarningReportsWeeklyOverview.vue'
-import AnalyticsMonthlyCampaignState from '@/views/dashboards/analytics/AnalyticsMonthlyCampaignState.vue'
-import AnalyticsProjectTable from '@/views/dashboards/analytics/AnalyticsProjectTable.vue'
-import AnalyticsSalesByCountries from '@/views/dashboards/analytics/AnalyticsSalesByCountries.vue'
-import AnalyticsSalesOverview from '@/views/dashboards/analytics/AnalyticsSalesOverview.vue'
-import AnalyticsSourceVisits from '@/views/dashboards/analytics/AnalyticsSourceVisits.vue'
-import AnalyticsSupportTracker from '@/views/dashboards/analytics/AnalyticsSupportTracker.vue'
-import AnalyticsTotalEarning from '@/views/dashboards/analytics/AnalyticsTotalEarning.vue'
-import AnalyticsWebsiteAnalytics from '@/views/dashboards/analytics/AnalyticsWebsiteAnalytics.vue'
+import AnalyticsEarningReportsWeeklyOverview
+  from '@/views/demo/dashboards/analytics/AnalyticsEarningReportsWeeklyOverview.vue'
+import AnalyticsMonthlyCampaignState from '@/views/demo/dashboards/analytics/AnalyticsMonthlyCampaignState.vue'
+import AnalyticsProjectTable from '@/views/demo/dashboards/analytics/AnalyticsProjectTable.vue'
+import AnalyticsSalesByCountries from '@/views/demo/dashboards/analytics/AnalyticsSalesByCountries.vue'
+import AnalyticsSalesOverview from '@/views/demo/dashboards/analytics/AnalyticsSalesOverview.vue'
+import AnalyticsSourceVisits from '@/views/demo/dashboards/analytics/AnalyticsSourceVisits.vue'
+import AnalyticsSupportTracker from '@/views/demo/dashboards/analytics/AnalyticsSupportTracker.vue'
+import AnalyticsTotalEarning from '@/views/demo/dashboards/analytics/AnalyticsTotalEarning.vue'
+import AnalyticsWebsiteAnalytics from '@/views/demo/dashboards/analytics/AnalyticsWebsiteAnalytics.vue'
 
 const vuetifyTheme = useTheme()
 const currentTheme = vuetifyTheme.current.value.colors

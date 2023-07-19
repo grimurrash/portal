@@ -3,11 +3,11 @@ import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 
 // Components
-import InvoiceAddPaymentDrawer from '@/views/apps/invoice/InvoiceAddPaymentDrawer.vue'
-import InvoiceSendInvoiceDrawer from '@/views/apps/invoice/InvoiceSendInvoiceDrawer.vue'
+import InvoiceAddPaymentDrawer from '@/views/demo/apps/invoice/InvoiceAddPaymentDrawer.vue'
+import InvoiceSendInvoiceDrawer from '@/views/demo/apps/invoice/InvoiceSendInvoiceDrawer.vue'
 
 // Store
-import { useInvoiceStore } from '@/views/apps/invoice/useInvoiceStore'
+import { useInvoiceStore } from '@/views/demo/apps/invoice/useInvoiceStore'
 
 const invoiceListStore = useInvoiceStore()
 

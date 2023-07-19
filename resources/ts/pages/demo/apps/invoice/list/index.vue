@@ -2,7 +2,7 @@
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Invoice } from '@/@fake-db/types'
 import { paginationMeta } from '@/@fake-db/utils'
-import { useInvoiceStore } from '@/views/apps/invoice/useInvoiceStore'
+import { useInvoiceStore } from '@/views/demo/apps/invoice/useInvoiceStore'
 
 import type { Options } from '@core/types'
 import { avatarText } from '@core/utils/formatters'

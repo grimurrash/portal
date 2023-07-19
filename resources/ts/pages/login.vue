@@ -2,7 +2,7 @@
 import { VForm } from 'vuetify/components/VForm'
 import type { LoginResponse } from '@/@fake-db/types'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
+import AuthProvider from '@/views/demo/pages/authentication/AuthProvider.vue'
 import axios from '@axios'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png'

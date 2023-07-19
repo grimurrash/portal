@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import EcommerceCongratulationsJohn from '@/views/dashboards/ecommerce/EcommerceCongratulationsJohn.vue'
-import EcommerceEarningReports from '@/views/dashboards/ecommerce/EcommerceEarningReports.vue'
-import EcommerceExpensesRadialBarCharts from '@/views/dashboards/ecommerce/EcommerceExpensesRadialBarCharts.vue'
-import EcommerceGeneratedLeads from '@/views/dashboards/ecommerce/EcommerceGeneratedLeads.vue'
-import EcommerceInvoiceTable from '@/views/dashboards/ecommerce/EcommerceInvoiceTable.vue'
-import EcommerceOrder from '@/views/dashboards/ecommerce/EcommerceOrder.vue'
-import EcommercePopularProducts from '@/views/dashboards/ecommerce/EcommercePopularProducts.vue'
-import EcommerceRevenueReport from '@/views/dashboards/ecommerce/EcommerceRevenueReport.vue'
-import EcommerceStatistics from '@/views/dashboards/ecommerce/EcommerceStatistics.vue'
-import EcommerceTotalProfitLineCharts from '@/views/dashboards/ecommerce/EcommerceTotalProfitLineCharts.vue'
-import EcommerceTransactions from '@/views/dashboards/ecommerce/EcommerceTransactions.vue'
+import EcommerceCongratulationsJohn from '@/views/demo/dashboards/ecommerce/EcommerceCongratulationsJohn.vue'
+import EcommerceEarningReports from '@/views/demo/dashboards/ecommerce/EcommerceEarningReports.vue'
+import EcommerceExpensesRadialBarCharts from '@/views/demo/dashboards/ecommerce/EcommerceExpensesRadialBarCharts.vue'
+import EcommerceGeneratedLeads from '@/views/demo/dashboards/ecommerce/EcommerceGeneratedLeads.vue'
+import EcommerceInvoiceTable from '@/views/demo/dashboards/ecommerce/EcommerceInvoiceTable.vue'
+import EcommerceOrder from '@/views/demo/dashboards/ecommerce/EcommerceOrder.vue'
+import EcommercePopularProducts from '@/views/demo/dashboards/ecommerce/EcommercePopularProducts.vue'
+import EcommerceRevenueReport from '@/views/demo/dashboards/ecommerce/EcommerceRevenueReport.vue'
+import EcommerceStatistics from '@/views/demo/dashboards/ecommerce/EcommerceStatistics.vue'
+import EcommerceTotalProfitLineCharts from '@/views/demo/dashboards/ecommerce/EcommerceTotalProfitLineCharts.vue'
+import EcommerceTransactions from '@/views/demo/dashboards/ecommerce/EcommerceTransactions.vue'
 </script>
 
 <template>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import CardWidgetsEarningReportsWeeklyOverview from '@/views/pages/cards/card-widgets/CardWidgetsEarningReportsWeeklyOverview.vue'
-import CardWidgetsEarningReportsYearlyOverview from '@/views/pages/cards/card-widgets/CardWidgetsEarningReportsYearlyOverview.vue'
-import CardWidgetsProjectStatus from '@/views/pages/cards/card-widgets/CardWidgetsProjectStatus.vue'
-import CardWidgetsRevenueReport from '@/views/pages/cards/card-widgets/CardWidgetsRevenueReport.vue'
-import CardWidgetsSales from '@/views/pages/cards/card-widgets/CardWidgetsSales.vue'
-import CardWidgetsSupportTracker from '@/views/pages/cards/card-widgets/CardWidgetsSupportTracker.vue'
-import CardWidgetsTotalEarning from '@/views/pages/cards/card-widgets/CardWidgetsTotalEarning.vue'
+import CardWidgetsEarningReportsWeeklyOverview
+  from '@/views/demo/pages/cards/card-widgets/CardWidgetsEarningReportsWeeklyOverview.vue'
+import CardWidgetsEarningReportsYearlyOverview
+  from '@/views/demo/pages/cards/card-widgets/CardWidgetsEarningReportsYearlyOverview.vue'
+import CardWidgetsProjectStatus from '@/views/demo/pages/cards/card-widgets/CardWidgetsProjectStatus.vue'
+import CardWidgetsRevenueReport from '@/views/demo/pages/cards/card-widgets/CardWidgetsRevenueReport.vue'
+import CardWidgetsSales from '@/views/demo/pages/cards/card-widgets/CardWidgetsSales.vue'
+import CardWidgetsSupportTracker from '@/views/demo/pages/cards/card-widgets/CardWidgetsSupportTracker.vue'
+import CardWidgetsTotalEarning from '@/views/demo/pages/cards/card-widgets/CardWidgetsTotalEarning.vue'
 </script>
 
 <template>

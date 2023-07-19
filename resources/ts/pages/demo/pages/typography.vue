@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TypographyHeadlines from '@/views/pages/typography/TypographyHeadlines.vue'
-import TypographyTexts from '@/views/pages/typography/TypographyTexts.vue'
+import TypographyHeadlines from '@/views/demo/pages/typography/TypographyHeadlines.vue'
+import TypographyTexts from '@/views/demo/pages/typography/TypographyTexts.vue'
 </script>
 
 <template>
