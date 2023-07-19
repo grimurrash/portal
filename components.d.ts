@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     AppDateTimePicker: typeof import('./resources/ts/@core/components/app-form-elements/AppDateTimePicker.vue')['default']
     AppDrawerHeaderSection: typeof import('./resources/ts/@core/components/AppDrawerHeaderSection.vue')['default']
     AppOtpInput: typeof import('./resources/ts/@core/components/app-form-elements/AppOtpInput.vue')['default']
+    AppPricing: typeof import('./resources/ts/components/AppPricing.vue')['default']
     AppSearchHeader: typeof import('./resources/ts/components/AppSearchHeader.vue')['default']
     AppSelect: typeof import('./resources/ts/@core/components/app-form-elements/AppSelect.vue')['default']
     AppStepper: typeof import('./resources/ts/@core/components/AppStepper.vue')['default']
