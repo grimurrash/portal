@@ -9,6 +9,7 @@ interface Suggestion {
   title: string
   url: object
 }
+
 const { appContentLayoutNav } = useThemeConfig()
 
 interface SuggestionGroup {
@@ -28,37 +29,41 @@ const suggestionGroups: SuggestionGroup[] = [
   {
     title: 'Popular Searches',
     content: [
-      { icon: 'tabler-chart-donut', title: 'Analytics', url: { name: 'dashboards-analytics' } },
-      { icon: 'tabler-chart-bubble', title: 'CRM', url: { name: 'dashboards-crm' } },
-      { icon: 'tabler-file', title: 'Invoice List', url: { name: 'apps-invoice-list' } },
-      { icon: 'tabler-users', title: 'User List', url: { name: 'apps-user-list' } },
+      { icon: 'tabler-chart-donut', title: 'Analytics', url: { name: 'demo-dashboards-analytics' } },
+      { icon: 'tabler-chart-bubble', title: 'CRM', url: { name: 'demo-dashboards-crm' } },
+      { icon: 'tabler-file', title: 'Invoice List', url: { name: 'demo-apps-invoice-list' } },
+      { icon: 'tabler-users', title: 'User List', url: { name: 'demo-apps-user-list' } },
     ],
   },
   {
     title: 'Apps & Pages',
     content: [
-      { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
-      { icon: 'tabler-file-plus', title: 'Invoice Add', url: { name: 'apps-invoice-add' } },
-      { icon: 'tabler-currency-dollar', title: 'Pricing', url: { name: 'pages-pricing' } },
-      { icon: 'tabler-user', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+      { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'demo-apps-calendar' } },
+      { icon: 'tabler-file-plus', title: 'Invoice Add', url: { name: 'demo-apps-invoice-add' } },
+      { icon: 'tabler-currency-dollar', title: 'Pricing', url: { name: 'demo-pages-pricing' } },
+      {
+        icon: 'tabler-user',
+        title: 'Account Settings',
+        url: { name: 'demo-pages-account-settings-tab', params: { tab: 'account' } },
+      },
     ],
   },
   {
     title: 'User Interface',
     content: [
-      { icon: 'tabler-letter-a', title: 'Typography', url: { name: 'pages-typography' } },
-      { icon: 'tabler-square', title: 'Tabs', url: { name: 'components-tabs' } },
-      { icon: 'tabler-hand-click', title: 'Buttons', url: { name: 'components-button' } },
-      { icon: 'tabler-keyboard', title: 'Statistics', url: { name: 'pages-cards-card-statistics' } },
+      { icon: 'tabler-letter-a', title: 'Typography', url: { name: 'demo-pages-typography' } },
+      { icon: 'tabler-square', title: 'Tabs', url: { name: 'demo-components-tabs' } },
+      { icon: 'tabler-hand-click', title: 'Buttons', url: { name: 'demo-components-button' } },
+      { icon: 'tabler-keyboard', title: 'Statistics', url: { name: 'demo-pages-cards-card-statistics' } },
     ],
   },
   {
     title: 'Popular Searches',
     content: [
-      { icon: 'tabler-list', title: 'Select', url: { name: 'forms-select' } },
-      { icon: 'tabler-space', title: 'Combobox', url: { name: 'forms-combobox' } },
-      { icon: 'tabler-calendar', title: 'Date & Time Picker', url: { name: 'forms-date-time-picker' } },
-      { icon: 'tabler-hexagon', title: 'Rating', url: { name: 'forms-rating' } },
+      { icon: 'tabler-list', title: 'Select', url: { name: 'demo-forms-select' } },
+      { icon: 'tabler-space', title: 'Combobox', url: { name: 'demo-forms-combobox' } },
+      { icon: 'tabler-calendar', title: 'Date & Time Picker', url: { name: 'demo-forms-date-time-picker' } },
+      { icon: 'tabler-hexagon', title: 'Rating', url: { name: 'demo-forms-rating' } },
     ],
   },
 ]
@@ -68,17 +73,17 @@ const noDataSuggestions: Suggestion[] = [
   {
     title: 'Analytics Dashboard',
     icon: 'tabler-shopping-cart',
-    url: { name: 'dashboards-analytics' },
+    url: { name: 'demo-dashboards-analytics' },
   },
   {
     title: 'Account Settings',
     icon: 'tabler-user',
-    url: { name: 'pages-account-settings-tab', params: { tab: 'account' } },
+    url: { name: 'demo-pages-account-settings-tab', params: { tab: 'account' } },
   },
   {
     title: 'Pricing Page',
     icon: 'tabler-cash',
-    url: { name: 'pages-pricing' },
+    url: { name: 'demo-pages-pricing' },
   },
 ]
 

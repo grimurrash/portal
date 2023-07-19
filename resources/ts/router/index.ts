@@ -16,7 +16,7 @@ const router = createRouter({
         const userRole = (userData && userData.role) ? userData.role : null
 
         if (userRole === 'admin')
-          return { name: 'dashboards-analytics' }
+          return { name: 'demo-dashboards-analytics' }
         if (userRole === 'client')
           return { name: 'access-control' }
 
@@ -24,12 +24,12 @@ const router = createRouter({
       },
     },
     {
-      path: '/pages/user-profile',
-      redirect: () => ({ name: 'pages-user-profile-tab', params: { tab: 'profile' } }),
+      path: '/demo/pages/user-profile',
+      redirect: () => ({ name: 'demo-pages-user-profile-tab', params: { tab: 'profile' } }),
     },
     {
-      path: '/pages/account-settings',
-      redirect: () => ({ name: 'pages-account-settings-tab', params: { tab: 'account' } }),
+      path: '/demo/pages/account-settings',
+      redirect: () => ({ name: 'demo-pages-account-settings-tab', params: { tab: 'account' } }),
     },
     ...setupLayouts(routes),
   ],

@@ -82,7 +82,7 @@ const computedMoreList = computed(() => {
       title: 'Edit',
       value: 'edit',
       prependIcon: 'tabler-pencil',
-      to: { name: 'apps-invoice-edit-id', params: { id: paramId } },
+      to: { name: 'demo-apps-invoice-edit-id', params: { id: paramId } },
     },
     { title: 'Duplicate', value: 'duplicate', prependIcon: 'tabler-layers-intersect' },
   ])
@@ -145,7 +145,7 @@ watchEffect(() => {
           <!-- 👉 Export invoice -->
           <VBtn
             prepend-icon="tabler-plus"
-            :to="{ name: 'apps-invoice-add' }"
+            :to="{ name: 'demo-apps-invoice-add' }"
           >
             Export
           </VBtn>
@@ -175,7 +175,7 @@ watchEffect(() => {
 
         <!-- id -->
         <template #item.id="{ item }">
-          <RouterLink :to="{ name: 'apps-invoice-preview-id', params: { id: item.value } }">
+          <RouterLink :to="{ name: 'demo-apps-invoice-preview-id', params: { id: item.value } }">
             #{{ item.raw.id }}
           </RouterLink>
         </template>
@@ -224,7 +224,7 @@ watchEffect(() => {
             <VIcon icon="tabler-trash" />
           </IconBtn>
 
-          <IconBtn :to="{ name: 'apps-invoice-preview-id', params: { id: item.raw.id } }">
+          <IconBtn :to="{ name: 'demo-apps-invoice-preview-id', params: { id: item.raw.id } }">
             <VIcon icon="tabler-eye" />
           </IconBtn>
 

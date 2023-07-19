@@ -895,7 +895,7 @@ export const router = {
 
     <VBtn
       color="success"
-      :to="{ name: 'components-alert' }"
+      :to="{ name: 'demo-components-alert' }"
     >
       Named Router
     </VBtn>
@@ -924,7 +924,7 @@ export const router = {
 
     <VBtn
       color="success"
-      :to="{ name: 'components-alert' }"
+      :to="{ name: 'demo-components-alert' }"
     >
       Named Router
     </VBtn>

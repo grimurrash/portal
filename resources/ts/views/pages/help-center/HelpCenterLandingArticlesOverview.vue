@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type {
-  HelpCenterArticlesOverviewType,
-} from '@/@fake-db/types'
+import type { HelpCenterArticlesOverviewType } from '@/@fake-db/types'
 
 interface Props {
   articles: HelpCenterArticlesOverviewType[]
@@ -47,7 +45,7 @@ const props = defineProps<Props>()
                 size="small"
                 variant="tonal"
                 :to="{
-                  name: 'pages-help-center-category-subcategory-article',
+                  name: 'demo-pages-help-center-category-subcategory-article',
                   params: { category: 'getting-started', subcategory: 'account', article: 'changing-your-username' },
                 }"
               >

@@ -43,23 +43,23 @@ export default defineConfig({
       onRoutesGenerated: routes => [
         // Email filter
         {
-          path: '/apps/email/:filter',
-          name: 'apps-email-filter',
-          component: '/resources/ts/pages/apps/email/index.vue',
+          path: '/demo/apps/email/:filter',
+          name: 'demo-apps-email-filter',
+          component: '/resources/ts/pages/demo/apps/email/index.vue',
           meta: {
-            navActiveLink: 'apps-email',
+            navActiveLink: 'demo-apps-email',
             layoutWrapperClasses: 'layout-content-height-fixed',
           },
         },
 
         // Email label
         {
-          path: '/apps/email/label/:label',
-          name: 'apps-email-label',
-          component: '/resources/ts/pages/apps/email/index.vue',
+          path: '/demo/apps/email/label/:label',
+          name: 'demo-apps-email-label',
+          component: '/resources/ts/pages/demo/apps/email/index.vue',
           meta: {
             // contentClass: 'email-application',
-            navActiveLink: 'apps-email',
+            navActiveLink: 'demo-apps-email',
             layoutWrapperClasses: 'layout-content-height-fixed',
           },
         },

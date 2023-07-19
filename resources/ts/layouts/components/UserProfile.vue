@@ -28,14 +28,24 @@ const logout = () => {
 
 const userProfileList = [
   { type: 'divider' },
-  { type: 'navItem', icon: 'tabler-user', title: 'Profile', to: { name: 'apps-user-view-id', params: { id: 21 } } },
-  { type: 'navItem', icon: 'tabler-settings', title: 'Settings', to: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+  {
+    type: 'navItem',
+    icon: 'tabler-user',
+    title: 'Profile',
+    to: { name: 'demo-apps-user-view-id', params: { id: 21 } },
+  },
+  {
+    type: 'navItem',
+    icon: 'tabler-settings',
+    title: 'Settings',
+    to: { name: 'demo-pages-account-settings-tab', params: { tab: 'account' } },
+  },
 
-  //  { type: 'navItem', icon: 'tabler-credit-card', title: 'Billing', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '3' } },
+  //  { type: 'navItem', icon: 'tabler-credit-card', title: 'Billing', to: { name: 'demo-pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '3' } },
 
   { type: 'divider' },
-  { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'pages-help-center' } },
-  { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'pages-faq' } },
+  { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'demo-pages-help-center' } },
+  { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'demo-pages-faq' } },
   { type: 'divider' },
   { type: 'navItem', icon: 'tabler-logout', title: 'Logout', onClick: logout },
 ]

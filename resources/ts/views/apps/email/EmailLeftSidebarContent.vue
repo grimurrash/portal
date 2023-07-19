@@ -9,14 +9,14 @@ const folders = [
   {
     title: 'Inbox',
     prependIcon: 'tabler-mail',
-    to: { name: 'apps-email' },
+    to: { name: 'demo-apps-email' },
     badge: { content: '4', color: 'primary' },
   },
   {
     title: 'Sent',
     prependIcon: 'tabler-send',
     to: {
-      name: 'apps-email-filter',
+      name: 'demo-apps-email-filter',
       params: { filter: 'sent' },
     },
   },
@@ -24,7 +24,7 @@ const folders = [
     title: 'Draft',
     prependIcon: 'tabler-pencil',
     to: {
-      name: 'apps-email-filter',
+      name: 'demo-apps-email-filter',
       params: { filter: 'draft' },
     },
     badge: { content: '2', color: 'warning' },
@@ -33,7 +33,7 @@ const folders = [
     title: 'Starred',
     prependIcon: 'tabler-star',
     to: {
-      name: 'apps-email-filter',
+      name: 'demo-apps-email-filter',
       params: { filter: 'starred' },
     },
     badge: { content: '9', color: 'success' },
@@ -42,7 +42,7 @@ const folders = [
     title: 'Spam',
     prependIcon: 'tabler-info-circle',
     to: {
-      name: 'apps-email-filter',
+      name: 'demo-apps-email-filter',
       params: { filter: 'spam' },
     },
   },
@@ -50,7 +50,7 @@ const folders = [
     title: 'Trash',
     prependIcon: 'tabler-trash',
     to: {
-      name: 'apps-email-filter',
+      name: 'demo-apps-email-filter',
       params: { filter: 'trashed' },
     },
   },
@@ -61,7 +61,7 @@ const labels = [
     title: 'Personal',
     color: 'success',
     to: {
-      name: 'apps-email-label',
+      name: 'demo-apps-email-label',
       params: { label: 'personal' },
     },
   },
@@ -69,7 +69,7 @@ const labels = [
     title: 'Company',
     color: 'primary',
     to: {
-      name: 'apps-email-label',
+      name: 'demo-apps-email-label',
       params: { label: 'company' },
     },
   },
@@ -77,7 +77,7 @@ const labels = [
     title: 'Important',
     color: 'warning',
     to: {
-      name: 'apps-email-label',
+      name: 'demo-apps-email-label',
       params: { label: 'important' },
     },
   },
@@ -85,7 +85,7 @@ const labels = [
     title: 'Private',
     color: 'error',
     to: {
-      name: 'apps-email-label',
+      name: 'demo-apps-email-label',
       params: { label: 'private' },
     },
   },

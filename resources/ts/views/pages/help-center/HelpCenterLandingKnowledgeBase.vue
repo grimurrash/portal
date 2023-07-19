@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type {
-  HelpCenterCategoriesType,
-} from '@/@fake-db/types'
+import type { HelpCenterCategoriesType } from '@/@fake-db/types'
 
 interface Props {
   categories: HelpCenterCategoriesType[]
@@ -53,7 +51,7 @@ const totalArticles = (category: HelpCenterCategoriesType) => {
                 >
                   <RouterLink
                     :to="{
-                      name: 'pages-help-center-category-subcategory',
+                      name: 'demo-pages-help-center-category-subcategory',
                       params: { category: article.slug, subcategory: item.slug },
                     }"
                   >
@@ -65,7 +63,7 @@ const totalArticles = (category: HelpCenterCategoriesType) => {
               <div class="mt-4">
                 <RouterLink
                   :to="{
-                    name: 'pages-help-center-category-subcategory',
+                    name: 'demo-pages-help-center-category-subcategory',
                     params: { category: article.slug, subcategory: article.subCategories[0].slug },
                   }"
                   class="text-base font-weight-medium"

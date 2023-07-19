@@ -181,7 +181,7 @@ const deleteUser = (id: number) => {
             <div class="d-flex flex-column">
               <h6 class="text-body-1 font-weight-medium">
                 <RouterLink
-                  :to="{ name: 'apps-user-view-id', params: { id: item.raw.id } }"
+                  :to="{ name: 'demo-apps-user-view-id', params: { id: item.raw.id } }"
                   class="user-list-name"
                 >
                   {{ item.raw.fullName }}
@@ -286,7 +286,7 @@ const deleteUser = (id: number) => {
 
             <VMenu activator="parent">
               <VList>
-                <VListItem :to="{ name: 'apps-user-view-id', params: { id: item.raw.id } }">
+                <VListItem :to="{ name: 'demo-apps-user-view-id', params: { id: item.raw.id } }">
                   <VListItemTitle>View</VListItemTitle>
                 </VListItem>
                 <VListItem link>
