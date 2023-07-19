@@ -17,7 +17,7 @@ defineOptions({
 const route = useRoute()
 const router = useRouter()
 const { width: windowWidth } = useWindowSize()
-const { isVerticalNavMini, dynamicI18nProps } = useLayouts()
+const { isVerticalNavMini } = useLayouts()
 const hideTitleAndBadge = isVerticalNavMini(windowWidth)
 
 /*
@@ -43,12 +43,12 @@ const isGroupActive = ref(false)
 const isGroupOpen = ref(false)
 
 /**
-* Checks if any of children group is open or not.
-* This is helpful in preventing closing inactive parent group when inactive child group is opened. (i.e. Do not close "Nav Levels" group if child "Nav Level 2.2" is opened/clicked)
-*
-* @param {NavGroup['children']} children  - Nav group children
-* @return {boolean} returns if any of children is open or not.
-*/
+ * Checks if any of children group is open or not.
+ * This is helpful in preventing closing inactive parent group when inactive child group is opened. (i.e. Do not close "Nav Levels" group if child "Nav Level 2.2" is opened/clicked)
+ *
+ * @param {NavGroup['children']} children  - Nav group children
+ * @return {boolean} returns if any of children is open or not.
+ */
 const isAnyChildOpen = (children: NavGroup['children']): boolean => {
   return children.some(child => {
     let result = openGroups.value.includes(child.title)
@@ -193,20 +193,17 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
       />
       <TransitionGroup name="transition-slide-x">
         <!-- 👉 Title -->
-        <Component
-          :is=" config.app.enableI18n ? 'i18n-t' : 'span'"
-          v-bind="dynamicI18nProps(item.title, 'span')"
+
+        <span
           v-show="!hideTitleAndBadge"
           key="title"
           class="nav-item-title"
         >
           {{ item.title }}
-        </Component>
+        </span>
 
         <!-- 👉 Badge -->
-        <Component
-          :is="config.app.enableI18n ? 'i18n-t' : 'span'"
-          v-bind="dynamicI18nProps(item.badgeContent, 'span')"
+        <span
           v-show="!hideTitleAndBadge"
           v-if="item.badgeContent"
           key="badge"
@@ -214,7 +211,7 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
           :class="item.badgeClass"
         >
           {{ item.badgeContent }}
-        </Component>
+        </span>
         <Component
           :is="config.app.iconRenderer || 'div'"
           v-show="!hideTitleAndBadge"

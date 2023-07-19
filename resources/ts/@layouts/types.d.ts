@@ -1,6 +1,6 @@
-import type { Component, Ref, VNode } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
-import { ContentWidth, FooterType, NavbarType } from './enums'
+import type {Component, Ref, VNode} from 'vue'
+import type {RouteLocationRaw} from 'vue-router'
+import {ContentWidth, FooterType, NavbarType} from './enums'
 
 export interface UserConfig {
   app: {
@@ -9,7 +9,6 @@ export interface UserConfig {
     contentWidth: typeof ContentWidth[keyof typeof ContentWidth]
     contentLayoutNav: typeof AppContentLayoutNav[keyof typeof AppContentLayoutNav]
     overlayNavFromBreakpoint: number
-    enableI18n: boolean
     isRtl: boolean
     iconRenderer?: Component
   }
@@ -18,7 +17,7 @@ export interface UserConfig {
     navbarBlur: boolean
   }
   footer: {
-    type:typeof FooterType[keyof typeof FooterType]
+    type: typeof FooterType[keyof typeof FooterType]
   }
   verticalNav: {
     isVerticalNavCollapsed: boolean
@@ -49,7 +48,6 @@ export interface Config {
     contentWidth: Ref<UserConfig['app']['contentWidth']>
     contentLayoutNav: Ref<UserConfig['app']['contentLayoutNav']>
     overlayNavFromBreakpoint: UserConfig['app']['overlayNavFromBreakpoint']
-    enableI18n: UserConfig['app']['enableI18n']
     isRtl: Ref<UserConfig['app']['isRtl']>
     iconRenderer?: UserConfig['app']['iconRenderer']
   }
@@ -135,15 +133,10 @@ export declare type HorizontalNavItems = (NavLink | NavGroup)[]
 
 // 👉 Components ========================
 
-interface I18nLanguage {
-  label: string
-  i18nLang: string
-}
-
 // avatar | text | icon
 // Thanks: https://stackoverflow.com/a/60617060/10796681
 type Notification = {
-  id:number
+  id: number
   title: string
   subtitle: string
   time: string
@@ -153,7 +146,7 @@ type Notification = {
   | { img: string; text?: never; icon?: never }
   | { img?: never; text: string; icon?: never }
   | { img?: never; text?: never; icon: string }
-)
+  )
 
 interface ThemeSwitcherTheme {
   name: string
