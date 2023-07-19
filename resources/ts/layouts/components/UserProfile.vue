@@ -33,7 +33,6 @@ const userProfileList = [
   { type: 'navItem', icon: 'tabler-credit-card', title: 'Billing', to: { name: 'pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '3' } },
   { type: 'divider' },
   { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'pages-help-center' } },
-  { type: 'navItem', icon: 'tabler-currency-dollar', title: 'Pricing', to: { name: 'pages-pricing' } },
   { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'pages-faq' } },
   { type: 'divider' },
   { type: 'navItem', icon: 'tabler-logout', title: 'Logout', onClick: logout },

@@ -15,7 +15,6 @@ export default [
       },
       { title: 'FAQ', icon: { icon: 'tabler-help' }, to: 'pages-faq' },
       { title: 'Help Center', icon: { icon: 'tabler-lifebuoy' }, to: 'pages-help-center' },
-      { title: 'Pricing', icon: { icon: 'tabler-diamond' }, to: 'pages-pricing' },
       {
         title: 'Misc',
         icon: { icon: 'tabler-3d-cube-sphere' },

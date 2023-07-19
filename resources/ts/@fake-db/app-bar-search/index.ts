@@ -139,13 +139,6 @@ const database: SearchItem[] = [
     category: 'appsPages',
   },
   {
-    id: 22,
-    url: { name: 'pages-pricing' },
-    icon: 'tabler-currency-dollar',
-    title: 'Pricing',
-    category: 'appsPages',
-  },
-  {
     id: 23,
     url: { name: 'pages-faq' },
     icon: 'tabler-help',
