@@ -1,6 +1,11 @@
 export default [
   { heading: 'Demo' },
   {
+    title: 'Пользователи',
+    icon: { icon: 'tabler-users' },
+    to: 'users-list',
+  },
+  {
     title: 'Dashboards',
     icon: { icon: 'tabler-smart-home' },
     children: [
