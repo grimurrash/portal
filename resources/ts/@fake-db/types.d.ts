@@ -1,4 +1,4 @@
-import type { UserAbility } from '@/plugins/casl/AppAbility';
+import type {UserAbility} from '@/plugins/casl/AppAbility';
 
 // 👉 Help center
 export type HelpCenterSubcategoryArticlesType = {
@@ -186,6 +186,12 @@ export interface RegisterResponse {
 
 // SECTION
 // App: User
+export interface UserProperties_ {
+  id: number
+  fullName: string
+  email: string
+  role: Array<string>
+}
 export interface UserProperties {
   id: number
   fullName: string

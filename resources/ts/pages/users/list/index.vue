@@ -2,10 +2,9 @@
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/@fake-db/types'
 import { paginationMeta } from '@/@fake-db/utils'
-import AddNewUserDrawer from '@/views/apps/user/list/AddNewUserDrawer.vue'
+import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
 import { useUserListStore } from '@/views/apps/user/useUserListStore'
 import type { Options } from '@core/types'
-import { avatarText } from '@core/utils/formatters'
 
 // 👉 Store
 const userListStore = useUserListStore()
@@ -81,26 +80,9 @@ const roles = [
 //   { title: 'Inactive', value: 'inactive' },
 // ]
 
-const resolveUserRoleVariant = (role: string) => {
-  const roleLowerCase = role.toLowerCase()
-
-  if (roleLowerCase === 'admin')
-    return { color: 'warning', icon: 'tabler-circle-check' }
-
+const resolveUserRoleVariant = (role: Array<string>) => {
   return { color: 'primary', icon: 'tabler-user' }
 }
-
-// const resolveUserStatusVariant = (stat: string) => {
-//   const statLowerCase = stat.toLowerCase()
-//   if (statLowerCase === 'pending')
-//     return 'warning'
-//   if (statLowerCase === 'active')
-//     return 'success'
-//   if (statLowerCase === 'inactive')
-//     return 'secondary'
-//
-//   return 'primary'
-// }
 
 const isAddNewUserDrawerVisible = ref(false)
 
@@ -111,42 +93,6 @@ const addNewUser = (userData: UserProperties) => {
   // refetch User
   fetchUsers()
 }
-
-// 👉 List
-const userListMeta = [
-  // {
-  //   icon: 'tabler-user',
-  //   color: 'primary',
-  //   title: 'Session',
-  //   stats: '21,459',
-  //   percentage: +29,
-  //   subtitle: 'Total Users',
-  // },
-  // {
-  //   icon: 'tabler-user-plus',
-  //   color: 'error',
-  //   title: 'Paid Users',
-  //   stats: '4,567',
-  //   percentage: +18,
-  //   subtitle: 'Last week analytics',
-  // },
-  // {
-  //   icon: 'tabler-user-check',
-  //   color: 'success',
-  //   title: 'Active Users',
-  //   stats: '19,860',
-  //   percentage: -14,
-  //   subtitle: 'Last week analytics',
-  // },
-  // {
-  //   icon: 'tabler-user-exclamation',
-  //   color: 'warning',
-  //   title: 'Pending Users',
-  //   stats: '237',
-  //   percentage: +42,
-  //   subtitle: 'Last week analytics',
-  // },
-]
 
 // 👉 Delete user
 const deleteUser = (id: number) => {
@@ -160,38 +106,6 @@ const deleteUser = (id: number) => {
 <template>
   <section>
     <VRow>
-      <VCol
-        v-for="meta in userListMeta"
-        :key="meta.title"
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <VCard>
-          <VCardText class="d-flex justify-space-between">
-            <div>
-              <span>{{ meta.title }}</span>
-              <div class="d-flex align-center gap-2 my-1">
-                <h6 class="text-h4">
-                  {{ meta.stats }}
-                </h6>
-                <span :class="meta.percentage > 0 ? 'text-success' : 'text-error'">( {{
-                  meta.percentage > 0 ? '+' : ''
-                }} {{ meta.percentage }}%)</span>
-              </div>
-              <span>{{ meta.subtitle }}</span>
-            </div>
-
-            <VAvatar
-              rounded
-              variant="tonal"
-              :color="meta.color"
-              :icon="meta.icon"
-            />
-          </VCardText>
-        </VCard>
-      </VCol>
-
       <VCol cols="12">
         <VCard title="Фильтры">
           <!-- 👉 Filters -->
@@ -210,32 +124,6 @@ const deleteUser = (id: number) => {
                   clear-icon="tabler-x"
                 />
               </VCol>
-              <!--              &lt;!&ndash; 👉 Select Plan &ndash;&gt; -->
-              <!--              <VCol -->
-              <!--                cols="12" -->
-              <!--                sm="4" -->
-              <!--              > -->
-              <!--                <AppSelect -->
-              <!--                  v-model="selectedPlan" -->
-              <!--                  label="Select Plan" -->
-              <!--                  :items="plans" -->
-              <!--                  clearable -->
-              <!--                  clear-icon="tabler-x" -->
-              <!--                /> -->
-              <!--              </VCol> -->
-              <!--              &lt;!&ndash; 👉 Select Status &ndash;&gt; -->
-              <!--              <VCol -->
-              <!--                cols="12" -->
-              <!--                sm="4" -->
-              <!--              > -->
-              <!--                <AppSelect -->
-              <!--                  v-model="selectedStatus" -->
-              <!--                  label="Select Status" -->
-              <!--                  :items="status" -->
-              <!--                  clearable -->
-              <!--                  clear-icon="tabler-x" -->
-              <!--                /> -->
-              <!--              </VCol> -->
             </VRow>
           </VCardText>
 
@@ -268,15 +156,6 @@ const deleteUser = (id: number) => {
                 />
               </div>
 
-              <!-- 👉 Export button -->
-              <!--              <VBtn -->
-              <!--                variant="tonal" -->
-              <!--                color="secondary" -->
-              <!--                prepend-icon="tabler-screen-share" -->
-              <!--              > -->
-              <!--                Экспортировать -->
-              <!--              </VBtn> -->
-
               <!-- 👉 Add user button -->
               <VBtn
                 prepend-icon="tabler-plus"
@@ -302,30 +181,24 @@ const deleteUser = (id: number) => {
             <!-- User -->
             <template #item.user="{ item }">
               <div class="d-flex align-center">
-                <VAvatar
-                  size="34"
-                  :variant="!item.raw.avatar ? 'tonal' : undefined"
-                  :color="!item.raw.avatar ? resolveUserRoleVariant(item.raw.role).color : undefined"
-                  class="me-3"
-                >
-                  <VImg
-                    v-if="item.raw.avatar"
-                    :src="item.raw.avatar"
-                  />
-                  <span v-else>{{ avatarText(item.raw.fullName) }}</span>
-                </VAvatar>
-
                 <div class="d-flex flex-column">
                   <h6 class="text-base">
                     <RouterLink
-                      :to="{ name: 'demo-apps-user-view-id', params: { id: item.raw.id } }"
+                      :to="{ name: 'users-view-id', params: { id: item.raw.id } }"
                       class="font-weight-medium user-list-name"
                     >
                       {{ item.raw.fullName }}
                     </RouterLink>
                   </h6>
+                </div>
+              </div>
+            </template>
 
-                  <span class="text-sm text-medium-emphasis">@{{ item.raw.email }}</span>
+            <!-- Email -->
+            <template #item.email="{ item }">
+              <div class="d-flex align-center">
+                <div class="d-flex flex-column">
+                  <span>{{ item.raw.email }}</span>
                 </div>
               </div>
             </template>
@@ -343,25 +216,10 @@ const deleteUser = (id: number) => {
                     :icon="resolveUserRoleVariant(item.raw.role).icon"
                   />
                 </VAvatar>
-                <span class="text-capitalize">{{ item.raw.role }}</span>
+                <span class="text-capitalize">
+                  <!--                  {{ item.raw.role.join(', ') }} -->
+                </span>
               </div>
-            </template>
-
-            <!-- Plan -->
-            <template #item.plan="{ item }">
-              <span class="text-capitalize font-weight-medium">{{ item.raw.currentPlan }}</span>
-            </template>
-
-            <!-- Status -->
-            <template #item.status="{ item }">
-              <VChip
-                :color="resolveUserStatusVariant(item.raw.status)"
-                size="small"
-                label
-                class="text-capitalize"
-              >
-                {{ item.raw.status }}
-              </VChip>
             </template>
 
             <!-- Actions -->

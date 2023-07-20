@@ -1,5 +1,4 @@
 import { fileURLToPath } from 'node:url'
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -74,15 +73,8 @@ export default defineConfig({
       dts: true,
     }),
     AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core', '@vueuse/math', 'vue-i18n', 'pinia'],
+      imports: ['vue', 'vue-router', '@vueuse/core', '@vueuse/math', 'pinia'],
       vueTemplate: true,
-    }),
-    VueI18nPlugin({
-      runtimeOnly: true,
-      compositionOnly: true,
-      include: [
-        fileURLToPath(new URL('./resources/ts/plugins/i18n/locales/**', import.meta.url)),
-      ],
     }),
     DefineOptions(),
   ],
