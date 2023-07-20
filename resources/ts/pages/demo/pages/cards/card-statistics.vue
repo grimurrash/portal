@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 
-import CardStatistics from '@/views/demo/pages/cards/card-statistics/CardStatistics.vue'
-import CardStatisticsAverageDailySales
-  from '@/views/demo/pages/cards/card-statistics/CardStatisticsAverageDailySales.vue'
-import CardStatisticsDailyTraffic from '@/views/demo/pages/cards/card-statistics/CardStatisticsDailyTraffic.vue'
-import CardStatisticsExpensesRadialBarCharts
-  from '@/views/demo/pages/cards/card-statistics/CardStatisticsExpensesRadialBarCharts.vue'
-import CardStatisticsGeneratedLeads from '@/views/demo/pages/cards/card-statistics/CardStatisticsGeneratedLeads.vue'
-import CardStatisticsImpressionLineCharts
-  from '@/views/demo/pages/cards/card-statistics/CardStatisticsImpressionLineCharts.vue'
-import CardStatisticsOrderBarCharts from '@/views/demo/pages/cards/card-statistics/CardStatisticsOrderBarCharts.vue'
-import CardStatisticsRevenueGrowth from '@/views/demo/pages/cards/card-statistics/CardStatisticsRevenueGrowth.vue'
-import CardStatisticsSalesAreaCharts from '@/views/demo/pages/cards/card-statistics/CardStatisticsSalesAreaCharts.vue'
-import CardStatisticsSalesOverview from '@/views/demo/pages/cards/card-statistics/CardStatisticsSalesOverview.vue'
-import CardStatisticsSessionsBarWithGapCharts
-  from '@/views/demo/pages/cards/card-statistics/CardStatisticsSessionsBarWithGapCharts.vue'
-import CardStatisticsTotalProfitLineCharts
-  from '@/views/demo/pages/cards/card-statistics/CardStatisticsTotalProfitLineCharts.vue'
-import CardStatisticsTransactions from '@/views/demo/pages/cards/card-statistics/CardStatisticsTransactions.vue'
+import CardStatistics from '@/views/pages/cards/card-statistics/CardStatistics.vue'
+import CardStatisticsAverageDailySales from '@/views/pages/cards/card-statistics/CardStatisticsAverageDailySales.vue'
+import CardStatisticsDailyTraffic from '@/views/pages/cards/card-statistics/CardStatisticsDailyTraffic.vue'
+import CardStatisticsExpensesRadialBarCharts from '@/views/pages/cards/card-statistics/CardStatisticsExpensesRadialBarCharts.vue'
+import CardStatisticsGeneratedLeads from '@/views/pages/cards/card-statistics/CardStatisticsGeneratedLeads.vue'
+import CardStatisticsImpressionLineCharts from '@/views/pages/cards/card-statistics/CardStatisticsImpressionLineCharts.vue'
+import CardStatisticsOrderBarCharts from '@/views/pages/cards/card-statistics/CardStatisticsOrderBarCharts.vue'
+import CardStatisticsRevenueGrowth from '@/views/pages/cards/card-statistics/CardStatisticsRevenueGrowth.vue'
+import CardStatisticsSalesAreaCharts from '@/views/pages/cards/card-statistics/CardStatisticsSalesAreaCharts.vue'
+import CardStatisticsSalesOverview from '@/views/pages/cards/card-statistics/CardStatisticsSalesOverview.vue'
+import CardStatisticsSessionsBarWithGapCharts from '@/views/pages/cards/card-statistics/CardStatisticsSessionsBarWithGapCharts.vue'
+import CardStatisticsTotalProfitLineCharts from '@/views/pages/cards/card-statistics/CardStatisticsTotalProfitLineCharts.vue'
+import CardStatisticsTransactions from '@/views/pages/cards/card-statistics/CardStatisticsTransactions.vue'
 
 const vuetifyTheme = useTheme()
 const currentTheme = vuetifyTheme.current.value.colors

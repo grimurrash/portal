@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import FullCalendar from '@fullcalendar/vue3'
-import { blankEvent, useCalendar } from '@/views/demo/apps/calendar/useCalendar'
-import { useCalendarStore } from '@/views/demo/apps/calendar/useCalendarStore'
+import { blankEvent, useCalendar } from '@/views/apps/calendar/useCalendar'
+import { useCalendarStore } from '@/views/apps/calendar/useCalendarStore'
 import { useResponsiveLeftSidebar } from '@core/composable/useResponsiveSidebar'
 
 // Components
-import CalendarEventHandler from '@/views/demo/apps/calendar/CalendarEventHandler.vue'
+import CalendarEventHandler from '@/views/apps/calendar/CalendarEventHandler.vue'
 
 // 👉 Store
 const store = useCalendarStore()

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import type { Email, EmailFilter, EmailLabel } from '@/@fake-db/types'
-import ComposeDialog from '@/views/demo/apps/email/ComposeDialog.vue'
-import EmailLeftSidebarContent from '@/views/demo/apps/email/EmailLeftSidebarContent.vue'
-import EmailView from '@/views/demo/apps/email/EmailView.vue'
-import type { MoveEmailToAction } from '@/views/demo/apps/email/useEmail'
-import { useEmail } from '@/views/demo/apps/email/useEmail'
-import { useEmailStore } from '@/views/demo/apps/email/useEmailStore'
+import ComposeDialog from '@/views/apps/email/ComposeDialog.vue'
+import EmailLeftSidebarContent from '@/views/apps/email/EmailLeftSidebarContent.vue'
+import EmailView from '@/views/apps/email/EmailView.vue'
+import type { MoveEmailToAction } from '@/views/apps/email/useEmail'
+import { useEmail } from '@/views/apps/email/useEmail'
+import { useEmailStore } from '@/views/apps/email/useEmailStore'
 import { useResponsiveLeftSidebar } from '@core/composable/useResponsiveSidebar'
 import { formatDateToMonthShort } from '@core/utils/formatters'
 

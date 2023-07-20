@@ -2,8 +2,8 @@
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/@fake-db/types'
 import { paginationMeta } from '@/@fake-db/utils'
-import AddNewUserDrawer from '@/views/demo/apps/user/list/AddNewUserDrawer.vue'
-import { useUserListStore } from '@/views/demo/apps/user/useUserListStore'
+import AddNewUserDrawer from '@/views/apps/user/list/AddNewUserDrawer.vue'
+import { useUserListStore } from '@/views/apps/user/useUserListStore'
 import type { Options } from '@core/types'
 import { avatarText } from '@core/utils/formatters'
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useUserListStore } from '@/views/demo/apps/user/useUserListStore'
-import UserBioPanel from '@/views/demo/apps/user/view/UserBioPanel.vue'
-import UserTabAccount from '@/views/demo/apps/user/view/UserTabAccount.vue'
-import UserTabBillingsPlans from '@/views/demo/apps/user/view/UserTabBillingsPlans.vue'
-import UserTabConnections from '@/views/demo/apps/user/view/UserTabConnections.vue'
-import UserTabNotifications from '@/views/demo/apps/user/view/UserTabNotifications.vue'
-import UserTabSecurity from '@/views/demo/apps/user/view/UserTabSecurity.vue'
+import { useUserListStore } from '@/views/apps/user/useUserListStore'
+import UserBioPanel from '@/views/apps/user/view/UserBioPanel.vue'
+import UserTabAccount from '@/views/apps/user/view/UserTabAccount.vue'
+import UserTabBillingsPlans from '@/views/apps/user/view/UserTabBillingsPlans.vue'
+import UserTabConnections from '@/views/apps/user/view/UserTabConnections.vue'
+import UserTabNotifications from '@/views/apps/user/view/UserTabNotifications.vue'
+import UserTabSecurity from '@/views/apps/user/view/UserTabSecurity.vue'
 
 // 👉 Store
 const userListStore = useUserListStore()

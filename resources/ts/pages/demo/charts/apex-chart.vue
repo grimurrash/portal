@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import ApexChartAreaChart from '@/views/demo/charts/apex-chart/ApexChartAreaChart.vue'
-import ApexChartBalance from '@/views/demo/charts/apex-chart/ApexChartBalance.vue'
-import ApexChartDailySalesStates from '@/views/demo/charts/apex-chart/ApexChartDailySalesStates.vue'
-import ApexChartDataScience from '@/views/demo/charts/apex-chart/ApexChartDataScience.vue'
-import ApexChartExpenseRatio from '@/views/demo/charts/apex-chart/ApexChartExpenseRatio.vue'
-import ApexChartHorizontalBar from '@/views/demo/charts/apex-chart/ApexChartHorizontalBar.vue'
-import ApexChartMobileComparison from '@/views/demo/charts/apex-chart/ApexChartMobileComparison.vue'
-import ApexChartNewTechnologiesData from '@/views/demo/charts/apex-chart/ApexChartNewTechnologiesData.vue'
-import ApexChartStatistics from '@/views/demo/charts/apex-chart/ApexChartStatistics.vue'
-import ApexChartStocksPrices from '@/views/demo/charts/apex-chart/ApexChartStocksPrices.vue'
+import ApexChartAreaChart from '@/views/charts/apex-chart/ApexChartAreaChart.vue'
+import ApexChartBalance from '@/views/charts/apex-chart/ApexChartBalance.vue'
+import ApexChartDailySalesStates from '@/views/charts/apex-chart/ApexChartDailySalesStates.vue'
+import ApexChartDataScience from '@/views/charts/apex-chart/ApexChartDataScience.vue'
+import ApexChartExpenseRatio from '@/views/charts/apex-chart/ApexChartExpenseRatio.vue'
+import ApexChartHorizontalBar from '@/views/charts/apex-chart/ApexChartHorizontalBar.vue'
+import ApexChartMobileComparison from '@/views/charts/apex-chart/ApexChartMobileComparison.vue'
+import ApexChartNewTechnologiesData from '@/views/charts/apex-chart/ApexChartNewTechnologiesData.vue'
+import ApexChartStatistics from '@/views/charts/apex-chart/ApexChartStatistics.vue'
+import ApexChartStocksPrices from '@/views/charts/apex-chart/ApexChartStocksPrices.vue'
 </script>
 
 <template>

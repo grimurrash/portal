@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Invoice } from '@/@fake-db/types'
 import { paginationMeta } from '@/@fake-db/utils'
 import { useInvoiceStore } from '@/views/apps/invoice/useInvoiceStore'
-
 import type { Options } from '@core/types'
 import { avatarText } from '@core/utils/formatters'
 
@@ -26,9 +26,6 @@ const options = ref<Options>({
 })
 
 const isLoading = ref(false)
-const currentPage = ref(1)
-
-currentPage.value = options.value.page
 
 // 👉 headers
 const headers = [
@@ -36,7 +33,7 @@ const headers = [
   { title: 'Trending', key: 'trending', sortable: false },
   { title: 'Client', key: 'client' },
   { title: 'Total', key: 'total' },
-  { title: 'Issued Date', key: 'date' },
+  { title: 'Date', key: 'date' },
   { title: 'Balance', key: 'balance' },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
@@ -77,15 +74,15 @@ const resolveInvoiceBalanceVariant = (balance: string | number, total: number) =
 // 👉 Invoice status variant resolver
 const resolveInvoiceStatusVariantAndIcon = (status: string) => {
   if (status === 'Partial Payment')
-    return { variant: 'success', icon: 'tabler-circle-half-2' }
+    return { variant: 'warning', icon: 'tabler-circle-half-2' }
   if (status === 'Paid')
-    return { variant: 'warning', icon: 'tabler-chart-pie' }
+    return { variant: 'success', icon: 'tabler-circle-check' }
   if (status === 'Downloaded')
-    return { variant: 'info', icon: 'tabler-arrow-down-circle' }
+    return { variant: 'info', icon: 'tabler-download' }
   if (status === 'Draft')
-    return { variant: 'primary', icon: 'tabler-device-floppy' }
+    return { variant: 'secondary', icon: 'tabler-device-floppy' }
   if (status === 'Sent')
-    return { variant: 'secondary', icon: 'tabler-circle-check' }
+    return { variant: 'primary', icon: 'tabler-mail' }
   if (status === 'Past Due')
     return { variant: 'error', icon: 'tabler-alert-circle' }
 
@@ -141,50 +138,37 @@ watchEffect(() => {
     v-if="invoices"
     id="invoice-list"
   >
-    <VCardText class="d-flex align-center flex-wrap gap-4">
-      <div class="me-3 d-flex gap-3">
-        <AppSelect
-          :model-value="options.itemsPerPage"
-          :items="[
-            { value: 10, title: '10' },
-            { value: 25, title: '25' },
-            { value: 50, title: '50' },
-            { value: 100, title: '100' },
-            { value: -1, title: 'All' },
-          ]"
-          style="width: 6.25rem;"
-          @update:model-value="options.itemsPerPage = parseInt($event, 10)"
-        />
-        <!-- 👉 Create invoice -->
-        <VBtn
-          prepend-icon="tabler-plus"
-          :to="{ name: 'demo-apps-invoice-add' }"
-        >
-          Create invoice
-        </VBtn>
-      </div>
+    <VCardText class="d-flex align-center flex-wrap gap-3">
+      <!-- 👉 Create invoice -->
+      <VBtn
+        prepend-icon="tabler-plus"
+        :to="{ name: 'demo-apps-invoice-add' }"
+        class="me-3"
+      >
+        Create invoice
+      </VBtn>
 
       <VSpacer />
 
-      <div class="d-flex align-center flex-wrap gap-4">
+      <div class="d-flex align-end flex-wrap gap-3">
         <!-- 👉 Search  -->
-        <div class="invoice-list-filter">
+        <div class="invoice-list-search">
           <AppTextField
             v-model="searchQuery"
             placeholder="Search Invoice"
             density="compact"
+            class="me-3"
           />
         </div>
-
-        <!-- 👉 Select status -->
-        <div class="invoice-list-filter">
+        <div class="invoice-list-status">
           <AppSelect
             v-model="selectedStatus"
-            placeholder="Select Status"
+            density="compact"
+            label="Select Status"
             clearable
             clear-icon="tabler-x"
-            single-line
             :items="['Downloaded', 'Draft', 'Sent', 'Paid', 'Partial Payment', 'Past Due']"
+            style="inline-size: 12rem;"
           />
         </div>
       </div>
@@ -198,6 +182,7 @@ watchEffect(() => {
       v-model:items-per-page="options.itemsPerPage"
       v-model:page="options.page"
       :loading="isLoading"
+      show-select
       :items-length="totalInvoices"
       :headers="headers"
       :items="invoices"
@@ -266,7 +251,7 @@ watchEffect(() => {
             <h6 class="text-body-1 font-weight-medium mb-0">
               {{ item.raw.client.name }}
             </h6>
-            <span class="text-sm text-disabled">{{ item.raw.client.companyEmail }}</span>
+            <span class="text-sm">{{ item.raw.client.companyEmail }}</span>
           </div>
         </div>
       </template>
@@ -276,7 +261,7 @@ watchEffect(() => {
         ${{ item.raw.total }}
       </template>
 
-      <!-- Date -->
+      <!-- Issued Date -->
       <template #item.date="{ item }">
         {{ item.raw.issuedDate }}
       </template>
@@ -317,8 +302,6 @@ watchEffect(() => {
         />
       </template>
 
-      <!-- pagination -->
-
       <template #bottom>
         <VDivider />
         <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
@@ -357,6 +340,7 @@ watchEffect(() => {
       </template>
     </VDataTableServer>
     <!-- !SECTION -->
+    <VDivider />
   </VCard>
 </template>
 
@@ -366,7 +350,7 @@ watchEffect(() => {
     inline-size: 8rem;
   }
 
-  .invoice-list-filter {
+  .invoice-list-search {
     inline-size: 12rem;
   }
 }
