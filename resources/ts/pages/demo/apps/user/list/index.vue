@@ -45,7 +45,7 @@ const fetchUsers = () => {
     options: options.value,
   }).then(response => {
     users.value = response.data.users
-    totalPage.value = response.data.totalPage
+    totalPage.value = response.data.totalPages
     totalUsers.value = response.data.totalUsers
     options.value.page = response.data.page
   }).catch(error => {

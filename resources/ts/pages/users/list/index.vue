@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { UserProperties } from '@/@fake-db/types'
-import { paginationMeta } from '@/@fake-db/utils'
+import type { UserProperties } from '@/db/types'
+import { Role } from '@/db/enums'
+import { paginationMeta } from '@/db/utils'
 import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
-import { useUserListStore } from '@/views/apps/user/useUserListStore'
+import { useUserListStore } from '@/views/users/useUserListStore'
 import type { Options } from '@core/types'
+import { avatarText } from '@core/utils/formatters'
 
 // 👉 Store
 const userListStore = useUserListStore()
 const searchQuery = ref('')
 const selectedRole = ref()
-const selectedPlan = ref()
-const selectedStatus = ref()
-const totalPage = ref(1)
+const totalPages = ref(1)
 const totalUsers = ref(0)
 const users = ref<UserProperties[]>([])
 
@@ -38,13 +38,11 @@ const headers = [
 const fetchUsers = () => {
   userListStore.fetchUsers({
     q: searchQuery.value,
-    status: selectedStatus.value,
-    plan: selectedPlan.value,
     role: selectedRole.value,
     options: options.value,
   }).then(response => {
     users.value = response.data.users
-    totalPage.value = response.data.totalPage
+    totalPages.value = response.data.totalPages
     totalUsers.value = response.data.totalUsers
     options.value.page = response.data.page
   }).catch(error => {
@@ -53,36 +51,6 @@ const fetchUsers = () => {
 }
 
 watchEffect(fetchUsers)
-
-// 👉 search filters
-const roles = [
-  { title: 'Директор', value: 'director' },
-  { title: 'Зам. Директора', value: 'deputy_director' },
-  { title: 'Начальник Управления', value: 'department_head' },
-  { title: 'Зам. Начальника Управления', value: 'deputy_department_head' },
-  { title: 'Специалист По Обеспечению Безопасности', value: 'security_specialist' },
-  { title: 'Администратор', value: 'admin' },
-  { title: 'Начальник Отдела', value: 'chief' },
-  { title: 'Организатор', value: 'organizer' },
-  { title: 'Сотрудник', value: 'employee' },
-]
-
-// const plans = [
-//   { title: 'Basic', value: 'basic' },
-//   { title: 'Company', value: 'company' },
-//   { title: 'Enterprise', value: 'enterprise' },
-//   { title: 'Team', value: 'team' },
-// ]
-
-// const status = [
-//   { title: 'Pending', value: 'pending' },
-//   { title: 'Active', value: 'active' },
-//   { title: 'Inactive', value: 'inactive' },
-// ]
-
-const resolveUserRoleVariant = (role: Array<string>) => {
-  return { color: 'primary', icon: 'tabler-user' }
-}
 
 const isAddNewUserDrawerVisible = ref(false)
 
@@ -119,7 +87,7 @@ const deleteUser = (id: number) => {
                 <AppSelect
                   v-model="selectedRole"
                   label="Роль"
-                  :items="roles"
+                  :items="Object.values(Role)"
                   clearable
                   clear-icon="tabler-x"
                 />
@@ -181,6 +149,19 @@ const deleteUser = (id: number) => {
             <!-- User -->
             <template #item.user="{ item }">
               <div class="d-flex align-center">
+                <VAvatar
+                  size="34"
+                  :variant="!item.raw.avatar ? 'tonal' : undefined"
+                  :color="!item.raw.avatar ? 'primary' : undefined"
+                  class="me-3"
+                >
+                  <VImg
+                    v-if="item.raw.avatar"
+                    :src="item.raw.avatar"
+                  />
+                  <span v-else>{{ avatarText(item.raw.fullName) }}</span>
+                </VAvatar>
+
                 <div class="d-flex flex-column">
                   <h6 class="text-base">
                     <RouterLink
@@ -208,16 +189,16 @@ const deleteUser = (id: number) => {
               <div class="d-flex align-center gap-4">
                 <VAvatar
                   :size="30"
-                  :color="resolveUserRoleVariant(item.raw.role).color"
+                  color="primary"
                   variant="tonal"
                 >
                   <VIcon
                     :size="20"
-                    :icon="resolveUserRoleVariant(item.raw.role).icon"
+                    icon="tabler-user"
                   />
                 </VAvatar>
                 <span class="text-capitalize">
-                  <!--                  {{ item.raw.role.join(', ') }} -->
+                  {{ item.raw.role.join(', ') }}
                 </span>
               </div>
             </template>

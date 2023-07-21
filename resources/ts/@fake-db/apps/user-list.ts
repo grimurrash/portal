@@ -1,5 +1,6 @@
 import mock from '@/@fake-db/mock'
 import type { UserProperties } from '@/@fake-db/types'
+import type { UserProperties as UserProperties_ } from '@/db/types'
 import { genId, paginateArray } from '@/@fake-db/utils'
 import avatar1 from '@images/avatars/avatar-1.png'
 import avatar2 from '@images/avatars/avatar-2.png'
@@ -9,6 +10,7 @@ import avatar5 from '@images/avatars/avatar-5.png'
 import avatar6 from '@images/avatars/avatar-6.png'
 import avatar7 from '@images/avatars/avatar-7.png'
 import avatar8 from '@images/avatars/avatar-8.png'
+import { Role } from '@/db/enums'
 
 const users: UserProperties[] = [
   {
@@ -666,6 +668,8 @@ const users: UserProperties[] = [
 // 👉  return users
 // eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/apps/users/list').reply(config => {
+  console.log(config.url)
+
   const { q = '', role = null, plan = null, status = null, options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
@@ -775,6 +779,106 @@ mock.onDelete(/\/apps\/users\/\d+/).reply(config => {
 
   if (userIndex >= 0) {
     users.splice(userIndex, 1)
+
+    return [200]
+  }
+
+  return [400]
+})
+
+const users_: UserProperties_[] = [
+  {
+    id: 1,
+    fullName: 'Иванов Иван',
+    email: 'gslixby0@abc.net.au',
+    role: [Role.Employee],
+    avatar: avatar1,
+  },
+  {
+    id: 2,
+    fullName: 'Иванов Иван Иваныч',
+    email: 'hredmore1@imgur.com',
+    role: [Role.Admin],
+    avatar: '',
+  },
+]
+
+// 👉  return users
+
+mock.onGet('/db/users/list').reply(config => {
+  const { q = '', role = null, options = {} } = config.params ?? {}
+
+  const { sortBy = '', itemsPerPage = 10, page = 1 } = options
+
+  const queryLower = q.toLowerCase()
+
+  // filter users
+  let filteredUsers = users_.filter(user => ((user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower)) && user.role === (role || user.role))).reverse()
+
+  // sort users
+  const sort = JSON.parse(JSON.stringify(sortBy))
+  if (sort.length && sort[0]?.key === 'user') {
+    filteredUsers = filteredUsers.sort((a, b) => {
+      if (sort[0]?.order === 'asc')
+        return a.fullName.localeCompare(b.fullName)
+      else
+        return b.fullName.localeCompare(a.fullName)
+    })
+  }
+
+  const totalUsers = filteredUsers.length
+
+  // total pages
+  const totalPages = Math.ceil(totalUsers / itemsPerPage)
+
+  return [200, {
+    users: paginateArray(filteredUsers, itemsPerPage, page),
+    totalPages,
+    totalUsers,
+    page: page > Math.ceil(totalUsers / itemsPerPage) ? 1 : page,
+  }]
+})
+
+// 👉 Add user
+mock.onPost('/db/users/user').reply(config => {
+  const { user } = JSON.parse(config.data)
+
+  user.id = genId(users_)
+
+  users_.push(user)
+
+  return [201, { user }]
+})
+
+// 👉 Get Single user
+mock.onGet(/\/db\/users\/\d+/).reply(config => {
+  // Get event id from URL
+  const userId = config.url?.substring(config.url.lastIndexOf('/') + 1)
+
+  // Convert Id to number
+  const Id = Number(userId)
+
+  const userIndex = users_.findIndex(e => e.id === Id)
+
+  const user = users_[userIndex]
+
+  if (user)
+    return [200, user]
+
+  return [404]
+})
+
+mock.onDelete(/\/db\/users\/\d+/).reply(config => {
+  // Get user id from URL
+  const userId = config.url?.substring(config.url.lastIndexOf('/') + 1)
+
+  // Convert Id to number
+  const Id = Number(userId)
+
+  const userIndex = users_.findIndex(e => e.id === Id)
+
+  if (userIndex >= 0) {
+    users_.splice(userIndex, 1)
 
     return [200]
   }

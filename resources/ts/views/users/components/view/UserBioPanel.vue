@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { avatarText } from '@core/utils/formatters'
+import type { Role } from '@/db/enums'
+import { useUserListStore } from '@/views/users/useUserListStore'
+import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 
 interface Props {
   userData: {
     id: number
     fullName: string
     email: string
-    role: Array<string>
+    role: Array<Role>
+    avatar: string
   }
 }
 
 const props = defineProps<Props>()
-
+const userListStore = useUserListStore()
 const isUserInfoEditDialogVisible = ref(false)
+
+const deleteUser = (id: number) => {
+  userListStore.deleteUser(id)
+}
 </script>
 
 <template>
@@ -25,8 +33,8 @@ const isUserInfoEditDialogVisible = ref(false)
           <VAvatar
             rounded
             :size="100"
-            :color="undefined"
-            :variant="undefined"
+            :color="!props.userData.avatar ? 'primary' : undefined"
+            :variant="!props.userData.avatar ? 'tonal' : undefined"
           >
             <span class="text-5xl font-weight-medium">
               {{ avatarText(props.userData.fullName) }}
@@ -103,6 +111,8 @@ const isUserInfoEditDialogVisible = ref(false)
           <VBtn
             variant="tonal"
             color="error"
+            :to="{ name: 'users-list' }"
+            @click="deleteUser(props.userData.id)"
           >
             Удалить
           </VBtn>
@@ -112,11 +122,11 @@ const isUserInfoEditDialogVisible = ref(false)
     <!-- !SECTION -->
   </VRow>
 
-  <!-- 👉 Edit user info dialog -->
-<!--  <UserInfoEditDialog -->
-<!--    v-model:isDialogVisible="isUserInfoEditDialogVisible" -->
-<!--    :user-data="props.userData" -->
-<!--  /> -->
+  <!--  👉 Edit user info dialog -->
+  <UserInfoEditingDialog
+    v-model:isDialogVisible="isUserInfoEditDialogVisible"
+    :user-data="props.userData"
+  />
 </template>
 
 <style lang="scss" scoped>

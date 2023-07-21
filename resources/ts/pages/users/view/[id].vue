@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserListStore } from '@/views/apps/user/useUserListStore'
+import { useUserListStore } from '@/views/users/useUserListStore'
 import UserBioPanel from '@/views/users/components/view/UserBioPanel.vue'
 import UserTabSecurity from '@/views/users/components/view/UserTabSecurity.vue'
 import UserTabAccount from '@/views/users/components/view/UserTabAccount.vue'

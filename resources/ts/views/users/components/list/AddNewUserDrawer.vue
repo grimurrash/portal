@@ -3,12 +3,13 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import type { VForm } from 'vuetify/components/VForm'
 
-import type { UserProperties_ } from '@/@fake-db/types'
 import { emailValidator, requiredValidator } from '@validators'
+import type { UserProperties } from '@/db/types'
+import { Role } from '@/db/enums'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void
-  (e: 'userData', value: UserProperties_): void
+  (e: 'userData', value: UserProperties): void
 }
 
 interface Props {
@@ -23,18 +24,6 @@ const refForm = ref<VForm>()
 const fullName = ref('')
 const email = ref('')
 const role = ref([])
-
-const roles = [
-  'Директор',
-  'Зам. Директора',
-  'Начальник Управления',
-  'Зам. Начальника Управления',
-  'Специалист По Обеспечению Безопасности',
-  'Администратор',
-  'Начальник Отдела',
-  'Организатор',
-  'Сотрудник',
-]
 
 // 👉 drawer close
 const closeNavigationDrawer = () => {
@@ -54,6 +43,7 @@ const onSubmit = () => {
         fullName: fullName.value,
         email: email.value,
         role: role.value,
+        avatar: '',
       })
       emit('update:isDrawerOpen', false)
       nextTick(() => {
@@ -118,7 +108,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                   v-model="role"
                   label="Роль"
                   :rules="[requiredValidator]"
-                  :items="roles"
+                  :items="Object.values(Role)"
                   multiple
                   persistent-hint
                 />
