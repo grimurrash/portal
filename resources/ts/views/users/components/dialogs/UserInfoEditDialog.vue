@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Role } from '@/db/enums'
+import { Role } from '@/db/enums'
+import { emailValidator, requiredValidator } from '@validators'
 
 interface UserData {
   id: number | null
@@ -83,19 +84,9 @@ const dialogModelValueUpdate = (val: boolean) => {
               md="6"
             >
               <AppTextField
-                v-model="userData.fullName.split(' ')[0]"
-                label="Фамилия"
-              />
-            </VCol>
-
-            <!-- 👉 Last Name -->
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <AppTextField
-                v-model="userData.fullName.split(' ')[1]"
-                label="Имя"
+                v-model="userData.fullName"
+                label="ФИО"
+                :rules="[requiredValidator]"
               />
             </VCol>
 
@@ -107,6 +98,17 @@ const dialogModelValueUpdate = (val: boolean) => {
               <AppTextField
                 v-model="userData.email"
                 label="Электронная почта"
+                :rules="[requiredValidator, emailValidator]"
+              />
+            </VCol>
+
+            <VCol cols="12">
+              <AppSelect
+                v-model="userData.role"
+                label="Роль"
+                :rules="[requiredValidator]"
+                :items="Object.values(Role)"
+                multiple
               />
             </VCol>
 

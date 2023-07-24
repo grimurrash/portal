@@ -36,7 +36,14 @@ const deleteUser = (id: number) => {
             :color="!props.userData.avatar ? 'primary' : undefined"
             :variant="!props.userData.avatar ? 'tonal' : undefined"
           >
-            <span class="text-5xl font-weight-medium">
+            <VImg
+              v-if="props.userData.avatar"
+              :src="props.userData.avatar"
+            />
+            <span
+              v-else
+              class="text-5xl font-weight-medium"
+            >
               {{ avatarText(props.userData.fullName) }}
             </span>
           </VAvatar>

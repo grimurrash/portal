@@ -12,8 +12,8 @@ const userData = ref()
 const userTab = ref(null)
 
 const tabs = [
-  { icon: 'tabler-user-check', title: 'Подробно' },
-  { icon: 'tabler-lock', title: 'Безопасность' },
+  { icon: 'tabler-user-check', title: 'Подробно', key: 'account' },
+  { icon: 'tabler-lock', title: 'Безопасность', key: 'security' },
 ]
 
 userListStore.fetchUser(Number(route.params.id)).then(response => {
@@ -43,7 +43,7 @@ userListStore.fetchUser(Number(route.params.id)).then(response => {
         <VTab
           v-for="tab in tabs"
           :key="tab.icon"
-          :disabled="tab.title === 'Безопасность'"
+          :disabled="tab.key === 'security'"
         >
           <VIcon
             :size="18"

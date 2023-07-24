@@ -110,7 +110,6 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                   :rules="[requiredValidator]"
                   :items="Object.values(Role)"
                   multiple
-                  persistent-hint
                 />
               </VCol>
 

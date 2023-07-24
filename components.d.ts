@@ -41,6 +41,7 @@ declare module '@vue/runtime-core' {
     CustomRadios: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadios.vue')['default']
     CustomRadiosWithIcon: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadiosWithIcon.vue')['default']
     CustomRadiosWithImage: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadiosWithImage.vue')['default']
+    DeleteDialog: typeof import('./resources/ts/views/users/components/dialogs/DeleteDialog.vue')['default']
     DemoAlertBasic: typeof import('./resources/ts/views/demos/components/alert/DemoAlertBasic.vue')['default']
     DemoAlertBorder: typeof import('./resources/ts/views/demos/components/alert/DemoAlertBorder.vue')['default']
     DemoAlertClosable: typeof import('./resources/ts/views/demos/components/alert/DemoAlertClosable.vue')['default']

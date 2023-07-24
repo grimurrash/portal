@@ -7,6 +7,8 @@ import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue
 import { useUserListStore } from '@/views/users/useUserListStore'
 import type { Options } from '@core/types'
 import { avatarText } from '@core/utils/formatters'
+import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
+import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
 
 // 👉 Store
 const userListStore = useUserListStore()
@@ -15,6 +17,8 @@ const selectedRole = ref()
 const totalPages = ref(1)
 const totalUsers = ref(0)
 const users = ref<UserProperties[]>([])
+const isUserInfoEditDialogVisible = ref(false)
+const isUserDeleteDialogVisible = ref(false)
 
 const options = ref<Options>({
   page: 1,
@@ -28,9 +32,9 @@ const options = ref<Options>({
 const headers = [
   { title: 'ФИО', key: 'user' },
   { title: 'ЭЛЕКТРОННАЯ ПОЧТА', key: 'email' },
-  { title: 'ПАРОЛЬ', key: 'password' },
-  { title: 'ТЕЛЕФОН', key: 'tel' },
-  { title: 'РОЛЬ', key: 'role' },
+  { title: '?ПАРОЛЬ', key: 'password' },
+  { title: '?ТЕЛЕФОН', key: 'tel' },
+  { title: 'РОЛЬ', key: 'role', sortable: false },
   { title: 'ДЕЙСТВИЯ', key: 'actions', sortable: false },
 ]
 
@@ -89,6 +93,7 @@ const deleteUser = (id: number) => {
                   label="Роль"
                   :items="Object.values(Role)"
                   clearable
+                  multiple
                   clear-icon="tabler-x"
                 />
               </VCol>
@@ -205,13 +210,23 @@ const deleteUser = (id: number) => {
 
             <!-- Actions -->
             <template #item.actions="{ item }">
-              <IconBtn @click="deleteUser(item.raw.id)">
+              <IconBtn @click="isUserDeleteDialogVisible = true">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
 
-              <IconBtn>
+              <IconBtn @click="isUserInfoEditDialogVisible = true">
                 <VIcon icon="tabler-edit" />
               </IconBtn>
+
+              <!--  👉 Edit user info dialog -->
+              <UserInfoEditingDialog
+                v-model:isDialogVisible="isUserInfoEditDialogVisible"
+                :user-data="item.raw"
+              />
+              <DeleteDialog
+                v-model:isDialogVisible="isUserDeleteDialogVisible"
+                @submit="deleteUser(item.raw.id)"
+              />
             </template>
 
             <!-- pagination -->

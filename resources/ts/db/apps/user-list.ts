@@ -1,8 +1,8 @@
-import type { UserProperties } from '@/db/types'
 import { genId, paginateArray } from '@/db/utils'
 import { Role } from '@/db/enums'
 import avatar1 from '@images/avatars/avatar-1.png'
 import mock from '@/@fake-db/mock'
+import type { UserProperties } from '@/db/types'
 
 const users: UserProperties[] = [
   {
@@ -23,17 +23,20 @@ const users: UserProperties[] = [
 
 // 👉  return users
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/db/users/list').reply(config => {
-  console.log(config.url)
-
-  const { q = '', role = null, options = {} } = config.params ?? {}
+  const { q = '', role = [] as Role[], options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
 
   const queryLower = q.toLowerCase()
 
+  const includeRole = (r: Role) => role.includes(r)
+
   // filter users
-  let filteredUsers = users.filter(user => ((user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower)) && user.role === (role || user.role))).reverse()
+  let filteredUsers = users.filter(user => (
+    (user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower))
+    && (user.role.some(includeRole) || !role.length))).reverse()
 
   // sort users
   const sort = JSON.parse(JSON.stringify(sortBy))
@@ -43,6 +46,14 @@ mock.onGet('/db/users/list').reply(config => {
         return a.fullName.localeCompare(b.fullName)
       else
         return b.fullName.localeCompare(a.fullName)
+    })
+  }
+  if (sort.length && sort[0]?.key === 'email') {
+    filteredUsers = filteredUsers.sort((a, b) => {
+      if (sort[0]?.order === 'asc')
+        return a.email.localeCompare(b.email)
+      else
+        return b.email.localeCompare(a.email)
     })
   }
 
@@ -81,13 +92,6 @@ mock.onGet(/\/db\/users\/\d+/).reply(config => {
   const userIndex = users.findIndex(e => e.id === Id)
 
   const user = users[userIndex]
-
-  Object.assign(user, {
-    taskDone: 1230,
-    projectDone: 568,
-    taxId: 'Tax-8894',
-    language: 'English',
-  })
 
   if (user)
     return [200, user]

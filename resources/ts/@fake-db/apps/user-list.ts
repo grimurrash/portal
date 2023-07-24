@@ -668,8 +668,6 @@ const users: UserProperties[] = [
 // 👉  return users
 // eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/apps/users/list').reply(config => {
-  console.log(config.url)
-
   const { q = '', role = null, plan = null, status = null, options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
@@ -805,15 +803,20 @@ const users_: UserProperties_[] = [
 
 // 👉  return users
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/db/users/list').reply(config => {
-  const { q = '', role = null, options = {} } = config.params ?? {}
+  const { q = '', role = [] as Role[], options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
 
   const queryLower = q.toLowerCase()
 
+  const includeRole = (r: Role) => role.includes(r)
+
   // filter users
-  let filteredUsers = users_.filter(user => ((user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower)) && user.role === (role || user.role))).reverse()
+  let filteredUsers = users_.filter(user => (
+    (user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower))
+    && (user.role.some(includeRole) || !role.length))).reverse()
 
   // sort users
   const sort = JSON.parse(JSON.stringify(sortBy))
@@ -823,6 +826,14 @@ mock.onGet('/db/users/list').reply(config => {
         return a.fullName.localeCompare(b.fullName)
       else
         return b.fullName.localeCompare(a.fullName)
+    })
+  }
+  if (sort.length && sort[0]?.key === 'email') {
+    filteredUsers = filteredUsers.sort((a, b) => {
+      if (sort[0]?.order === 'asc')
+        return a.email.localeCompare(b.email)
+      else
+        return b.email.localeCompare(a.email)
     })
   }
 
