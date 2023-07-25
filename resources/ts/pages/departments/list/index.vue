@@ -5,6 +5,7 @@ import type { Options } from '@core/types'
 import type { DepartmentProperties } from '@/db/types'
 import { useDepartmentListStore } from '@/views/departments/useDepartmentListStore'
 import DepartmentInfoEditDialog from '@/views/departments/components/dialogs/DepartmentInfoEditDialog.vue'
+import DepartmentsImportDialog from '@/views/departments/components/dialogs/DepartmentsImportDialog.vue'
 
 // 👉 Store
 const departmentListStore = useDepartmentListStore()
@@ -13,6 +14,7 @@ const totalPages = ref(1)
 const totalDepartments = ref(0)
 const departments = ref<DepartmentProperties[]>([])
 const isDepartmentInfoEditDialogVisible = ref(false)
+const isDepartmentsImportDialogVisible = ref(false)
 const selectedDepartment = ref()
 
 const options = ref<Options>({
@@ -45,6 +47,10 @@ const fetchUsers = () => {
 }
 
 watchEffect(fetchUsers)
+
+const departmentsImport = () => {
+  isDepartmentsImportDialogVisible.value = true
+}
 
 const editDepartment = (department: DepartmentProperties) => {
   isDepartmentInfoEditDialogVisible.value = true
@@ -84,6 +90,19 @@ const editDepartment = (department: DepartmentProperties) => {
                   density="compact"
                 />
               </div>
+
+              <!-- 👉 Import button -->
+              <VBtn
+                variant="tonal"
+                color="secondary"
+                prepend-icon="tabler-screen-share"
+                @click="departmentsImport"
+              >
+                Импорт отделов
+              </VBtn>
+
+              <!--  👉 Edit user info dialog -->
+              <DepartmentsImportDialog v-model:isDialogVisible="isDepartmentsImportDialogVisible" />
             </div>
           </VCardText>
 
@@ -153,6 +172,7 @@ const editDepartment = (department: DepartmentProperties) => {
               <DepartmentInfoEditDialog
                 v-model:isDialogVisible="isDepartmentInfoEditDialogVisible"
                 :department-data="selectedDepartment"
+                :departments="departments.map(d => d.title)"
               />
             </template>
 

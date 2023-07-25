@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { requiredValidator } from '@validators'
+import type { UserProperties } from '@/db/types'
+import { useUserListStore } from '@/views/users/useUserListStore'
+import type { Options } from '@core/types'
 
 interface DepartmentData {
   id: number
@@ -10,7 +13,8 @@ interface DepartmentData {
 }
 
 interface Props {
-  departmentData?: DepartmentData
+  departmentData: DepartmentData
+  departments: string[]
   isDialogVisible: boolean
 }
 
@@ -30,12 +34,36 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<Emit>()
-
+const userListStore = useUserListStore()
 const departmentData = ref<DepartmentData>(structuredClone(toRaw(props.departmentData)))
 
 watch(props, () => {
   departmentData.value = structuredClone(toRaw(props.departmentData))
 })
+
+const users = ref<UserProperties[]>([])
+
+const fetchUsers = () => {
+  const options = ref<Options>({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
+
+  userListStore.fetchUsers({
+    q: '',
+    role: [],
+    options: options.value,
+  }).then(response => {
+    users.value = response.data.users
+  }).catch(error => {
+    console.error(error)
+  })
+}
+
+watchEffect(fetchUsers)
 
 const onFormSubmit = () => {
   emit('update:isDialogVisible', false)
@@ -91,6 +119,7 @@ const dialogModelValueUpdate = (val: boolean) => {
                 v-model="departmentData.parentalDepartment"
                 label="Родительский отдел"
                 :rules="[requiredValidator]"
+                :items="props.departments"
               />
             </VCol>
 
@@ -100,6 +129,7 @@ const dialogModelValueUpdate = (val: boolean) => {
                 v-model="departmentData.head"
                 label="Руководитель отдела"
                 :rules="[requiredValidator]"
+                :items="users.map(u => u.fullName)"
               />
             </VCol>
 
