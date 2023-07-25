@@ -10,7 +10,7 @@ import avatar5 from '@images/avatars/avatar-5.png'
 import avatar6 from '@images/avatars/avatar-6.png'
 import avatar7 from '@images/avatars/avatar-7.png'
 import avatar8 from '@images/avatars/avatar-8.png'
-import { Role } from '@/db/enums'
+import { Permission, Role } from '@/db/enums'
 
 const users: UserProperties[] = [
   {
@@ -790,6 +790,7 @@ const users_: UserProperties_[] = [
     fullName: 'Иванов Иван',
     email: 'gslixby0@abc.net.au',
     role: [Role.Employee],
+    permission: [Permission.Employee],
     avatar: avatar1,
   },
   {
@@ -797,6 +798,15 @@ const users_: UserProperties_[] = [
     fullName: 'Иванов Иван Иваныч',
     email: 'hredmore1@imgur.com',
     role: [Role.Admin],
+    permission: [Permission.Employee, Permission.FullAccess],
+    avatar: '',
+  },
+  {
+    id: 3,
+    fullName: 'Петров Петр',
+    email: 'hred@imgur.com',
+    role: [Role.Employee, Role.Chief],
+    permission: [Permission.FullAccess],
     avatar: '',
   },
 ]
@@ -805,18 +815,19 @@ const users_: UserProperties_[] = [
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/db/users/list').reply(config => {
-  const { q = '', role = [] as Role[], options = {} } = config.params ?? {}
+  const { q = '', role = [] as Role[], permission = [] as Permission[], options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
 
   const queryLower = q.toLowerCase()
 
   const includeRole = (r: Role) => role.includes(r)
+  const includePermission = (p: Permission) => permission.includes(p)
 
   // filter users
   let filteredUsers = users_.filter(user => (
     (user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower))
-    && (user.role.some(includeRole) || !role.length))).reverse()
+    && (user.role.some(includeRole) || !role.length) && (user.permission.some(includePermission) || !permission.length))).reverse()
 
   // sort users
   const sort = JSON.parse(JSON.stringify(sortBy))

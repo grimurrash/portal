@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/db/types'
-import { Role } from '@/db/enums'
+import { Permission, Role } from '@/db/enums'
 import { paginationMeta } from '@/db/utils'
 import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
 import { useUserListStore } from '@/views/users/useUserListStore'
@@ -14,6 +14,7 @@ import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
 const userListStore = useUserListStore()
 const searchQuery = ref('')
 const selectedRole = ref()
+const selectedPermission = ref()
 const totalPages = ref(1)
 const totalUsers = ref(0)
 const users = ref<UserProperties[]>([])
@@ -36,6 +37,7 @@ const headers = [
   { title: '?ПАРОЛЬ', key: 'password' },
   { title: '?ТЕЛЕФОН', key: 'tel' },
   { title: 'РОЛЬ', key: 'role', sortable: false },
+  { title: 'ПРАВА ДОСТУПА', key: 'permission', sortable: false },
   { title: 'ДЕЙСТВИЯ', key: 'actions', sortable: false },
 ]
 
@@ -44,6 +46,7 @@ const fetchUsers = () => {
   userListStore.fetchUsers({
     q: searchQuery.value,
     role: selectedRole.value,
+    permission: selectedPermission.value,
     options: options.value,
   }).then(response => {
     users.value = response.data.users
@@ -103,6 +106,21 @@ const editUser = (user: UserProperties) => {
                   v-model="selectedRole"
                   label="Роль"
                   :items="Object.values(Role)"
+                  clearable
+                  multiple
+                  clear-icon="tabler-x"
+                />
+              </VCol>
+              <!-- 👉 Select Permission -->
+
+              <VCol
+                cols="12"
+                sm="4"
+              >
+                <AppSelect
+                  v-model="selectedPermission"
+                  label="Права доступа"
+                  :items="Object.values(Permission)"
                   clearable
                   multiple
                   clear-icon="tabler-x"
@@ -202,7 +220,7 @@ const editUser = (user: UserProperties) => {
 
             <!-- 👉 Role -->
             <template #item.role="{ item }">
-              <div class="d-flex align-center gap-4">
+              <div class="d-flex align-center gap-1">
                 <VAvatar
                   :size="30"
                   color="primary"
@@ -213,9 +231,32 @@ const editUser = (user: UserProperties) => {
                     icon="tabler-user"
                   />
                 </VAvatar>
-                <span class="text-capitalize">
-                  {{ item.raw.role.join(', ') }}
-                </span>
+                <VChip
+                  v-for="role in item.raw.role"
+                  :key="role"
+                  color="primary"
+                  size="small"
+                  label
+                  class="text-capitalize"
+                >
+                  <span>{{ role }}</span>
+                </VChip>
+              </div>
+            </template>
+
+            <!-- 👉 Permission -->
+            <template #item.permission="{ item }">
+              <div class="d-flex align-center gap-1">
+                <VChip
+                  v-for="permission in item.raw.permission"
+                  :key="permission"
+                  color="primary"
+                  size="small"
+                  label
+                  class="text-capitalize"
+                >
+                  <span>{{ permission }}</span>
+                </VChip>
               </div>
             </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { avatarText } from '@core/utils/formatters'
-import type { Role } from '@/db/enums'
+import type { Permission, Role } from '@/db/enums'
 import { useUserListStore } from '@/views/users/useUserListStore'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 
@@ -10,6 +10,7 @@ interface Props {
     fullName: string
     email: string
     role: Array<Role>
+    permission: Array<Permission>
     avatar: string
   }
 }
@@ -98,7 +99,34 @@ const deleteUser = (id: number) => {
               <VListItemTitle>
                 <h6 class="text-h6">
                   Роль:
-                  <span class="text-capitalize text-body-1"> {{ props.userData.role.join(', ') }}</span>
+                  <VChip
+                    v-for="role in props.userData.role"
+                    :key="role"
+                    color="primary"
+                    size="small"
+                    label
+                    class="text-capitalize"
+                  >
+                    <span>{{ role }}</span>
+                  </VChip>
+                </h6>
+              </VListItemTitle>
+            </VListItem>
+
+            <VListItem>
+              <VListItemTitle>
+                <h6 class="text-h6">
+                  Права доступа:
+                  <VChip
+                    v-for="permission in props.userData.permission"
+                    :key="permission"
+                    color="primary"
+                    size="small"
+                    label
+                    class="text-capitalize"
+                  >
+                    <span>{{ permission }}</span>
+                  </VChip>
                 </h6>
               </VListItemTitle>
             </VListItem>

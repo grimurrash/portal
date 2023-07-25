@@ -5,7 +5,7 @@ import type { VForm } from 'vuetify/components/VForm'
 
 import { emailValidator, requiredValidator } from '@validators'
 import type { UserProperties } from '@/db/types'
-import { Role } from '@/db/enums'
+import { Permission, Role } from '@/db/enums'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void
@@ -24,6 +24,7 @@ const refForm = ref<VForm>()
 const fullName = ref('')
 const email = ref('')
 const role = ref([])
+const permission = ref([])
 
 // 👉 drawer close
 const closeNavigationDrawer = () => {
@@ -43,6 +44,7 @@ const onSubmit = () => {
         fullName: fullName.value,
         email: email.value,
         role: role.value,
+        permission: permission.value,
         avatar: '',
       })
       emit('update:isDrawerOpen', false)
@@ -110,10 +112,23 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                   :rules="[requiredValidator]"
                   :items="Object.values(Role)"
                   multiple
+                  chips
                 />
               </VCol>
 
-              <!-- 👉 Submit and Cancel -->
+              <!-- 👉 Permission -->
+              <VCol cols="12">
+                <AppSelect
+                  v-model="permission"
+                  label="Права доступа"
+                  :rules="[requiredValidator]"
+                  :items="Object.values(Permission)"
+                  multiple
+                  chips
+                />
+              </VCol>
+
+              <!-- 👉 Add and Cancel -->
               <VCol cols="12">
                 <VBtn
                   type="submit"

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Role } from '@/db/enums'
+import { Permission, Role } from '@/db/enums'
 import { emailValidator, requiredValidator } from '@validators'
 
 interface UserData {
   id: number | null
   fullName: string
   role: Array<Role>
+  permission: Array<Permission>
   email: string
   avatar: string
 }
@@ -25,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
     id: 0,
     fullName: '',
     role: [],
-    username: '',
+    permission: [],
     email: '',
     avatar: '',
   }),
@@ -78,7 +79,7 @@ const dialogModelValueUpdate = (val: boolean) => {
           @submit.prevent="onFormSubmit"
         >
           <VRow>
-            <!-- 👉 First Name -->
+            <!-- 👉 Full Name -->
             <VCol
               cols="12"
               md="6"
@@ -102,6 +103,7 @@ const dialogModelValueUpdate = (val: boolean) => {
               />
             </VCol>
 
+            <!-- 👉 Role -->
             <VCol cols="12">
               <AppSelect
                 v-model="userData.role"
@@ -109,6 +111,19 @@ const dialogModelValueUpdate = (val: boolean) => {
                 :rules="[requiredValidator]"
                 :items="Object.values(Role)"
                 multiple
+                chips
+              />
+            </VCol>
+
+            <!-- 👉 Permission -->
+            <VCol cols="12">
+              <AppSelect
+                v-model="userData.permission"
+                label="Права доступа"
+                :rules="[requiredValidator]"
+                :items="Object.values(Permission)"
+                multiple
+                chips
               />
             </VCol>
 

@@ -1,5 +1,5 @@
 import { genId, paginateArray } from '@/db/utils'
-import { Role } from '@/db/enums'
+import { Permission, Role } from '@/db/enums'
 import avatar1 from '@images/avatars/avatar-1.png'
 import mock from '@/@fake-db/mock'
 import type { UserProperties } from '@/db/types'
@@ -10,6 +10,7 @@ const users: UserProperties[] = [
     fullName: 'Иванов Иван',
     email: 'gslixby0@abc.net.au',
     role: [Role.Employee],
+    permission: [Permission.Employee],
     avatar: avatar1,
   },
   {
@@ -17,6 +18,15 @@ const users: UserProperties[] = [
     fullName: 'Иванов Иван Иваныч',
     email: 'hredmore1@imgur.com',
     role: [Role.Admin],
+    permission: [Permission.Employee, Permission.FullAccess],
+    avatar: '',
+  },
+  {
+    id: 3,
+    fullName: 'Петров Петр',
+    email: 'hred@imgur.com',
+    role: [Role.Employee, Role.Chief],
+    permission: [Permission.FullAccess],
     avatar: '',
   },
 ]
@@ -25,18 +35,19 @@ const users: UserProperties[] = [
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/db/users/list').reply(config => {
-  const { q = '', role = [] as Role[], options = {} } = config.params ?? {}
+  const { q = '', role = [] as Role[], permission = [] as Permission[], options = {} } = config.params ?? {}
 
   const { sortBy = '', itemsPerPage = 10, page = 1 } = options
 
   const queryLower = q.toLowerCase()
 
   const includeRole = (r: Role) => role.includes(r)
+  const includePermission = (p: Permission) => permission.includes(p)
 
   // filter users
   let filteredUsers = users.filter(user => (
     (user.fullName.toLowerCase().includes(queryLower) || user.email.toLowerCase().includes(queryLower))
-    && (user.role.some(includeRole) || !role.length))).reverse()
+    && (user.role.some(includeRole) || !role.length) && (user.permission.some(includePermission) || !permission.length))).reverse()
 
   // sort users
   const sort = JSON.parse(JSON.stringify(sortBy))

@@ -1,12 +1,13 @@
 // SECTION
 // App: User
-import {Role} from "@/db/enums";
+import {Permission, Role} from "@/db/enums";
 
 export interface UserProperties {
   id: number
   fullName: string
   email: string
   role: Array<Role>
+  permission: Array<Permission>
   avatar: string
 }
 

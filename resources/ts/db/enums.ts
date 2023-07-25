@@ -13,4 +13,9 @@ export enum Role {
   Employee = 'Сотрудник',
 }
 
+export enum Permission {
+  Employee = 'Сотрудник',
+  FullAccess = 'Полный доступ',
+}
+
 // !SECTION
