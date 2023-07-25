@@ -338,6 +338,7 @@ declare module '@vue/runtime-core' {
     DemoTooltipTooltipOnVariousElements: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipTooltipOnVariousElements.vue')['default']
     DemoTooltipTransition: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipTransition.vue')['default']
     DemoTooltipVModelSupport: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipVModelSupport.vue')['default']
+    DepartmentInfoEditDialog: typeof import('./resources/ts/views/departments/components/dialogs/DepartmentInfoEditDialog.vue')['default']
     DialogCloseBtn: typeof import('./resources/ts/@core/components/DialogCloseBtn.vue')['default']
     EnableOneTimePasswordDialog: typeof import('./resources/ts/components/dialogs/EnableOneTimePasswordDialog.vue')['default']
     ErrorHeader: typeof import('./resources/ts/components/ErrorHeader.vue')['default']
