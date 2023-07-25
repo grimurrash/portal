@@ -19,6 +19,7 @@ const totalUsers = ref(0)
 const users = ref<UserProperties[]>([])
 const isUserInfoEditDialogVisible = ref(false)
 const isUserDeleteDialogVisible = ref(false)
+const selectedUser = ref()
 
 const options = ref<Options>({
   page: 1,
@@ -67,11 +68,21 @@ const addNewUser = (userData: UserProperties) => {
 }
 
 // 👉 Delete user
-const deleteUser = (id: number) => {
-  userListStore.deleteUser(id)
+const deleteUser = (user: UserProperties) => {
+  isUserDeleteDialogVisible.value = true
+  selectedUser.value = user
+}
+
+const deleteUserConfirm = () => {
+  userListStore.deleteUser(selectedUser.value.id)
 
   // refetch User
   fetchUsers()
+}
+
+const editUser = (user: UserProperties) => {
+  isUserInfoEditDialogVisible.value = true
+  selectedUser.value = user
 }
 </script>
 
@@ -210,22 +221,24 @@ const deleteUser = (id: number) => {
 
             <!-- Actions -->
             <template #item.actions="{ item }">
-              <IconBtn @click="isUserDeleteDialogVisible = true">
+              <IconBtn @click="deleteUser(item.raw)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
 
-              <IconBtn @click="isUserInfoEditDialogVisible = true">
+              <IconBtn @click="editUser(item.raw)">
                 <VIcon icon="tabler-edit" />
               </IconBtn>
+
+              <!--  👉 Delete user dialog -->
+              <DeleteDialog
+                v-model:isDialogVisible="isUserDeleteDialogVisible"
+                @confirm="deleteUserConfirm"
+              />
 
               <!--  👉 Edit user info dialog -->
               <UserInfoEditingDialog
                 v-model:isDialogVisible="isUserInfoEditDialogVisible"
-                :user-data="item.raw"
-              />
-              <DeleteDialog
-                v-model:isDialogVisible="isUserDeleteDialogVisible"
-                @submit="deleteUser(item.raw.id)"
+                :user-data="selectedUser"
               />
             </template>
 

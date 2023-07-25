@@ -3,16 +3,16 @@ interface Props {
   isDialogVisible: boolean
 }
 interface Emit {
-  (e: 'submit'): void
+  (e: 'confirm'): void
   (e: 'update:isDialogVisible', val: boolean): void
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
 
-const onSubmit = () => {
+const onConfirm = () => {
   emit('update:isDialogVisible', false)
-  emit('submit')
+  emit('confirm')
 }
 
 const dialogModelValueUpdate = (val: boolean) => {
@@ -45,7 +45,7 @@ const dialogModelValueUpdate = (val: boolean) => {
         <VBtn
           color="success"
           variant="elevated"
-          @click="onSubmit"
+          @click="onConfirm"
         >
           OK
         </VBtn>
