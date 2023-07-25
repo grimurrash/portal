@@ -1,4 +1,4 @@
-export const paginateArray = (array: unknown[], perPage: number, page: number) => array.slice((page - 1) * perPage, page * perPage)
+export const paginateArray = <T>(array: T[], perPage: number, page: number) => array.slice((page - 1) * perPage, page * perPage)
 
 // pagination meta
 export const paginationMeta = computed(() => {

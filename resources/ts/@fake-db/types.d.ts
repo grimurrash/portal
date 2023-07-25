@@ -186,12 +186,6 @@ export interface RegisterResponse {
 
 // SECTION
 // App: User
-export interface UserProperties_ {
-  id: number
-  fullName: string
-  email: string
-  role: Array<string>
-}
 export interface UserProperties {
   id: number
   fullName: string
