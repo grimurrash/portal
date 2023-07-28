@@ -43,7 +43,7 @@ export const confirmedValidator = (value: string, target: string) =>
 export const betweenValidator = (value: unknown, min: number, max: number) => {
   const valueAsNumber = Number(value)
 
-  return (Number(min) <= valueAsNumber && Number(max) >= valueAsNumber) || `Enter number between ${min} and ${max}`
+  return (Number(min) <= valueAsNumber && Number(max) >= valueAsNumber) || `Введите число между ${min} и ${max}`
 }
 
 // 👉 Integer Validator
@@ -52,9 +52,9 @@ export const integerValidator = (value: unknown) => {
     return true
 
   if (Array.isArray(value))
-    return value.every(val => /^-?[0-9]+$/.test(String(val))) || 'This field must be an integer'
+    return value.every(val => /^-?[0-9]+$/.test(String(val))) || 'Это поле должно быть целым числом'
 
-  return /^-?[0-9]+$/.test(String(value)) || 'This field must be an integer'
+  return /^-?[0-9]+$/.test(String(value)) || 'Это поле должно быть целым числом'
 }
 
 // 👉 Regex Validator

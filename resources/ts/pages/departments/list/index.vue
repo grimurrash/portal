@@ -3,20 +3,11 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import { paginationMeta } from '@/db/utils'
 import type { Options } from '@core/types'
 import type { DepartmentProperties } from '@/db/types'
-import { useDepartmentListStore } from '@/views/departments/useDepartmentListStore'
+import { useDepartmentStore } from '@/views/departments/useDepartmentStore'
 import DepartmentInfoEditDialog from '@/views/departments/components/dialogs/DepartmentInfoEditDialog.vue'
 import DepartmentsImportDialog from '@/views/departments/components/dialogs/DepartmentsImportDialog.vue'
 
-// 👉 Store
-const departmentListStore = useDepartmentListStore()
-const searchQuery = ref('')
-const totalPages = ref(1)
-const totalDepartments = ref(0)
-const departments = ref<DepartmentProperties[]>([])
-const isDepartmentInfoEditDialogVisible = ref(false)
-const isDepartmentsImportDialogVisible = ref(false)
-const selectedDepartment = ref()
-
+// Options
 const options = ref<Options>({
   page: 1,
   itemsPerPage: 10,
@@ -34,8 +25,18 @@ const headers = [
   { title: 'ДЕЙСТВИЯ', key: 'actions', sortable: false },
 ]
 
-const fetchUsers = () => {
-  const response = departmentListStore.fetchDepartments({
+// 👉 Store
+const departmentStore = useDepartmentStore()
+const searchQuery = ref('')
+const totalPages = ref(1)
+const totalDepartments = ref(0)
+const departments = ref<DepartmentProperties[]>([])
+const isDepartmentInfoEditDialogVisible = ref(false)
+const isDepartmentsImportDialogVisible = ref(false)
+const selectedDepartment = ref()
+
+const fetchDepartments = () => {
+  const response = departmentStore.fetchDepartments({
     q: searchQuery.value,
     options: options.value,
   })
@@ -46,8 +47,6 @@ const fetchUsers = () => {
   options.value.page = response.page
 }
 
-watchEffect(fetchUsers)
-
 const departmentsImport = () => {
   isDepartmentsImportDialogVisible.value = true
 }
@@ -56,13 +55,15 @@ const editDepartment = (department: DepartmentProperties) => {
   isDepartmentInfoEditDialogVisible.value = true
   selectedDepartment.value = department
 }
+
+watchEffect(fetchDepartments)
 </script>
 
 <template>
   <section>
     <VRow>
       <VCol cols="12">
-        <VCard title="Search Filter">
+        <VCard>
           <!-- 👉 Filters -->
           <VCardText class="d-flex flex-wrap py-4 gap-4">
             <div class="me-3 d-flex gap-3">
