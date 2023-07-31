@@ -2,8 +2,8 @@
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/@fake-db/types'
 import { paginationMeta } from '@/@fake-db/utils'
-import AddNewUserDrawer from '@/views/demo/apps/user/list/AddNewUserDrawer.vue'
-import { useUserListStore } from '@/views/demo/apps/user/useUserListStore'
+import AddNewUserDrawer from '@/views/apps/user/list/AddNewUserDrawer.vue'
+import { useUserListStore } from '@/views/apps/user/useUserListStore'
 import type { Options } from '@core/types'
 import { avatarText } from '@core/utils/formatters'
 
@@ -45,7 +45,7 @@ const fetchUsers = () => {
     options: options.value,
   }).then(response => {
     users.value = response.data.users
-    totalPage.value = response.data.totalPage
+    totalPage.value = response.data.totalPages
     totalUsers.value = response.data.totalUsers
     options.value.page = response.data.page
   }).catch(error => {

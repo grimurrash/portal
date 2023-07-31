@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import CrmActiveProject from '@/views/demo/dashboards/crm/CrmActiveProject.vue'
-import CrmActivityTimeline from '@/views/demo/dashboards/crm/CrmActivityTimeline.vue'
-import CrmAnalyticsSales from '@/views/demo/dashboards/crm/CrmAnalyticsSales.vue'
-import CrmBrowserStates from '@/views/demo/dashboards/crm/CrmBrowserStates.vue'
-import CrmEarningReportsYearlyOverview from '@/views/demo/dashboards/crm/CrmEarningReportsYearlyOverview.vue'
-import CrmProjectStatus from '@/views/demo/dashboards/crm/CrmProjectStatus.vue'
-import CrmRecentTransactions from '@/views/demo/dashboards/crm/CrmRecentTransactions.vue'
-import CrmRevenueGrowth from '@/views/demo/dashboards/crm/CrmRevenueGrowth.vue'
-import CrmSalesAreaCharts from '@/views/demo/dashboards/crm/CrmSalesAreaCharts.vue'
-import CrmSessionsBarWithGapCharts from '@/views/demo/dashboards/crm/CrmSessionsBarWithGapCharts.vue'
+import CrmActiveProject from '@/views/dashboards/crm/CrmActiveProject.vue'
+import CrmActivityTimeline from '@/views/dashboards/crm/CrmActivityTimeline.vue'
+import CrmAnalyticsSales from '@/views/dashboards/crm/CrmAnalyticsSales.vue'
+import CrmBrowserStates from '@/views/dashboards/crm/CrmBrowserStates.vue'
+import CrmEarningReportsYearlyOverview from '@/views/dashboards/crm/CrmEarningReportsYearlyOverview.vue'
+import CrmProjectStatus from '@/views/dashboards/crm/CrmProjectStatus.vue'
+import CrmRecentTransactions from '@/views/dashboards/crm/CrmRecentTransactions.vue'
+import CrmRevenueGrowth from '@/views/dashboards/crm/CrmRevenueGrowth.vue'
+import CrmSalesAreaCharts from '@/views/dashboards/crm/CrmSalesAreaCharts.vue'
+import CrmSessionsBarWithGapCharts from '@/views/dashboards/crm/CrmSessionsBarWithGapCharts.vue'
 
 const simpleStatisticsDemoCards = [
   {

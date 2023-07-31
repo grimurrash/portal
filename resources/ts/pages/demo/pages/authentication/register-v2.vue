@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthProvider from '@/views/demo/pages/authentication/AuthProvider.vue'
+import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import type { HelpCenterArticlesOverviewType, HelpCenterCategoriesType } from '@/@fake-db/types'
+import type {
+  HelpCenterArticlesOverviewType,
+  HelpCenterCategoriesType,
+} from '@/@fake-db/types'
 
-import HelpCenterLandingArticlesOverview from '@/views/demo/pages/help-center/HelpCenterLandingArticlesOverview.vue'
-import HelpCenterLandingFooter from '@/views/demo/pages/help-center/HelpCenterLandingFooter.vue'
-import HelpCenterLandingKnowledgeBase from '@/views/demo/pages/help-center/HelpCenterLandingKnowledgeBase.vue'
+import HelpCenterLandingArticlesOverview from '@/views/pages/help-center/HelpCenterLandingArticlesOverview.vue'
+import HelpCenterLandingFooter from '@/views/pages/help-center/HelpCenterLandingFooter.vue'
+import HelpCenterLandingKnowledgeBase from '@/views/pages/help-center/HelpCenterLandingKnowledgeBase.vue'
 import axios from '@axios'
 
 interface ApiDataType {

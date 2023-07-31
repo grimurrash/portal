@@ -164,18 +164,6 @@ export const useLayouts = () => {
     return computed(() => isVerticalNavCollapsed.value && !isVerticalNavHoveredLocal.value && !isLessThanOverlayNavBreakpoint.value(unref(windowWidth)))
   }
 
-  const dynamicI18nProps = computed(() => (key: string, tag = 'span') => {
-    if (config.app.enableI18n) {
-      return {
-        keypath: key,
-        tag,
-        scope: 'global',
-      }
-    }
-
-    return {}
-  })
-
   const isAppRtl = computed({
     get() {
       return config.app.isRtl.value
@@ -199,7 +187,6 @@ export const useLayouts = () => {
     _layoutClasses,
     switchToVerticalNavOnLtOverlayNavBreakpoint,
     isVerticalNavMini,
-    dynamicI18nProps,
     isAppRtl,
     _setAppDir,
   }

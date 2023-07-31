@@ -1,4 +1,4 @@
-import type { UserAbility } from '@/plugins/casl/AppAbility';
+import type {UserAbility} from '@/plugins/casl/AppAbility';
 
 // 👉 Help center
 export type HelpCenterSubcategoryArticlesType = {

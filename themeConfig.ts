@@ -16,7 +16,6 @@ export const { themeConfig, layoutConfig } = defineThemeConfig({
     contentWidth: ContentWidth.Boxed,
     contentLayoutNav: AppContentLayoutNav.Vertical,
     overlayNavFromBreakpoint: breakpointsVuetify.md + 16, // 16 for scrollbar. Docs: https://next.vuetifyjs.com/en/features/display-and-platform/
-    enableI18n: false,
     theme: 'system',
     isRtl: false,
     skin: Skins.Default,

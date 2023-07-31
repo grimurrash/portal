@@ -41,6 +41,7 @@ declare module '@vue/runtime-core' {
     CustomRadios: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadios.vue')['default']
     CustomRadiosWithIcon: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadiosWithIcon.vue')['default']
     CustomRadiosWithImage: typeof import('./resources/ts/@core/components/app-form-elements/CustomRadiosWithImage.vue')['default']
+    DeleteDialog: typeof import('./resources/ts/views/users/components/dialogs/DeleteDialog.vue')['default']
     DemoAlertBasic: typeof import('./resources/ts/views/demos/components/alert/DemoAlertBasic.vue')['default']
     DemoAlertBorder: typeof import('./resources/ts/views/demos/components/alert/DemoAlertBorder.vue')['default']
     DemoAlertClosable: typeof import('./resources/ts/views/demos/components/alert/DemoAlertClosable.vue')['default']
@@ -337,10 +338,11 @@ declare module '@vue/runtime-core' {
     DemoTooltipTooltipOnVariousElements: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipTooltipOnVariousElements.vue')['default']
     DemoTooltipTransition: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipTransition.vue')['default']
     DemoTooltipVModelSupport: typeof import('./resources/ts/views/demos/components/tooltip/DemoTooltipVModelSupport.vue')['default']
+    DepartmentInfoEditDialog: typeof import('./resources/ts/views/departments/components/dialogs/DepartmentInfoEditDialog.vue')['default']
+    DepartmentsImportDialog: typeof import('@/views/departments/components/dialogs/DepartmentsImportDialog.vue')['default']
     DialogCloseBtn: typeof import('./resources/ts/@core/components/DialogCloseBtn.vue')['default']
     EnableOneTimePasswordDialog: typeof import('./resources/ts/components/dialogs/EnableOneTimePasswordDialog.vue')['default']
     ErrorHeader: typeof import('./resources/ts/components/ErrorHeader.vue')['default']
-    I18n: typeof import('./resources/ts/@core/components/I18n.vue')['default']
     MoreBtn: typeof import('./resources/ts/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./resources/ts/@core/components/Notifications.vue')['default']
     PricingPlanDialog: typeof import('./resources/ts/components/dialogs/PricingPlanDialog.vue')['default']
@@ -357,6 +359,7 @@ declare module '@vue/runtime-core' {
     TimelineWithIcons: typeof import('./resources/ts/views/demos/components/timeline/TimelineWithIcons.vue')['default']
     TwoFactorAuthDialog: typeof import('./resources/ts/components/dialogs/TwoFactorAuthDialog.vue')['default']
     UserInfoEditDialog: typeof import('./resources/ts/components/dialogs/UserInfoEditDialog.vue')['default']
+    UserInfoEditingDialog: typeof import('@/views/users/components/dialogs/UserInfoEditDialog.vue')['default']
     UserUpgradePlanDialog: typeof import('./resources/ts/components/dialogs/UserUpgradePlanDialog.vue')['default']
   }
 }

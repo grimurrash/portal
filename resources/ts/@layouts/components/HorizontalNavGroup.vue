@@ -25,7 +25,7 @@ defineOptions({
 
 const route = useRoute()
 const router = useRouter()
-const { dynamicI18nProps, isAppRtl } = useLayouts()
+const { isAppRtl } = useLayouts()
 
 const isGroupActive = ref(false)
 
@@ -62,13 +62,9 @@ watch(() => route.path, () => {
         class="nav-item-icon"
         v-bind="item.icon || config.verticalNav.defaultNavItemIconProps"
       />
-      <Component
-        :is="config.app.enableI18n ? 'i18n-t' : 'span'"
-        v-bind="dynamicI18nProps(item.title, 'span')"
-        class="nav-item-title"
-      >
+      <span class="nav-item-title">
         {{ item.title }}
-      </Component>
+      </span>
       <Component
         v-bind="config.icons.chevronDown"
         :is="config.app.iconRenderer || 'div'"

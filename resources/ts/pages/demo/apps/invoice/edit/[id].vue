@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import InvoiceAddPaymentDrawer from '@/views/demo/apps/invoice/InvoiceAddPaymentDrawer.vue'
-import InvoiceEditable from '@/views/demo/apps/invoice/InvoiceEditable.vue'
-import InvoiceSendInvoiceDrawer from '@/views/demo/apps/invoice/InvoiceSendInvoiceDrawer.vue'
+import InvoiceAddPaymentDrawer from '@/views/apps/invoice/InvoiceAddPaymentDrawer.vue'
+import InvoiceEditable from '@/views/apps/invoice/InvoiceEditable.vue'
+import InvoiceSendInvoiceDrawer from '@/views/apps/invoice/InvoiceSendInvoiceDrawer.vue'
 
 // Type: Invoice data
-import type { InvoiceData } from '@/views/demo/apps/invoice/types'
+import type { InvoiceData } from '@/views/apps/invoice/types'
 
 // Store
-import { useInvoiceStore } from '@/views/demo/apps/invoice/useInvoiceStore'
+import { useInvoiceStore } from '@/views/apps/invoice/useInvoiceStore'
 
 const invoiceListStore = useInvoiceStore()
 const route = useRoute()
