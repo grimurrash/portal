@@ -107,6 +107,13 @@ export const useWordCloudStore = defineStore('WordCloudStore', {
       }
     },
 
+    // 👉 Add word cloud
+    addWordCloud(wordCloudData: WordCloudProperties) {
+      wordClouds.push(wordCloudData)
+
+      return [200]
+    },
+
     // 👉 Delete word cloud
     deleteWordCloud(id: number) {
       const wordCloudIndex = wordClouds.findIndex(e => e.id === id)

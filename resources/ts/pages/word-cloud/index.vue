@@ -53,6 +53,8 @@ const fetchWordClouds = () => {
 
 // 👉 Add new user
 const addNewWordCloud = (wordCloudData: WordCloudProperties) => {
+  wordCloudStore.addWordCloud(wordCloudData)
+
   // refetch word cloud
   fetchWordClouds()
 }
@@ -211,7 +213,7 @@ watchEffect(fetchWordClouds)
         <EditWordCloudDrawer
           v-model:isDrawerOpen="isWordCloudEditDrawerVisible"
           :word-cloud-data="selectedWordCloud"
-          @word-cloud-data="editWordCloud"
+          @submit="editWordCloud"
         />
         <!--  👉 Delete user dialog -->
         <DeleteDialog
