@@ -3,8 +3,7 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useTheme } from 'vuetify'
 import { staticPrimaryColor } from '@/plugins/vuetify/theme'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
-import { Skins } from '@core/enums'
-import { AppContentLayoutNav, ContentWidth, FooterType, NavbarType } from '@layouts/enums'
+import { AppContentLayoutNav, ContentWidth, NavbarType } from '@layouts/enums'
 import { themeConfig } from '@themeConfig'
 
 // import { useTheme } from 'vuetify'
@@ -114,40 +113,8 @@ const headerValues = computed(() => {
           title="THEMING"
           :divider="false"
         >
-          <!-- 👉 Skin -->
-          <h6 class="text-base font-weight-regular">
-            Skins
-          </h6>
-          <VRadioGroup
-            v-model="skin"
-            inline
-          >
-            <VRadio
-              v-for="[key, val] in Object.entries(Skins)"
-              :key="key"
-              :label="key"
-              :value="val"
-            />
-          </VRadioGroup>
-
-          <!-- 👉 Theme -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            Theme
-          </h6>
-          <VRadioGroup
-            v-model="theme"
-            inline
-          >
-            <VRadio
-              v-for="themeOption in ['system', 'light', 'dark']"
-              :key="themeOption"
-              :label="themeOption"
-              :value="themeOption"
-              class="text-capitalize"
-            />
-          </VRadioGroup>
-
           <!-- 👉 Primary color -->
+          <!--  TODO: Перенести в настройки темы (позже добавим) -->
           <h6 class="mt-3 text-base font-weight-regular">
             Primary Color
           </h6>
@@ -174,6 +141,7 @@ const headerValues = computed(() => {
         <!-- !SECTION -->
 
         <!-- SECTION LAYOUT -->
+        <!--  TODO: Перенести в настройки темы (позже добавим) -->
         <CustomizerSection title="LAYOUT">
           <!-- 👉 Content Width -->
           <h6 class="text-base font-weight-regular">
@@ -190,56 +158,11 @@ const headerValues = computed(() => {
               :value="val"
             />
           </VRadioGroup>
-          <!-- 👉 Navbar Type -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            {{ appContentLayoutNav === AppContentLayoutNav.Vertical ? 'Navbar' : 'Header' }} Type
-          </h6>
-          <VRadioGroup
-            v-model="navbarType"
-            inline
-          >
-            <VRadio
-              v-for="[key, val] in headerValues"
-              :key="key"
-              :label="key"
-              :value="val"
-            />
-          </VRadioGroup>
-          <!-- 👉 Footer Type -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            Footer Type
-          </h6>
-          <VRadioGroup
-            v-model="footerType"
-            inline
-          >
-            <VRadio
-              v-for="[key, val] in Object.entries(FooterType)"
-              :key="key"
-              :label="key"
-              :value="val"
-            />
-          </VRadioGroup>
-          <!-- 👉 Navbar blur -->
-          <div class="mt-4 d-flex align-center justify-space-between">
-            <VLabel
-              for="customizer-navbar-blur"
-              class="text-high-emphasis"
-            >
-              Navbar Blur
-            </VLabel>
-            <div>
-              <VSwitch
-                id="customizer-navbar-blur"
-                v-model="isNavbarBlurEnabled"
-                class="ms-2"
-              />
-            </div>
-          </div>
         </CustomizerSection>
         <!-- !SECTION -->
 
         <!-- SECTION Menu -->
+        <!--  TODO: Перенести в настройки темы (позже добавим) -->
         <CustomizerSection title="MENU">
           <!-- 👉 Menu Type -->
           <h6 class="text-base font-weight-regular">
@@ -258,6 +181,7 @@ const headerValues = computed(() => {
           </VRadioGroup>
 
           <!-- 👉 Collapsed Menu -->
+          <!--  TODO: Перенести в настройки темы (позже добавим) -->
           <div
             v-if="appContentLayoutNav === AppContentLayoutNav.Vertical"
             class="mt-4 d-flex align-center justify-space-between"
@@ -278,6 +202,7 @@ const headerValues = computed(() => {
           </div>
 
           <!-- 👉 Semi Dark Menu -->
+          <!--  TODO: Перенести в настройки темы (позже добавим) -->
           <div
             class="mt-4 align-center justify-space-between"
             :class="vuetifyTheme.global.name.value === 'light' && appContentLayoutNav === AppContentLayoutNav.Vertical ? 'd-flex' : 'd-none'"

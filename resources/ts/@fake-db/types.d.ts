@@ -1,5 +1,3 @@
-import type {UserAbility} from '@/plugins/casl/AppAbility';
-
 // 👉 Help center
 export type HelpCenterSubcategoryArticlesType = {
   slug: string
@@ -141,15 +139,6 @@ export type TeamsTab = {
   avatarGroup: ProfileAvatarGroup[]
 }
 
-export type ProfileTab = {
-  teams: ProfileTeams[]
-  about: ProfileTabCommon[]
-  contacts: ProfileTabCommon[]
-  overview: ProfileTabCommon[]
-  teamsTech: ProfileTeamsTech[]
-  connections: ProfileConnections[]
-}
-
 // SECTION
 // 👉 JWT
 
@@ -162,18 +151,6 @@ export interface User {
   email: string
   role: string
   abilities: UserAbility[]
-}
-
-export interface UserOut {
-  userAbilities: User['abilities']
-  accessToken: string
-  userData: Omit<User, 'abilities' | 'password'>
-}
-
-export interface LoginResponse {
-  accessToken: string
-  userData: AuthUserOut
-  userAbilities: UserAbility[]
 }
 
 export interface RegisterResponse {

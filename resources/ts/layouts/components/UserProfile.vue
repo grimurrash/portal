@@ -2,6 +2,8 @@
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { initialAbility } from '@/plugins/casl/ability'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
+import { avatarText } from '@core/utils/formatters'
+import { RoleEnum } from '@/types/enums/role.enum'
 
 const router = useRouter()
 const ability = useAppAbility()
@@ -69,10 +71,7 @@ const userProfileList = [
         v-if="userData && userData.avatar"
         :src="userData.avatar"
       />
-      <VIcon
-        v-else
-        icon="tabler-user"
-      />
+      <span v-else>{{ avatarText(userData.name) }}</span>
 
       <!-- SECTION Menu -->
       <VMenu
@@ -101,19 +100,16 @@ const userProfileList = [
                       v-if="userData && userData.avatar"
                       :src="userData.avatar"
                     />
-                    <VIcon
-                      v-else
-                      icon="tabler-user"
-                    />
+                    <span v-else>{{ avatarText(userData.name) }}</span>
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
             <VListItemTitle class="font-weight-medium">
-              {{ userData.fullName || userData.username }}
+              {{ userData.name }}
             </VListItemTitle>
-            <VListItemSubtitle>{{ userData.role }}</VListItemSubtitle>
+            <VListItemSubtitle>{{ RoleEnum[userData.role] }}</VListItemSubtitle>
           </VListItem>
 
           <PerfectScrollbar :options="{ wheelPropagation: false }">
@@ -134,7 +130,7 @@ const userProfileList = [
                   />
                 </template>
 
-                <VListItemTitle>{{ item.title }}</VListItemTitle>
+                <!-- <VListItemTitle>{{ item.title }}</VListItemTitle> -->
                 <!-- новые сообщение или т.п. -->
                 <!-- <template -->
                 <!-- v-if="item.badgeProps" -->

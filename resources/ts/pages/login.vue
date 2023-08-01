@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components/VForm'
-import type { LoginResponse } from '@/@fake-db/types'
-import { useAppAbility } from '@/plugins/casl/useAppAbility'
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-import axios from '@axios'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
-import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png'
-import authV2LoginIllustrationBorderedLight from '@images/pages/auth-v2-login-illustration-bordered-light.png'
-import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustration-dark.png'
-import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png'
+import authLoginDark from '@images/pages/login/login-dark.svg'
+import authLoginLight from '@images/pages/login/login.svg'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
-import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 import { emailValidator, requiredValidator } from '@validators'
+import { useAppAbility } from '@/plugins/casl/useAppAbility'
+import { AuthService } from '@/services/auth/auth.service'
 
-const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
+const authThemeImg = useGenerateImageVariant(authLoginLight, authLoginDark, authLoginLight, authLoginDark, true)
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
@@ -32,33 +27,34 @@ const errors = ref<Record<string, string | undefined>>({
 })
 
 const refVForm = ref<VForm>()
-const email = ref('admin@demo.com')
-const password = ref('admin')
-const rememberMe = ref(false)
+
+const authLogin = ref<AuthLoginDto>({
+  email: '',
+  password: '',
+  remember_me: false,
+})
 
 const login = () => {
-  axios.post<LoginResponse>('/auth/login', { email: email.value, password: password.value })
+  AuthService.login(authLogin.value)
     .then(r => {
-      const { accessToken, userData, userAbilities } = r.data
+      const loginResponse = r.data
 
-      localStorage.setItem('userAbilities', JSON.stringify(userAbilities))
-      ability.update(userAbilities)
+      localStorage.setItem('userAbilities', JSON.stringify(loginResponse.abilities))
+      ability.update(loginResponse.abilities)
 
-      localStorage.setItem('userData', JSON.stringify(userData))
-      localStorage.setItem('accessToken', JSON.stringify(accessToken))
+      localStorage.setItem('userData', JSON.stringify(loginResponse.user))
+      localStorage.setItem('accessToken', JSON.stringify(loginResponse.token))
+      localStorage.setItem('accessTokenExpiredAt', JSON.stringify(loginResponse.token_expired_at))
 
-      // Redirect to `to` query if exist or redirect to index route
       router.replace(route.query.to ? String(route.query.to) : '/')
     })
     .catch(e => {
-      const { errors: formErrors } = e.response.data
-
-      errors.value = formErrors
-      console.error(e.response.data)
+      errors.value = e.response.data.errors
     })
 }
 
-const onSubmit = () => {
+const onSubmit = (event: Event) => {
+  event.preventDefault()
   refVForm.value?.validate()
     .then(({ valid: isValid }) => {
       if (isValid)
@@ -103,42 +99,25 @@ const onSubmit = () => {
         class="mt-12 mt-sm-0 pa-4"
       >
         <VCardText>
-          <VNodeRenderer
-            :nodes="themeConfig.app.logo"
-            class="mb-6"
-          />
-
           <h5 class="text-h5 mb-1">
-            Welcome to <span class="text-capitalize"> {{ themeConfig.app.title }} </span>! 👋🏻
+            Добро пожаловать в <span class="text-capitalize">{{ themeConfig.app.title }}</span>! 👋🏻
           </h5>
           <p class="mb-0">
-            Please sign-in to your account and start the adventure
+            Пожалуйста, войдите в свою учетную запись
           </p>
-        </VCardText>
-        <VCardText>
-          <VAlert
-            color="primary"
-            variant="tonal"
-          >
-            <p class="text-caption mb-2">
-              Admin Email: <strong>admin@demo.com</strong> / Pass: <strong>admin</strong>
-            </p>
-            <p class="text-caption mb-0">
-              Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
-            </p>
-          </VAlert>
         </VCardText>
         <VCardText>
           <VForm
             ref="refVForm"
-            @submit.prevent="onSubmit"
+            @submit.prevent
+            @submit.stop.prevent="onSubmit"
           >
             <VRow>
               <!-- email -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="email"
-                  label="Email"
+                  v-model="authLogin.email"
+                  label="Электронная почта"
                   type="email"
                   autofocus
                   :rules="[requiredValidator, emailValidator]"
@@ -149,8 +128,8 @@ const onSubmit = () => {
               <!-- password -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="password"
-                  label="Password"
+                  v-model="authLogin.password"
+                  label="Пароль"
                   :rules="[requiredValidator]"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :error-messages="errors.password"
@@ -160,15 +139,15 @@ const onSubmit = () => {
 
                 <div class="d-flex align-center flex-wrap justify-space-between mt-2 mb-4">
                   <VCheckbox
-                    v-model="rememberMe"
-                    label="Remember me"
+                    v-model="authLogin.remember_me"
+                    label="Запомнить меня"
                   />
-                  <RouterLink
-                    class="text-primary ms-2 mb-1"
-                    :to="{ name: 'forgot-password' }"
-                  >
-                    Forgot Password?
-                  </RouterLink>
+                  <!--                  <RouterLink -->
+                  <!--                    class="text-primary ms-2 mb-1" -->
+                  <!--                    :to="{ name: 'forgot-password' }" -->
+                  <!--                  > -->
+                  <!--                    Забыли пароль? -->
+                  <!--                  </RouterLink> -->
                 </div>
 
                 <VBtn
@@ -177,36 +156,6 @@ const onSubmit = () => {
                 >
                   Login
                 </VBtn>
-              </VCol>
-
-              <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <span>New on our platform?</span>
-                <RouterLink
-                  class="text-primary ms-2"
-                  :to="{ name: 'register' }"
-                >
-                  Create an account
-                </RouterLink>
-              </VCol>
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider />
-                <span class="mx-4">or</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
               </VCol>
             </VRow>
           </VForm>

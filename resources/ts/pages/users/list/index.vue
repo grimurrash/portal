@@ -311,7 +311,7 @@ const editUser = (user: UserProperties) => {
   </section>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .app-user-search-filter {
   inline-size: 31.6rem;
 }

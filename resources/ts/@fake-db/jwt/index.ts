@@ -1,5 +1,5 @@
 import mock from '@/@fake-db/mock'
-import type { User, UserOut } from '@/@fake-db/types.d'
+import type { User } from '@/@fake-db/types.d'
 import { genId } from '@/@fake-db/utils'
 import avatar1 from '@images/avatars/avatar-1.png'
 import avatar2 from '@images/avatars/avatar-2.png'
@@ -61,52 +61,6 @@ const database: User[] = [
     ],
   },
 ]
-
-mock.onPost('/auth/login').reply(request => {
-  const { email, password } = JSON.parse(request.data)
-
-  let errors: Record<string, string[]> = {
-    email: ['Something went wrong'],
-  }
-
-  const user = database.find(u => u.email === email && u.password === password)
-
-  if (user) {
-    try {
-      const accessToken = userTokens[user.id]
-
-      // We are duplicating user here
-      const userData = { ...user }
-
-      const userOutData = Object.fromEntries(
-        Object.entries(userData)
-          .filter(
-            ([key, _]) => !(key === 'password' || key === 'abilities'),
-          ),
-      ) as UserOut['userData']
-
-      const response: UserOut = {
-        userAbilities: userData.abilities,
-        accessToken,
-        userData: userOutData,
-      }
-
-      //   const accessToken = jwt.sign({ id: user.id }, jwtSecret)
-
-      return [200, response]
-    }
-    catch (e: unknown) {
-      errors = { email: [e as string] }
-    }
-  }
-  else {
-    errors = {
-      email: ['Email or Password is Invalid'],
-    }
-  }
-
-  return [400, { errors }]
-})
 
 mock.onPost('/auth/register').reply(request => {
   const { username, email, password } = JSON.parse(request.data)
