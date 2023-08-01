@@ -18,6 +18,7 @@ const selectedPermission = ref()
 const totalPages = ref(1)
 const totalUsers = ref(0)
 const users = ref<UserProperties[]>([])
+const isAddNewUserDrawerVisible = ref(false)
 const isUserInfoEditDialogVisible = ref(false)
 const isUserDeleteDialogVisible = ref(false)
 const selectedUser = ref()
@@ -59,8 +60,6 @@ const fetchUsers = () => {
 }
 
 watchEffect(fetchUsers)
-
-const isAddNewUserDrawerVisible = ref(false)
 
 // 👉 Add new user
 const addNewUser = (userData: UserProperties) => {

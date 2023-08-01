@@ -55,14 +55,18 @@ const deleteUser = (id: number) => {
           </h6>
 
           <!-- 👉 Role chip -->
-          <VChip
-            label
-            color="primary"
-            size="small"
-            class="text-capitalize mt-3"
-          >
-            {{ props.userData.role.join(', ') }}
-          </VChip>
+          <div class="d-flex justify-center gap-1">
+            <VChip
+              v-for="role in props.userData.role"
+              :key="role"
+              color="primary"
+              size="small"
+              label
+              class="text-capitalize mt-3"
+            >
+              <span>{{ role }}</span>
+            </VChip>
+          </div>
         </VCardText>
 
         <VDivider />
@@ -97,26 +101,10 @@ const deleteUser = (id: number) => {
 
             <VListItem>
               <VListItemTitle>
-                <h6 class="text-h6">
-                  Роль:
-                  <VChip
-                    v-for="role in props.userData.role"
-                    :key="role"
-                    color="primary"
-                    size="small"
-                    label
-                    class="text-capitalize"
-                  >
-                    <span>{{ role }}</span>
-                  </VChip>
-                </h6>
-              </VListItemTitle>
-            </VListItem>
-
-            <VListItem>
-              <VListItemTitle>
-                <h6 class="text-h6">
-                  Права доступа:
+                <div class="d-flex align-center gap-1">
+                  <h6 class="text-h6">
+                    Права доступа:
+                  </h6>
                   <VChip
                     v-for="permission in props.userData.permission"
                     :key="permission"
@@ -127,7 +115,7 @@ const deleteUser = (id: number) => {
                   >
                     <span>{{ permission }}</span>
                   </VChip>
-                </h6>
+                </div>
               </VListItemTitle>
             </VListItem>
           </VList>

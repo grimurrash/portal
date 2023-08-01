@@ -20,7 +20,7 @@ const departments: DepartmentProperties[] = [
   },
 ]
 
-export const useDepartmentListStore = defineStore('DepartmentListStore', {
+export const useDepartmentStore = defineStore('DepartmentStore', {
   actions: {
 
     // 👉 Fetch departments data
@@ -75,8 +75,6 @@ export const useDepartmentListStore = defineStore('DepartmentListStore', {
       }
 
       const totalDepartments = filteredDepartments.length
-
-      // total pages
       const totalPages = Math.ceil(totalDepartments / itemsPerPage)
 
       return {
