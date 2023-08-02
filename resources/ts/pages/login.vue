@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components/VForm'
+import { useMutation } from '@tanstack/vue-query'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import authLoginDark from '@images/pages/login/login-dark.svg'
 import authLoginLight from '@images/pages/login/login.svg'
@@ -34,31 +35,32 @@ const authLogin = ref<AuthLoginDto>({
   remember_me: false,
 })
 
-const login = () => {
-  AuthService.login(authLogin.value)
-    .then(r => {
-      const loginResponse = r.data
+const { mutate } = useMutation({
+  mutationKey: 'login',
+  mutationFn: (authData: AuthLoginDto) => AuthService.login(authData),
+  onSuccess: ({ data }) => {
+    const loginResponse: LoginResponse = data
 
-      localStorage.setItem('userAbilities', JSON.stringify(loginResponse.abilities))
-      ability.update(loginResponse.abilities)
+    localStorage.setItem('userAbilities', JSON.stringify(loginResponse.abilities))
+    ability.update(loginResponse.abilities)
 
-      localStorage.setItem('userData', JSON.stringify(loginResponse.user))
-      localStorage.setItem('accessToken', JSON.stringify(loginResponse.token))
-      localStorage.setItem('accessTokenExpiredAt', JSON.stringify(loginResponse.token_expired_at))
+    localStorage.setItem('userData', JSON.stringify(loginResponse.user))
+    localStorage.setItem('accessToken', JSON.stringify(loginResponse.token))
+    localStorage.setItem('accessTokenExpiredAt', JSON.stringify(loginResponse.token_expired_at))
 
-      router.replace(route.query.to ? String(route.query.to) : '/')
-    })
-    .catch(e => {
-      errors.value = e.response.data.errors
-    })
-}
+    router.replace(route.query.to ? String(route.query.to) : '/')
+  },
+  onError: ({ error }) => {
+    errors.value = error.errors
+  },
+})
 
 const onSubmit = (event: Event) => {
   event.preventDefault()
   refVForm.value?.validate()
     .then(({ valid: isValid }) => {
       if (isValid)
-        login()
+        mutate(authLogin.value)
     })
 }
 </script>

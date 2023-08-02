@@ -130,7 +130,7 @@ const userProfileList = [
                   />
                 </template>
 
-                <!-- <VListItemTitle>{{ item.title }}</VListItemTitle> -->
+                <VListItemTitle>{{ item.title }}</VListItemTitle>
                 <!-- новые сообщение или т.п. -->
                 <!-- <template -->
                 <!-- v-if="item.badgeProps" -->

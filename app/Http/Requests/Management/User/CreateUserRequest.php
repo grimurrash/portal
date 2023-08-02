@@ -13,7 +13,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:4'],
             'role' => ['required', Rule::enum(RoleEnum::class)],
             'is_email_verified' => ['sometimes', 'bool']
         ];
