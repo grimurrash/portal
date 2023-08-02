@@ -12,6 +12,7 @@ import '@core-scss/template/index.scss'
 import '@styles/styles.scss'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 
 loadFonts()
 
@@ -22,6 +23,7 @@ const app = createApp(App)
 app.use(vuetify)
 app.use(createPinia())
 app.use(router)
+app.use(VueQueryPlugin)
 app.use(layoutsPlugin)
 app.use(abilitiesPlugin, ability, {
   useGlobalProperties: true,
