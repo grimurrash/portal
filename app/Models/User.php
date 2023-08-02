@@ -48,7 +48,7 @@ class User extends Authenticatable
             id: $this->id,
             name: $this->name,
             email: $this->email,
-            maneRole: $mainRole,
+            mainRole: $mainRole,
             permissions: $this->getAllPermissions()->pluck('name')->map(fn($item) => PermissionEnum::from($item))->toArray()
         );
     }

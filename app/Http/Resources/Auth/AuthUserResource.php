@@ -15,7 +15,7 @@ class AuthUserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->maneRole->value,
+            'role' => $this->mainRole->value,
         ];
     }
 }
