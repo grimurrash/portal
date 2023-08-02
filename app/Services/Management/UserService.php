@@ -24,7 +24,7 @@ readonly class UserService implements UserServiceInterface
         try {
             $this->userRepository->create($dto);
         } catch (Throwable $exception) {
-            throw new BadRequestException($exception->getMessage(), previous: $exception);
+            throw new BadRequestException('Ошибка создания пользователя', previous: $exception);
         }
     }
 }
