@@ -2,12 +2,21 @@
 
 namespace App\Dto;
 
-readonly class PaginateDto
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
+readonly abstract class PaginateDto
 {
     public function __construct(
-        public array $items,
-        public int   $totalCount,
+        protected array $items,
+        protected int   $totalCount,
     )
     {
+    }
+
+    abstract public function getItems(): AnonymousResourceCollection;
+
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
     }
 }

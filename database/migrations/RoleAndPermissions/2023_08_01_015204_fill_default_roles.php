@@ -15,7 +15,7 @@ return new class extends Migration {
             'guard_name' => 'api',
         ]);
         Permission::create([
-            'name' => PermissionEnum::VIEW_DEPARTMENTS->value,
+            'name' => PermissionEnum::READ_DEPARTMENT->value,
             'guard_name' => 'api',
         ]);
         Role::create([

@@ -12,8 +12,8 @@ class PaginateResource extends JsonResource
     {
         /** @var PaginateDto $this */
         return [
-            'items' => $this->items,
-            'total_count' => $this->totalCount,
+            'items' => $this->getItems(),
+            'total_count' => $this->getTotalCount(),
         ];
     }
 }

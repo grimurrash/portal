@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class UserRepository implements UserRepositoryInterface
+readonly class UserRepository implements UserRepositoryInterface
 {
     public function create(CreateUserDto $dto): void
     {
