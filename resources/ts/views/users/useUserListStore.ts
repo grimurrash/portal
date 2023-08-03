@@ -1,11 +1,12 @@
-import type { AxiosResponse } from 'axios'
-import { defineStore } from 'pinia'
-import type { UserProperties } from '@/db/types'
-import type { UserParams } from '@/views/users/types'
+import type {AxiosResponse} from 'axios'
+import {defineStore} from 'pinia'
+import type {UserProperties} from '@/db/types'
+import type {UserParams} from '@/views/users/types'
 import axios from '@axios'
 
 export const useUserListStore = defineStore('MyUserListStore', {
   actions: {
+
 
     // 👉 Fetch users data
     fetchUsers(params: UserParams) {

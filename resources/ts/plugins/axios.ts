@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 
 const axiosIns = axios.create({
-  baseURL: 'http://localhost/api/',
+  baseURL: 'http://localhost:8000/api/',
 
   // timeout: 1000,
 })

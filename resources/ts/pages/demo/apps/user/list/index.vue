@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/@fake-db/types'
-import { paginationMeta } from '@/@fake-db/utils'
 import AddNewUserDrawer from '@/views/apps/user/list/AddNewUserDrawer.vue'
 import { useUserListStore } from '@/views/apps/user/useUserListStore'
 import type { Options } from '@core/types'
@@ -418,42 +417,42 @@ const deleteUser = (id: number) => {
             </template>
 
             <!-- pagination -->
-            <template #bottom>
-              <VDivider />
-              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
-                <p class="text-sm text-disabled mb-0">
-                  {{ paginationMeta(options, totalUsers) }}
-                </p>
+<!--            <template #bottom>-->
+<!--              <VDivider />-->
+<!--              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">-->
+<!--                <p class="text-sm text-disabled mb-0">-->
+<!--                  {{ paginationMeta(options, totalUsers) }}-->
+<!--                </p>-->
 
-                <VPagination
-                  v-model="options.page"
-                  :length="Math.ceil(totalUsers / options.itemsPerPage)"
-                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"
-                >
-                  <template #prev="slotProps">
-                    <VBtn
-                      variant="tonal"
-                      color="default"
-                      v-bind="slotProps"
-                      :icon="false"
-                    >
-                      Previous
-                    </VBtn>
-                  </template>
+<!--                <VPagination-->
+<!--                  v-model="options.page"-->
+<!--                  :length="Math.ceil(totalUsers / options.itemsPerPage)"-->
+<!--                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"-->
+<!--                >-->
+<!--                  <template #prev="slotProps">-->
+<!--                    <VBtn-->
+<!--                      variant="tonal"-->
+<!--                      color="default"-->
+<!--                      v-bind="slotProps"-->
+<!--                      :icon="false"-->
+<!--                    >-->
+<!--                      Previous-->
+<!--                    </VBtn>-->
+<!--                  </template>-->
 
-                  <template #next="slotProps">
-                    <VBtn
-                      variant="tonal"
-                      color="default"
-                      v-bind="slotProps"
-                      :icon="false"
-                    >
-                      Next
-                    </VBtn>
-                  </template>
-                </VPagination>
-              </div>
-            </template>
+<!--                  <template #next="slotProps">-->
+<!--                    <VBtn-->
+<!--                      variant="tonal"-->
+<!--                      color="default"-->
+<!--                      v-bind="slotProps"-->
+<!--                      :icon="false"-->
+<!--                    >-->
+<!--                      Next-->
+<!--                    </VBtn>-->
+<!--                  </template>-->
+<!--                </VPagination>-->
+<!--              </div>-->
+<!--            </template>-->
           </VDataTableServer>
           <!-- SECTION -->
         </VCard>

@@ -6,6 +6,8 @@ use App\Contracts\User\UserRepositoryInterface;
 use App\Dto\Auth\LoggedUserDto;
 use App\Dto\Auth\LoginDto;
 use App\Dto\User\CreateUserDto;
+use App\Dto\User\UserListDto;
+use App\Dto\User\UserListFilterDto;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +46,16 @@ readonly class UserRepository implements UserRepositoryInterface
             user: $user->toDto(),
             token: $token->plainTextToken,
             tokenExpiredAt: $expiresAt,
+        );
+    }
+    public function list(UserListFilterDto $dto): UserListDto
+    {
+        $query = User::query();
+
+
+        return new UserListDto(
+            items: [],
+            totalCount: 0
         );
     }
 }

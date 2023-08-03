@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
-           Route::post('create', [UserController::class, 'create'])->name('create');
+            Route::post('create', [UserController::class, 'create'])->name('create');
+            Route::get('index', [UserController::class, 'index'])->name('index');
         });
     });
 });
