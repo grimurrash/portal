@@ -11,15 +11,15 @@ readonly class UserDto
      * @param int $id
      * @param string $name
      * @param string $email
-     * @param RoleEnum $mainRole
-     * @param array<PermissionEnum> $permissions
+     * @param RoleEnum|null $mainRole
+     * @param array<PermissionEnum>|null $permissions
      */
     public function __construct(
-        public int      $id,
-        public string   $name,
-        public string   $email,
-        public RoleEnum $mainRole,
-        public array    $permissions,
+        public int           $id,
+        public string        $name,
+        public string        $email,
+        public RoleEnum|null $mainRole,
+        public array|null    $permissions,
     )
     {
     }

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/db/types'
-import { Permission, Role } from '@/db/enums'
-import { paginationMeta } from '@/utils/utils'
-import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
 import { useUserListStore } from '@/views/users/useUserListStore'
 import type { Options } from '@core/types'
-import { avatarText } from '@core/utils/formatters'
-import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
-import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
+import { useInfiniteQuery } from '@tanstack/vue-query'
+import { UserService } from '@/services/management/users/list.service'
 
 // 👉 Store
 const userListStore = useUserListStore()
@@ -58,8 +53,30 @@ const fetchUsers = () => {
     console.error(error)
   })
 }
+const created = () => {
+  console.log(data)
+}
 
-watchEffect(fetchUsers)
+
+const { isLoading, isError, data, error, isFetching, isPreviousData } = useInfiniteQuery({
+  queryKey: 'index',
+  queryFn: () => {
+    const data = UserService.index()
+    console.log(data)
+    return data;
+  },
+  getNextPageParam: (_lastPage, allPages) => {
+    const lastPage = allPages.findLast(
+      (page) => page.length > 0,
+    );
+
+    const lastRecord = lastPage[lastPage.length - 1];
+    return lastRecord?.date ?? "";
+  },
+  staleTime: Infinity,
+})
+
+watchEffect(created)
 
 // 👉 Add new user
 const addNewUser = (userData: UserProperties) => {
@@ -90,224 +107,213 @@ const editUser = (user: UserProperties) => {
 
 <template>
   <section>
-    <VRow>
-      <VCol cols="12">
-        <VCard title="Фильтры">
-          <!-- 👉 Filters -->
-          <VCardText>
-            <VRow>
-              <!-- 👉 Select Role -->
-              <VCol
-                cols="12"
-                sm="4"
-              >
-                <AppSelect
-                  v-model="selectedRole"
-                  label="Роль"
-                  :items="Object.values(Role)"
-                  clearable
-                  multiple
-                  clear-icon="tabler-x"
-                />
-              </VCol>
-              <!-- 👉 Select Permission -->
+<!--    <VRow>-->
+<!--      <VCol cols="12">-->
+<!--        <VCard title="Фильтры">-->
+<!--          &lt;!&ndash; 👉 Filters &ndash;&gt;-->
+<!--          <VCardText>-->
+<!--            <VRow>-->
+<!--              &lt;!&ndash; 👉 Select Role &ndash;&gt;-->
+<!--              <VCol-->
+<!--                cols="12"-->
+<!--                sm="4"-->
+<!--              >-->
+<!--                <AppSelect-->
+<!--                  v-model="selectedRole"-->
+<!--                  label="Роль"-->
+<!--                  :items="Object.values(Role)"-->
+<!--                  clearable-->
+<!--                  multiple-->
+<!--                  clear-icon="tabler-x"-->
+<!--                />-->
+<!--              </VCol>-->
+<!--              &lt;!&ndash; 👉 Select Permission &ndash;&gt;-->
 
-              <VCol
-                cols="12"
-                sm="4"
-              >
-                <AppSelect
-                  v-model="selectedPermission"
-                  label="Права доступа"
-                  :items="Object.values(Permission)"
-                  clearable
-                  multiple
-                  clear-icon="tabler-x"
-                />
-              </VCol>
-            </VRow>
-          </VCardText>
+<!--              <VCol-->
+<!--                cols="12"-->
+<!--                sm="4"-->
+<!--              >-->
+<!--                <AppSelect-->
+<!--                  v-model="selectedPermission"-->
+<!--                  label="Права доступа"-->
+<!--                  :items="Object.values(Permission)"-->
+<!--                  clearable-->
+<!--                  multiple-->
+<!--                  clear-icon="tabler-x"-->
+<!--                />-->
+<!--              </VCol>-->
+<!--            </VRow>-->
+<!--          </VCardText>-->
 
-          <VDivider />
+<!--          <VDivider />-->
 
-          <VCardText class="d-flex flex-wrap py-4 gap-4">
-            <div class="me-3 d-flex gap-3">
-              <AppSelect
-                :model-value="options.itemsPerPage"
-                :items="[
-                  { value: 10, title: '10' },
-                  { value: 25, title: '25' },
-                  { value: 50, title: '50' },
-                  { value: 100, title: '100' },
-                  { value: -1, title: 'All' },
-                ]"
-                style="width: 6.25rem;"
-                @update:model-value="options.itemsPerPage = parseInt($event, 10)"
-              />
-            </div>
-            <VSpacer />
+<!--          <VCardText class="d-flex flex-wrap py-4 gap-4">-->
+<!--            <div class="me-3 d-flex gap-3">-->
+<!--              <AppSelect-->
+<!--                :model-value="options.itemsPerPage"-->
+<!--                :items="[-->
+<!--                  { value: 10, title: '10' },-->
+<!--                  { value: 25, title: '25' },-->
+<!--                  { value: 50, title: '50' },-->
+<!--                  { value: 100, title: '100' },-->
+<!--                  { value: -1, title: 'All' },-->
+<!--                ]"-->
+<!--                style="width: 6.25rem;"-->
+<!--                @update:model-value="options.itemsPerPage = parseInt($event, 10)"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <VSpacer />-->
 
-            <div class="app-user-search-filter d-flex align-center flex-wrap gap-4">
-              <!-- 👉 Search  -->
-              <div style="inline-size: 10rem;">
-                <AppTextField
-                  v-model="searchQuery"
-                  placeholder="Поиск"
-                  density="compact"
-                />
-              </div>
+<!--            <div class="app-user-search-filter d-flex align-center flex-wrap gap-4">-->
+<!--              &lt;!&ndash; 👉 Search  &ndash;&gt;-->
+<!--              <div style="inline-size: 10rem;">-->
+<!--                <AppTextField-->
+<!--                  v-model="searchQuery"-->
+<!--                  placeholder="Поиск"-->
+<!--                  density="compact"-->
+<!--                />-->
+<!--              </div>-->
 
-              <!-- 👉 Add user button -->
-              <VBtn
-                prepend-icon="tabler-plus"
-                @click="isAddNewUserDrawerVisible = true"
-              >
-                Добавить пользователя
-              </VBtn>
-            </div>
-          </VCardText>
+<!--              &lt;!&ndash; 👉 Add user button &ndash;&gt;-->
+<!--              <VBtn-->
+<!--                prepend-icon="tabler-plus"-->
+<!--                @click="isAddNewUserDrawerVisible = true"-->
+<!--              >-->
+<!--                Добавить пользователя-->
+<!--              </VBtn>-->
+<!--            </div>-->
+<!--          </VCardText>-->
 
-          <VDivider />
+<!--          <VDivider />-->
 
-          <!-- SECTION datatable -->
-          <VDataTableServer
-            v-model:items-per-page="options.itemsPerPage"
-            v-model:page="options.page"
-            :items="users"
-            :items-length="totalUsers"
-            :headers="headers"
-            class="text-no-wrap"
-            @update:options="options = $event"
-          >
-            <!-- User -->
-            <template #item.user="{ item }">
-              <div class="d-flex align-center">
-                <VAvatar
-                  size="34"
-                  :variant="!item.raw.avatar ? 'tonal' : undefined"
-                  :color="!item.raw.avatar ? 'primary' : undefined"
-                  class="me-3"
-                >
-                  <VImg
-                    v-if="item.raw.avatar"
-                    :src="item.raw.avatar"
-                  />
-                  <span v-else>{{ avatarText(item.raw.fullName) }}</span>
-                </VAvatar>
+<!--          &lt;!&ndash; SECTION datatable &ndash;&gt;-->
+<!--          <VDataTableServer-->
+<!--            v-model:items-per-page="options.itemsPerPage"-->
+<!--            v-model:page="options.page"-->
+<!--            :items="users"-->
+<!--            :items-length="totalUsers"-->
+<!--            :headers="headers"-->
+<!--            class="text-no-wrap"-->
+<!--            @update:options="options = $event"-->
+<!--          >-->
+<!--            &lt;!&ndash; User &ndash;&gt;-->
+<!--            <template #item.user="{ item }">-->
+<!--              <div class="d-flex align-center">-->
+<!--                <VAvatar-->
+<!--                  size="34"-->
+<!--                  :variant="!item.raw.avatar ? 'tonal' : undefined"-->
+<!--                  :color="!item.raw.avatar ? 'primary' : undefined"-->
+<!--                  class="me-3"-->
+<!--                >-->
+<!--                  <VImg-->
+<!--                    v-if="item.raw.avatar"-->
+<!--                    :src="item.raw.avatar"-->
+<!--                  />-->
+<!--                  <span v-else>{{ avatarText(item.raw.name) }}</span>-->
+<!--                </VAvatar>-->
 
-                <div class="d-flex flex-column">
-                  <h6 class="text-base">
-                    <RouterLink
-                      :to="{ name: 'users-view-id', params: { id: item.raw.id } }"
-                      class="font-weight-medium user-list-name"
-                    >
-                      {{ item.raw.fullName }}
-                    </RouterLink>
-                  </h6>
-                </div>
-              </div>
-            </template>
+<!--                <div class="d-flex flex-column">-->
+<!--                  <h6 class="text-base">-->
+<!--                    <RouterLink-->
+<!--                      :to="{ name: 'users-view-id', params: { id: item.raw.id } }"-->
+<!--                      class="font-weight-medium user-list-name"-->
+<!--                    >-->
+<!--                      {{ item.raw.name }}-->
+<!--                    </RouterLink>-->
+<!--                  </h6>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </template>-->
 
-            <!-- Email -->
-            <template #item.email="{ item }">
-              <div class="d-flex align-center">
-                <div class="d-flex flex-column">
-                  <span>{{ item.raw.email }}</span>
-                </div>
-              </div>
-            </template>
+<!--            &lt;!&ndash; Email &ndash;&gt;-->
+<!--            <template #item.email="{ item }">-->
+<!--              <div class="d-flex align-center">-->
+<!--                <div class="d-flex flex-column">-->
+<!--                  <span>{{ item.raw.email }}</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </template>-->
 
-            <!-- 👉 Role -->
-            <template #item.role="{ item }">
-              <div class="d-flex align-center gap-1">
-                <VAvatar
-                  :size="30"
-                  color="primary"
-                  variant="tonal"
-                >
-                  <VIcon
-                    :size="20"
-                    icon="tabler-user"
-                  />
-                </VAvatar>
-                <VChip
-                  v-for="role in item.raw.role"
-                  :key="role"
-                  color="primary"
-                  size="small"
-                  label
-                  class="text-capitalize"
-                >
-                  <span>{{ role }}</span>
-                </VChip>
-              </div>
-            </template>
+<!--            &lt;!&ndash; 👉 Role &ndash;&gt;-->
+<!--            <template #item.role="{ item }">-->
+<!--              <div class="d-flex align-center gap-1">-->
+<!--                <VChip-->
+<!--                  v-if="item.raw.mainRole"-->
+<!--                  color="primary"-->
+<!--                  size="small"-->
+<!--                  label-->
+<!--                  class="text-capitalize"-->
+<!--                >-->
+<!--                  <span>{{ item.raw.mainRole }}</span>-->
+<!--                </VChip>-->
+<!--              </div>-->
+<!--            </template>-->
 
-            <!-- 👉 Permission -->
-            <template #item.permission="{ item }">
-              <div class="d-flex align-center gap-1">
-                <VChip
-                  v-for="permission in item.raw.permission"
-                  :key="permission"
-                  color="primary"
-                  size="small"
-                  label
-                  class="text-capitalize"
-                >
-                  <span>{{ permission }}</span>
-                </VChip>
-              </div>
-            </template>
+<!--            &lt;!&ndash; 👉 Permission &ndash;&gt;-->
+<!--            <template #item.permission="{ item }">-->
+<!--              <div class="d-flex align-center gap-1">-->
+<!--                <VChip-->
+<!--                  v-for="permission in item.raw.permission"-->
+<!--                  :key="permission"-->
+<!--                  color="primary"-->
+<!--                  size="small"-->
+<!--                  label-->
+<!--                  class="text-capitalize"-->
+<!--                >-->
+<!--                  <span>{{ permission }}</span>-->
+<!--                </VChip>-->
+<!--              </div>-->
+<!--            </template>-->
 
-            <!-- Actions -->
-            <template #item.actions="{ item }">
-              <IconBtn @click="deleteUser(item.raw)">
-                <VIcon icon="tabler-trash" />
-              </IconBtn>
+<!--            &lt;!&ndash; Actions &ndash;&gt;-->
+<!--            <template #item.actions="{ item }">-->
+<!--              <IconBtn @click="deleteUser(item.raw)">-->
+<!--                <VIcon icon="tabler-trash" />-->
+<!--              </IconBtn>-->
 
-              <IconBtn @click="editUser(item.raw)">
-                <VIcon icon="tabler-edit" />
-              </IconBtn>
+<!--              <IconBtn @click="editUser(item.raw)">-->
+<!--                <VIcon icon="tabler-edit" />-->
+<!--              </IconBtn>-->
 
-              <!--  👉 Delete user dialog -->
-              <DeleteDialog
-                v-model:isDialogVisible="isUserDeleteDialogVisible"
-                @confirm="deleteUserConfirm"
-              />
+<!--              &lt;!&ndash;  👉 Delete user dialog &ndash;&gt;-->
+<!--              <DeleteDialog-->
+<!--                v-model:isDialogVisible="isUserDeleteDialogVisible"-->
+<!--                @confirm="deleteUserConfirm"-->
+<!--              />-->
 
-              <!--  👉 Edit user info dialog -->
-              <UserInfoEditingDialog
-                v-model:isDialogVisible="isUserInfoEditDialogVisible"
-                :user-data="selectedUser"
-              />
-            </template>
+<!--              &lt;!&ndash;  👉 Edit user info dialog &ndash;&gt;-->
+<!--              <UserInfoEditingDialog-->
+<!--                v-model:isDialogVisible="isUserInfoEditDialogVisible"-->
+<!--                :user-data="selectedUser"-->
+<!--              />-->
+<!--            </template>-->
 
-            <!-- pagination -->
-            <template #bottom>
-              <VDivider />
-              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
-                <p class="text-sm text-disabled mb-0">
-                  {{ paginationMeta(options, totalUsers) }}
-                </p>
+<!--            &lt;!&ndash; pagination &ndash;&gt;-->
+<!--            <template #bottom>-->
+<!--              <VDivider />-->
+<!--              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">-->
+<!--                <p class="text-sm text-disabled mb-0">-->
+<!--                  {{ paginationMeta(options, totalUsers) }}-->
+<!--                </p>-->
 
-                <VPagination
-                  v-model="options.page"
-                  :length="Math.ceil(totalUsers / options.itemsPerPage)"
-                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"
-                />
-              </div>
-            </template>
-          </VDataTableServer>
-          <!-- SECTION -->
-        </VCard>
+<!--                <VPagination-->
+<!--                  v-model="options.page"-->
+<!--                  :length="Math.ceil(totalUsers / options.itemsPerPage)"-->
+<!--                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </template>-->
+<!--          </VDataTableServer>-->
+<!--          &lt;!&ndash; SECTION &ndash;&gt;-->
+<!--        </VCard>-->
 
-        <!-- 👉 Add New User -->
-        <AddNewUserDrawer
-          v-model:isDrawerOpen="isAddNewUserDrawerVisible"
-          @user-data="addNewUser"
-        />
-      </vcol>
-    </vrow>
+<!--        &lt;!&ndash; 👉 Add New User &ndash;&gt;-->
+<!--        <AddNewUserDrawer-->
+<!--          v-model:isDrawerOpen="isAddNewUserDrawerVisible"-->
+<!--          @user-data="addNewUser"-->
+<!--        />-->
+<!--      </VCol>-->
+<!--    </VRow>-->
   </section>
 </template>
 

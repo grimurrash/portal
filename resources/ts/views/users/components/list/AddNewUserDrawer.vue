@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
+import {PerfectScrollbar} from 'vue3-perfect-scrollbar'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import type { VForm } from 'vuetify/components/VForm'
+import type {VForm} from 'vuetify/components/VForm'
 
-import { emailValidator, requiredValidator } from '@validators'
-import type { UserProperties } from '@/db/types'
-import { Permission, Role } from '@/db/enums'
+import {emailValidator, requiredValidator} from '@validators'
+import type {UserProperties} from '@/db/types'
+import {Permission, Role} from '@/db/enums'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void

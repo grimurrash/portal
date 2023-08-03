@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Management;
 
 use App\Contracts\User\UserServiceInterface;
 use App\Dto\User\CreateUserDto;
+use App\Dto\User\UserListFilterDto;
+use App\Enums\RoleEnum;
 use App\Enums\RoleAndPermission\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
+use App\Http\Resources\PaginateResource;
 use App\Http\Resources\OptionItemResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -34,6 +37,20 @@ class UserController extends Controller
         );
 
         return response()->json();
+    }
+    public function index(): JsonResponse
+    {
+        $this->authorize('view', User::class);
+        $list = $this->userService->list(new UserListFilterDto(
+            null,
+            null,
+            10,
+            1,
+            'id',
+            true
+        ));
+
+        return response()->json(PaginateResource::make($list));
     }
 
     public function options(): JsonResponse

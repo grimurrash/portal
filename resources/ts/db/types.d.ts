@@ -4,11 +4,11 @@ import {Permission, Role} from "@/db/enums";
 
 export interface UserProperties {
   id: number
-  fullName: string
+  name: string
   email: string
-  role: Array<Role>
-  permission: Array<Permission>
-  avatar: string
+  mainRole?: Array<Role>
+  permission?: Array<Permission>
+  avatar?: string
 }
 
 // !SECTION

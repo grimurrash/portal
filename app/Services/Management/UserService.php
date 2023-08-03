@@ -5,6 +5,8 @@ namespace App\Services\Management;
 use App\Contracts\User\UserRepositoryInterface;
 use App\Contracts\User\UserServiceInterface;
 use App\Dto\User\CreateUserDto;
+use App\Dto\User\UserListDto;
+use App\Dto\User\UserListFilterDto;
 use App\Exceptions\BadRequestException;
 use Throwable;
 
@@ -26,5 +28,9 @@ readonly class UserService implements UserServiceInterface
         } catch (Throwable $exception) {
             throw new BadRequestException('Ошибка создания пользователя', previous: $exception);
         }
+    }
+    public function list(UserListFilterDto $dto): UserListDto
+    {
+        return $this->userRepository->list($dto);
     }
 }
