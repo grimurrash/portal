@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Contracts\User\UserServiceInterface;
 use App\Dto\User\CreateUserDto;
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
 use App\Models\User;

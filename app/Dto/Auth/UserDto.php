@@ -2,8 +2,8 @@
 
 namespace App\Dto\Auth;
 
-use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\PermissionEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 
 readonly class UserDto
 {

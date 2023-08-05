@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Dto\Auth\UserDto;
-use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\PermissionEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 use Database\Factories\UserFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;

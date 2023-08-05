@@ -2,7 +2,7 @@
 
 namespace App\Dto\User;
 
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 
 readonly class CreateUserDto
 {

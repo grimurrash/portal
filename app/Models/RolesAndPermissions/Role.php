@@ -2,7 +2,7 @@
 
 namespace App\Models\RolesAndPermissions;
 
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 use App\Models\User;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;

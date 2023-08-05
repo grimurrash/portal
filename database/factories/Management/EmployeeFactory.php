@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Management;
 
 use App\Enums\Employee\GenderEnum;
-use App\Models\Department;
-use App\Models\Employee;
+use App\Models\Management\Department;
+use App\Models\Management\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -20,7 +20,7 @@ class EmployeeFactory extends Factory
             'department_id' => Department::factory(),
             'phone' => $this->faker->phoneNumber(),
             'work_position' => $this->faker->word(),
-            'date_of_birth' => $this->faker->date(),
+            'date_of_birth' => Carbon::now()->subYears(23)->startOfDay(),
             'gender' => $this->faker->randomElement(GenderEnum::cases()),
             'work_start_date' => Carbon::now()->subMonths(3),
             'created_at' => Carbon::now(),

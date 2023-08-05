@@ -36,7 +36,6 @@ const authLogin = ref<AuthLoginDto>({
 })
 
 const { mutate } = useMutation({
-  mutationKey: 'login',
   mutationFn: (authData: AuthLoginDto) => AuthService.login(authData),
   onSuccess: ({ data }) => {
     const loginResponse: LoginResponse = data

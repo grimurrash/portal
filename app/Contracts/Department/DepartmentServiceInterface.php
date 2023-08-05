@@ -12,5 +12,8 @@ interface DepartmentServiceInterface
 
     public function list(DepartmentListFilterDto $dto): DepartmentListDto;
 
+    public function parentDepartmentOptions(): array;
+    public function allDepartmentOptions(): array;
+
     public function delete(int $id): void;
 }
