@@ -17,6 +17,7 @@ use App\Services\Management\DepartmentService;
 use App\Services\Management\EmployeeService;
 use App\Services\Management\UserService;
 use App\Support\Helper\FileHelper;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
         $this->app->bind(DepartmentServiceInterface::class, DepartmentService::class);
-        
+
         $this->app->bind(EmployeeRepositoryInterface::class, EmployeeRepository::class);
         $this->app->bind(EmployeeServiceInterface::class, EmployeeService::class);
     }
@@ -39,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(FileHelper::getDirectories(__DIR__ . '/../../database/migrations'));
+        Model::preventLazyLoading(!app()->isProduction());
     }
 }

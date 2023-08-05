@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,18 +24,28 @@ class Handler extends ExceptionHandler
                 'message' => 'Не аутентифицированный',
             ], 401);
         });
+        $this->renderable(function (AccessDeniedHttpException $exception) {
+            return response()->json([
+                'message' => 'Недостаточно прав',
+            ], 403);
+        });
 
         $this->renderable(function (Throwable $exception) {
             $message = $exception->getMessage();
 
-            if ($exception->getCode() === 0) {
+            $code = $exception->getCode();
+            if ($code=== 0 || $code > 500 || strlen($code) > 3) {
+                $code = 500;
                 if (app()->environment('production')) {
                     $message = 'Упс, похоже, что-то пошло не так';
                 } else {
                     dd($exception);
                 }
             }
-            return response()->json(['message' => $message], $exception->getCode() === 0 ? 500 : $exception->getCode());
+            return response()->json(
+                ['message' => $message],
+                $code
+            );
         });
     }
 }

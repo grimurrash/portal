@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\RoleEnum;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -13,8 +11,7 @@ class AuthTest extends TestCase
 
     public function testLogin(): void
     {
-        $user = User::factory()->create();
-        $user->assignRole(RoleEnum::EMPLOYEE_MCPS->value);
+        $user = $this->authUser();
         $response = $this->post(route('auth.login'), [
             'email' => $user->email,
             'password' => 'password',
@@ -40,8 +37,7 @@ class AuthTest extends TestCase
 
     public function testLogout(): void
     {
-        $user = User::factory()->create();
-        $user->assignRole(RoleEnum::EMPLOYEE_MCPS->value);
+        $user = $this->authUser();
         $response = $this->post(route('auth.login'), [
             'email' => $user->email,
             'password' => 'password',
@@ -55,8 +51,7 @@ class AuthTest extends TestCase
 
     public function testUser(): void
     {
-        $user = User::factory()->create();
-        $user->assignRole(RoleEnum::EMPLOYEE_MCPS->value);
+        $user = $this->authUser();
         $response = $this->post(route('auth.login'), [
             'email' => $user->email,
             'password' => 'password',

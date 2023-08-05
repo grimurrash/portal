@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
-use App\Models\Department;
-use App\Models\Employee;
+use App\Models\Management\Department;
+use App\Models\Management\Employee;
 use App\Models\User;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeePolicy;

@@ -46,4 +46,13 @@ readonly class DepartmentService implements DepartmentServiceInterface
     {
         return $this->departmentRepository->list($dto);
     }
+
+    public function parentDepartmentOptions(): array
+    {
+        return $this->departmentRepository->parentDepartmentOptions();
+    }
+    public function allDepartmentOptions(): array
+    {
+        return $this->departmentRepository->allDepartmentOptions();
+    }
 }

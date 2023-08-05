@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Management;
 
-use App\Models\Department;
+use App\Models\Management\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -14,8 +14,8 @@ class DepartmentFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'parent_department_id' => $this->faker->randomNumber(),
-            'head_employee_id' => $this->faker->randomNumber(),
+            'parent_department_id' => null,
+            'head_employee_id' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

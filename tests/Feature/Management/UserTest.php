@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Management;
 
-use App\Enums\RoleEnum;
-use App\Models\User;
+use App\Enums\RoleAndPermission\PermissionEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -14,9 +13,7 @@ class UserTest extends TestCase
 
     public function testCreateUser(): void
     {
-        Sanctum::actingAs(
-            User::factory()->create(),
-        );
+        $this->authUser(permission: PermissionEnum::CREATE_USER);
 
         $response = $this->post(route('management.users.create'), [
             'email' => 'test@email.com',

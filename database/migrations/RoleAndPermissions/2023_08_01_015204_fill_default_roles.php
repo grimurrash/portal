@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
+use App\Enums\RoleAndPermission\PermissionEnum;
+use App\Enums\RoleAndPermission\RoleEnum;
 use App\Models\RolesAndPermissions\Permission;
 use App\Models\RolesAndPermissions\Role;
 use Illuminate\Database\Migrations\Migration;

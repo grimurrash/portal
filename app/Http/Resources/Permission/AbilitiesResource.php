@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Permission;
 
-use App\Enums\PermissionEnum;
+use App\Enums\RoleAndPermission\PermissionEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
