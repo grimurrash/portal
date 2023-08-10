@@ -48,14 +48,15 @@ readonly class UserRepository implements UserRepositoryInterface
             tokenExpiredAt: $expiresAt,
         );
     }
-    public function list(UserListFilterDto $dto): UserListDto
+    public function list(UserListFilterDto $filter): UserListDto
     {
-        $query = User::query();
-
+        $list = User::query()
+            ->orderBy($filter->sortColumn, $filter->sortOrder->value)
+            ->paginate(perPage: $filter->perPage, page: $filter->page);
 
         return new UserListDto(
-            items: [],
-            totalCount: 0
+            items: $list->collect()->map(fn(User $item) => $item->toListItemDto())->toArray(),
+            totalCount: $list->total()
         );
     }
 }

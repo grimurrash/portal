@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Dto\Auth\UserDto;
+use App\Dto\User\UserListItemDto;
 use App\Enums\RoleAndPermission\PermissionEnum;
 use App\Enums\RoleAndPermission\RoleEnum;
 use Database\Factories\UserFactory;
@@ -94,6 +95,17 @@ class User extends Authenticatable
             email: $this->email,
             mainRole: $mainRole,
             permissions: $this->getAllPermissions()->pluck('name')->map(fn($item) => PermissionEnum::from($item))->toArray()
+        );
+    }
+
+    public function toListItemDto(): UserListItemDto
+    {
+        $user = $this->toDto();
+        return new UserListItemDto(
+            id: $this->id,
+            name: $this->name,
+            email: $this->email,
+            role: $user->mainRole,
         );
     }
 

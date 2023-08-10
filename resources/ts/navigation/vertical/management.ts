@@ -9,6 +9,6 @@ export default [
   {
     title: 'Пользователи',
     icon: { icon: 'tabler-users' },
-    to: 'users-list',
+    to: 'management-users-list',
   },
 ]

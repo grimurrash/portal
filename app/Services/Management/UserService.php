@@ -29,8 +29,8 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка создания пользователя', previous: $exception);
         }
     }
-    public function list(UserListFilterDto $dto): UserListDto
+    public function list(UserListFilterDto $filter): UserListDto
     {
-        return $this->userRepository->list($dto);
+        return $this->userRepository->list($filter);
     }
 }

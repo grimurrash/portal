@@ -4,9 +4,14 @@ namespace App\Http\Controllers\Management;
 
 use App\Contracts\User\UserServiceInterface;
 use App\Dto\User\CreateUserDto;
+use App\Dto\User\UserListFilterDto;
 use App\Enums\RoleAndPermission\RoleEnum;
+use App\Enums\SortOrderEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
+use App\Http\Requests\Management\User\UserListRequest;
+use App\Http\Resources\PaginateResource;
+use App\Models\Management\Department;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -21,7 +26,6 @@ class UserController extends Controller
     public function create(CreateUserRequest $request): JsonResponse
     {
         $this->authorize('create', User::class);
-
         $this->userService->createUser(
             new CreateUserDto(
                 name: $request->get('name'),
@@ -31,7 +35,19 @@ class UserController extends Controller
                 isEmailVerified: $request->boolean('is_email_verified'),
             )
         );
-
         return response()->json();
+    }
+
+    public function index(UserListRequest $request): JsonResponse
+    {
+        $this->authorize('view', Department::class);
+        $list = $this->userService->list(new UserListFilterDto(
+            search: $request->get('search'),
+            perPage: $request->integer('per_page', 10),
+            page: $request->integer('page', 1),
+            sortColumn: $request->get('sort_column', 'id'),
+            sortOrder: SortOrderEnum::from($request->get('sort_order', SortOrderEnum::DESC->value))
+        ));
+        return response()->json(PaginateResource::make($list));
     }
 }

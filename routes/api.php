@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
-        Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
-            Route::post('create', [UserController::class, 'create'])->name('create');
-            Route::get('index', [UserController::class, 'index'])->name('index');
-        });
+        Route::resource('users', UserController::class);
+//        Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+//            Route::post('create', [UserController::class, 'create'])->name('create');
+//            Route::get('index', [UserController::class, 'index'])->name('index');
+//        });
 
         Route::group(['prefix' => 'departments', 'as' => 'departments.'], function () {
            Route::get('', [DepartmentController::class, 'index'])->name('list');
