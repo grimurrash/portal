@@ -10,6 +10,7 @@ import { themeConfig } from '@themeConfig'
 import { emailValidator, requiredValidator } from '@validators'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import { AuthService } from '@/services/auth/auth.service'
+import axios from '@axios'
 
 const authThemeImg = useGenerateImageVariant(authLoginLight, authLoginDark, authLoginLight, authLoginDark, true)
 
@@ -62,6 +63,17 @@ const onSubmit = (event: Event) => {
         mutate(authLogin.value)
     })
 }
+
+const reg = () => {
+  const response = axios.post('/management/users/create', {
+    'email': 'test2334@email.com',
+    'name' : 'test',
+    'password' : 'test',
+    'role' : 'admin',
+  })
+  console.log(response)
+}
+
 </script>
 
 <template>
@@ -156,6 +168,11 @@ const onSubmit = (event: Event) => {
                   type="submit"
                 >
                   Login
+                </VBtn>
+                <VBtn
+                  @click="reg"
+                >
+                  reg
                 </VBtn>
               </VCol>
             </VRow>

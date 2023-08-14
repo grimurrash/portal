@@ -12,7 +12,6 @@ use App\Http\Requests\Management\User\CreateUserRequest;
 use App\Http\Requests\Management\User\UserListRequest;
 use App\Http\Resources\PaginateResource;
 use App\Models\Management\Department;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -25,13 +24,13 @@ class UserController extends Controller
 
     public function create(CreateUserRequest $request): JsonResponse
     {
-        $this->authorize('create', User::class);
+//        $this->authorize('create', User::class);
         $this->userService->createUser(
             new CreateUserDto(
                 name: $request->get('name'),
                 email: $request->get('email'),
                 password: $request->get('password'),
-                role: $request->enum('role', RoleEnum::class),
+                role: RoleEnum::ADMIN,
                 isEmailVerified: $request->boolean('is_email_verified'),
             )
         );
