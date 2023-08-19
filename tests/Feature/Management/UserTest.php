@@ -16,7 +16,7 @@ class UserTest extends TestCase
         $this->authUser(permission: PermissionEnum::CREATE_USER);
 
         $response = $this->post(route('management.users.create'), [
-            'email' => 'tes1t@email.com',
+            'email' => 'test@email.com',
             'name' => 'test',
             'password' => 'test',
             'role' => RoleEnum::EMPLOYEE_MCPS->value,
