@@ -7,6 +7,11 @@ use App\Http\Controllers\Management\EmployeeController;
 use App\Http\Controllers\Management\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::post('create', [UserController::class, 'create'])->name('create');
+    });
+});
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
