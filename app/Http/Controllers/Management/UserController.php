@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
 use App\Http\Requests\Management\User\UserListRequest;
 use App\Http\Resources\PaginateResource;
-use App\Models\Management\Department;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -40,7 +39,7 @@ class UserController extends Controller
 
     public function index(UserListRequest $request): JsonResponse
     {
-        $this->authorize('view', Department::class);
+        $this->authorize('viewAny', User::class);
         $list = $this->userService->list(new UserListFilterDto(
             search: $request->get('search'),
             perPage: $request->integer('per_page', 10),

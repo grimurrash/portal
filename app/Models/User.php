@@ -97,7 +97,7 @@ class User extends Authenticatable
             permissions: $this->getAllPermissions()->pluck('name')->map(fn($item) => PermissionEnum::from($item))->toArray()
         );
     }
-
+    
     public function toListItemDto(): UserListItemDto
     {
         $user = $this->toDto();

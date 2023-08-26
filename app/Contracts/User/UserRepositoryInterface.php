@@ -15,5 +15,5 @@ interface UserRepositoryInterface
     public function login(LoginDto $dto): LoggedUserDto;
 
 
-    public function list(UserListFilterDto $filter): UserListDto;
+    public function list(UserListFilterDto $dto): UserListDto;
 }

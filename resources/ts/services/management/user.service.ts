@@ -9,7 +9,7 @@ export const UserService = {
     if (data.options.sortBy.length > 0)
       sortBy = data.options.sortBy[0]
 
-    return axios.get<UserListResponse>('/management/users', {
+    return axios.get<UserListResponse>('/management/users/index', {
       params: {
         search: data.options.search,
         page: data.options.page,
