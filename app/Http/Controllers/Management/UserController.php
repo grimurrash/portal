@@ -15,7 +15,6 @@ use App\Http\Requests\Management\User\UpdateUserRequest;
 use App\Http\Requests\Management\User\UserListRequest;
 use App\Http\Resources\OptionItemResource;
 use App\Http\Resources\PaginateResource;
-use App\Models\Management\Department;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
