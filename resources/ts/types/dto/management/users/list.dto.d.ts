@@ -9,3 +9,4 @@ declare interface UserListRequestDto {
   filters: UserListFilterDto,
   options: TableOptions
 }
+

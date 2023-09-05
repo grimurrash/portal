@@ -8,13 +8,19 @@ declare interface UserListItemModel {
   roles: Array<RoleEnum>
   permissions: Array<PermissionEnum>
 }
-declare interface UserListResponse extends PaginateListResponse {
+
+declare interface UserOptionItemModel {
+  id: number
+  name: string
+}
+
+declare interface UserListResponse extends PaginateListResponse{
   items: Array<UserListItemModel>
 }
 declare interface ShowUserResponse {
   id: number
   name: string
   email: string
-  roles: Array<RoleEnumEn>
-  permissions: Array<PermissionEnumEn>
+  role: RoleEnum
+  permission: PermissionEnum
 }

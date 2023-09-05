@@ -10,6 +10,10 @@ const tabs = [
   { icon: 'tabler-user-check', title: 'Подробно', key: 'account' },
   { icon: 'tabler-lock', title: 'Безопасность', key: 'security' },
 ]
+
+userListStore.fetchUser(Number(route.params.id)).then(response => {
+  userData.value = response.data
+})
 </script>
 
 <template>

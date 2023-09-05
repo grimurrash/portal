@@ -90,6 +90,39 @@ readonly class UserRepository implements UserRepositoryInterface
     {
         User::where('id', $id)->delete();
     }
+    public function list(UserListFilterDto $dto): UserListDto
+    {
+        $list = User::query()
+            ->orderBy($dto->sortColumn, $dto->sortOrder->value)
+            ->paginate(perPage: $dto->perPage, page: $dto->page);
+
+        return new UserListDto(
+            items: $list->collect()->map(fn(User $item) => $item->toListItemDto())->toArray(),
+            totalCount: $list->total()
+        );
+    }
+    public function show(int $id): ShowUserDto
+    {
+        $user = User::where('id', $id)->first()->toDto();
+        return new ShowUserDto(
+            id: $user->id,
+            name: $user->name,
+            email: $user->email,
+            role: $user->mainRole,
+            permissions: $user->permissions
+        );
+    }
+    public function update(UpdateUserDto $dto): void
+    {
+        User::where('id', $dto->id)->update([
+            'name' => $dto->name,
+            'email' => $dto->email,
+        ]);
+    }
+    public function delete(int $id): void
+    {
+        User::where('id', $id)->delete();
+    }
 
     public function login(LoginDto $dto): LoggedUserDto
     {

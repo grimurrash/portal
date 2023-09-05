@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import {PerfectScrollbar} from 'vue3-perfect-scrollbar'
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import type {VForm} from 'vuetify/components/VForm'
+import type { VForm } from 'vuetify/components/VForm'
 
-import {emailValidator, requiredValidator} from '@validators'
-import type {UserProperties} from '@/db/types'
-import {Permission, Role} from '@/db/enums'
+import { emailValidator, requiredValidator } from '@validators'
+import { PermissionEnum } from '@/types/enums/permission.enum'
+import { RoleEnum } from '@/types/enums/role.enum'
+import { useMutation } from '@tanstack/vue-query'
+import { UserService } from '@/services/management/user.service'
+import { CreateUserDto } from '@/types/dto/management/users/create.dto'
 
 interface Emit {
   (e: 'update:isDrawerOpen', value: boolean): void
-  (e: 'userData', value: UserProperties): void
 }
 
 defineOptions({
@@ -25,32 +27,31 @@ const emit = defineEmits<Emit>()
 
 const isFormValid = ref(false)
 const refForm = ref<VForm>()
-const fullName = ref('')
-const email = ref('')
-const role = ref([])
-const permission = ref([])
+const isPasswordVisible = ref(false)
+const createUser = ref<CreateUserDto>({
+  name: '',
+  email: '',
+  password: '',
+  role: undefined,
+  isEmailVerified: false,
+})
 
 // 👉 drawer close
 const closeNavigationDrawer = () => {
   emit('update:isDrawerOpen', false)
-
   nextTick(() => {
     refForm.value?.reset()
     refForm.value?.resetValidation()
   })
 }
+const { mutate } = useMutation({
+  mutationFn: (userData: CreateUserDto) => UserService.create(userData),
+})
 
 const onSubmit = () => {
   refForm.value?.validate().then(({ valid }) => {
     if (valid) {
-      emit('userData', {
-        id: 0,
-        fullName: fullName.value,
-        email: email.value,
-        role: role.value,
-        permission: permission.value,
-        avatar: '',
-      })
+      mutate(createUser.value)
       emit('update:isDrawerOpen', false)
       nextTick(() => {
         refForm.value?.reset()
@@ -93,7 +94,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Full name -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="fullName"
+                  v-model="createUser.name"
                   :rules="[requiredValidator]"
                   label="ФИО"
                 />
@@ -102,20 +103,31 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Email -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="email"
+                  v-model="createUser.email"
                   :rules="[requiredValidator, emailValidator]"
                   label="Электронная почта"
+                />
+              </VCol>
+
+              <!-- 👉 Password -->
+              <VCol cols="12">
+                <AppTextField
+                  v-model="createUser.password"
+                  label="Пароль"
+                  :rules="[requiredValidator]"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
               </VCol>
 
               <!-- 👉 Role -->
               <VCol cols="12">
                 <AppSelect
-                  v-model="role"
+                  v-model="createUser.role"
                   label="Роль"
                   :rules="[requiredValidator]"
-                  :items="Object.values(Role)"
-                  multiple
+                  :items="Object.values(RoleEnum)"
                   chips
                 />
               </VCol>
@@ -123,11 +135,9 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Permission -->
               <VCol cols="12">
                 <AppSelect
-                  v-model="permission"
                   label="Права доступа"
                   :rules="[requiredValidator]"
-                  :items="Object.values(Permission)"
-                  multiple
+                  :items="Object.values(PermissionEnum)"
                   chips
                 />
               </VCol>

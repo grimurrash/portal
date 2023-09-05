@@ -11,3 +11,9 @@ export const RoleNames = {
   [RoleEnum.external_employee]: 'Внешний сотрудник',
   [RoleEnum.organizer]: 'Организатор проектов',
 }
+export enum RoleEnumEn {
+  admin = 'admin',
+  employee = 'employee',
+  external_employee = 'external_employee',
+}
+

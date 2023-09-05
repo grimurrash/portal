@@ -299,6 +299,6 @@ const editUser = (user: UserProperties) => {
 
 <route lang="yaml">
 meta:
-action: read
-subject: User
+  action: read
+  subject: User
 </route>

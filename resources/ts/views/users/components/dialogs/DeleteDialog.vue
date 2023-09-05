@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useMutation } from '@tanstack/vue-query'
+import { UserService } from '@/services/management/user.service'
+
 interface Props {
   isDialogVisible: boolean
+  userData: any
 }
 defineOptions({
   name: 'DeleteDialog',
@@ -14,9 +18,14 @@ interface Emit {
 const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
 
+const { mutate } = useMutation({
+  mutationFn: (id: number) => UserService.delete(id),
+})
+
 const onConfirm = () => {
-  emit('update:isDialogVisible', false)
+  mutate(props.userData.id)
   emit('confirm')
+  emit('update:isDialogVisible', false)
 }
 
 const dialogModelValueUpdate = (val: boolean) => {
@@ -32,7 +41,7 @@ const dialogModelValueUpdate = (val: boolean) => {
   >
     <VCard>
       <VCardTitle>
-        Are you sure you want to delete this item?
+        Вы уверены, что хотите удалить этот элемент?
       </VCardTitle>
 
       <VCardActions>
@@ -43,7 +52,7 @@ const dialogModelValueUpdate = (val: boolean) => {
           variant="outlined"
           @click="dialogModelValueUpdate(false)"
         >
-          Cancel
+          Отмена
         </VBtn>
 
         <VBtn
@@ -51,7 +60,7 @@ const dialogModelValueUpdate = (val: boolean) => {
           variant="elevated"
           @click="onConfirm"
         >
-          OK
+          Да
         </VBtn>
 
         <VSpacer />
@@ -59,3 +68,9 @@ const dialogModelValueUpdate = (val: boolean) => {
     </VCard>
   </VDialog>
 </template>
+
+<route lang="yaml">
+meta:
+  action: read
+  subject: User
+</route>

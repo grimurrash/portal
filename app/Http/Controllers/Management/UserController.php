@@ -85,4 +85,3 @@ class UserController extends Controller
         return response()->json(OptionItemResource::collection($list));
     }
 }
-

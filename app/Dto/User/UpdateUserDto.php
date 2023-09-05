@@ -18,8 +18,8 @@ readonly class UpdateUserDto
         public int              $id,
         public string           $name,
         public string           $email,
-        public array|null    $roles,
-        public array|null    $permissions,
+        public array|null       $roles,
+        public array|null       $permissions,
     )
     {
     }

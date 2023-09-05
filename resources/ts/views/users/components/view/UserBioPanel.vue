@@ -1,29 +1,32 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query'
+import { UserService } from '@/services/management/user.service'
+import { ShowUserResponse } from '@/types/model/management/user.model'
+import { toRoleEnumRu } from '@/types/enums/utils'
 import { avatarText } from '@core/utils/formatters'
-import type { Permission, Role } from '@/db/enums'
-import { useUserListStore } from '@/views/users/useUserListStore'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
+import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
 
 defineOptions({
   name: 'UserBioPanel',
 })
 interface Props {
-  userData: {
-    id: number
-    fullName: string
-    email: string
-    role: Array<Role>
-    permission: Array<Permission>
-    avatar: string
-  }
+  userId: number
 }
 
 const props = defineProps<Props>()
-const userListStore = useUserListStore()
 const isUserInfoEditDialogVisible = ref(false)
+const isUserDeleteDialogVisible = ref(false)
 
-const deleteUser = (id: number) => {
-  userListStore.deleteUser(id)
+const { data: showQueryResult } = useQuery({
+  queryKey: ['show-user'],
+  queryFn: () => UserService.show(props.userId)
+})
+
+const user = computed((): ShowUserResponse => showQueryResult.value?.data ?? undefined)
+
+const update = () => {
+  
 }
 </script>
 
@@ -31,43 +34,43 @@ const deleteUser = (id: number) => {
   <VRow>
     <!-- SECTION User Details -->
     <VCol cols="12">
-      <VCard v-if="props.userData">
+      <VCard v-if="user">
         <VCardText class="text-center pt-15">
           <!-- 👉 Avatar -->
           <VAvatar
             rounded
             :size="100"
-            :color="!props.userData.avatar ? 'primary' : undefined"
-            :variant="!props.userData.avatar ? 'tonal' : undefined"
+            :color="!user.avatar ? 'primary' : undefined"
+            :variant="!user.avatar ? 'tonal' : undefined"
           >
             <VImg
-              v-if="props.userData.avatar"
-              :src="props.userData.avatar"
+              v-if="user.avatar"
+              :src="user.avatar"
             />
             <span
               v-else
               class="text-5xl font-weight-medium"
             >
-              {{ avatarText(props.userData.fullName) }}
+              {{ avatarText(user.name) }}
             </span>
           </VAvatar>
 
           <!-- 👉 User fullName -->
           <h6 class="text-h4 mt-4">
-            {{ props.userData.fullName }}
+            {{ user.name }}
           </h6>
 
           <!-- 👉 Role chip -->
           <div class="d-flex justify-center gap-1">
             <VChip
-              v-for="role in props.userData.role"
+              v-for="role in [user.role]"
               :key="role"
               color="primary"
               size="small"
               label
               class="text-capitalize mt-3"
             >
-              <span>{{ role }}</span>
+              <span>{{ toRoleEnumRu(role) }}</span>
             </VChip>
           </div>
         </VCardText>
@@ -79,7 +82,6 @@ const deleteUser = (id: number) => {
           <p class="text-sm text-uppercase text-disabled">
             Подробности
           </p>
-
           <!-- 👉 User Details list -->
           <VList class="card-list mt-2">
             <VListItem>
@@ -87,7 +89,7 @@ const deleteUser = (id: number) => {
                 <h6 class="text-h6">
                   ФИО:
                   <span class="text-body-1">
-                    {{ props.userData.fullName }}
+                    {{ user.name }}
                   </span>
                 </h6>
               </VListItemTitle>
@@ -97,7 +99,7 @@ const deleteUser = (id: number) => {
               <VListItemTitle>
                 <h6 class="text-h6">
                   Электронная почта:
-                  <span class="text-body-1">{{ props.userData.email }}</span>
+                  <span class="text-body-1">{{ user.email }}</span>
                 </h6>
               </VListItemTitle>
             </VListItem>
@@ -109,7 +111,8 @@ const deleteUser = (id: number) => {
                     Права доступа:
                   </h6>
                   <VChip
-                    v-for="permission in props.userData.permission"
+                    v-if="user.permission"
+                    v-for="permission in [user.permissions]"
                     :key="permission"
                     color="primary"
                     size="small"
@@ -124,7 +127,7 @@ const deleteUser = (id: number) => {
           </VList>
         </VCardText>
 
-        <!-- 👉 Edit and Suspend button -->
+        <!-- 👉 Edit and Delete button -->
         <VCardText class="d-flex justify-center">
           <VBtn
             variant="elevated"
@@ -133,12 +136,10 @@ const deleteUser = (id: number) => {
           >
             Редактировать
           </VBtn>
-
           <VBtn
             variant="tonal"
             color="error"
-            :to="{ name: 'users-list' }"
-            @click="deleteUser(props.userData.id)"
+            @click="isUserDeleteDialogVisible = true"
           >
             Удалить
           </VBtn>
@@ -151,7 +152,15 @@ const deleteUser = (id: number) => {
   <!--  👉 Edit user info dialog -->
   <UserInfoEditingDialog
     v-model:isDialogVisible="isUserInfoEditDialogVisible"
-    :user-data="props.userData"
+    :user-data="user"
+    @submit="update"
+  />
+
+  <!--  👉 Delete user dialog -->
+  <DeleteDialog
+    v-model:isDialogVisible="isUserDeleteDialogVisible"
+    :user-data="user"
+    @confirm="update"
   />
 </template>
 
