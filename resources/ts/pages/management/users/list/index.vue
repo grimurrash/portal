@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UserProperties } from '@/db/types'
-import { useUserListStore } from '@/views/users/useUserListStore'
 import { avatarText } from '@core/utils/formatters'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import { useQuery } from '@tanstack/vue-query'
@@ -10,22 +9,19 @@ import { UserListFilterDto } from '@/types/dto/management/users/list.dto'
 import { UserListItemModel } from '@/types/model/management/user.model'
 import { RoleEnum } from '@/types/enums/role.enum'
 import { PermissionEnum } from '@/types/enums/permission.enum'
+import { paginationMeta } from '@/db/utils'
+import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
+import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
+import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
+import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
 
-// 👉 Store
-const userListStore = useUserListStore()
-const searchQuery = ref('')
-const selectedRole = ref()
-const selectedPermission = ref()
-const totalPages = ref(1)
-const totalUsers = ref(0)
 const isAddNewUserDrawerVisible = ref(false)
 const isUserInfoEditDialogVisible = ref(false)
 const isUserDeleteDialogVisible = ref(false)
 const selectedUser = ref()
 
-// Headers
 const headers = [
-  { title: 'ФИО', key: 'user' },
+  { title: 'ФИО', key: 'name' },
   { title: 'ЭЛЕКТРОННАЯ ПОЧТА', key: 'email' },
   { title: 'РОЛЬ', key: 'role', sortable: false },
   { title: 'ПРАВА ДОСТУПА', key: 'permission', sortable: false },
@@ -41,45 +37,32 @@ const options: Ref<TableOptions> = ref<TableOptions>({
 
 const filters: Ref<UserListFilterDto> = ref<UserListFilterDto>({
   role: undefined,
+  permission: undefined,
 })
+
 const queryKeys = computed(() => {
   return {
-    options: options.value,
-    filters: filters.value,
+    options: options,
+    filters: filters,
   }
 })
 
 const { data: mainListQueryResult } = useQuery({
   queryKey: ['users', 'main-list', queryKeys],
   queryFn: () => UserService.list({
-    filters: filters.value,
-    options: options.value,
+    filters: queryKeys.value.filters.value,
+    options: queryKeys.value.options.value,
   }),
   keepPreviousData: true,
 })
 
 const users = computed((): UserListItemModel[] => mainListQueryResult.value?.data.items ?? [])
-const totalItemCount = computed((): number => mainListQueryResult.value?.data.total_count ?? 0)
+const totalUsers = computed((): number => mainListQueryResult.value?.data.total_count ?? 0)
 
-const check = () => {
-  console.log(users)
-}
-
-// 👉 Add new user
-const addNewUser = (userData: UserProperties) => {
-  userListStore.addUser(userData)
-}
-
-// 👉 Delete user
 const deleteUser = (user: UserProperties) => {
   isUserDeleteDialogVisible.value = true
   selectedUser.value = user
 }
-
-const deleteUserConfirm = () => {
-  userListStore.deleteUser(selectedUser.value.id)
-}
-
 const editUser = (user: UserProperties) => {
   isUserInfoEditDialogVisible.value = true
   selectedUser.value = user
@@ -100,11 +83,10 @@ const editUser = (user: UserProperties) => {
                 sm="4"
               >
                 <AppSelect
-                  v-model="selectedRole"
+                  v-model="filters.role"
                   label="Роль"
                   :items="Object.values(RoleEnum)"
                   clearable
-                  multiple
                   clear-icon="tabler-x"
                 />
               </VCol>
@@ -115,11 +97,10 @@ const editUser = (user: UserProperties) => {
                 sm="4"
               >
                 <AppSelect
-                  v-model="selectedPermission"
+                  v-model="filters.permission"
                   label="Права доступа"
                   :items="Object.values(PermissionEnum)"
                   clearable
-                  multiple
                   clear-icon="tabler-x"
                 />
               </VCol>
@@ -137,7 +118,7 @@ const editUser = (user: UserProperties) => {
                   { value: 25, title: '25' },
                   { value: 50, title: '50' },
                   { value: 100, title: '100' },
-                  { value: -1, title: 'All' },
+                  // { value: -1, title: 'All' },
                 ]"
                 style="width: 6.25rem;"
                 @update:model-value="options.itemsPerPage = parseInt($event, 10)"
@@ -149,7 +130,7 @@ const editUser = (user: UserProperties) => {
               <!-- 👉 Search  -->
               <div style="inline-size: 10rem;">
                 <AppTextField
-                  v-model="searchQuery"
+                  v-model="options.search"
                   placeholder="Поиск"
                   density="compact"
                 />
@@ -162,10 +143,6 @@ const editUser = (user: UserProperties) => {
               >
                 Добавить пользователя
               </VBtn>
-              <VBtn
-                prepend-icon="tabler-plus"
-                @click="check"
-              />
             </div>
           </VCardText>
 
@@ -182,7 +159,7 @@ const editUser = (user: UserProperties) => {
             @update:options="options = $event"
           >
             <!-- User -->
-            <template #item.user="{ item }">
+            <template #item.name="{ item }">
               <div class="d-flex align-center">
                 <VAvatar
                   size="34"
@@ -229,7 +206,7 @@ const editUser = (user: UserProperties) => {
                   label
                   class="text-capitalize"
                 >
-                  <span>{{ item.raw.role }}</span>
+                  <span>{{ toRoleEnumRu(item.raw.role) }}</span>
                 </VChip>
               </div>
             </template>
@@ -245,7 +222,7 @@ const editUser = (user: UserProperties) => {
                   label
                   class="text-capitalize"
                 >
-                  <span>{{ permission }}</span>
+                  <span>{{ toPermissionEnumRu(permission) }}</span>
                 </VChip>
               </div>
             </template>
@@ -260,43 +237,42 @@ const editUser = (user: UserProperties) => {
                 <VIcon icon="tabler-edit" />
               </IconBtn>
 
-<!--              &lt;!&ndash;  👉 Delete user dialog &ndash;&gt;-->
-<!--              <DeleteDialog-->
-<!--                v-model:isDialogVisible="isUserDeleteDialogVisible"-->
-<!--                @confirm="deleteUserConfirm"-->
-<!--              />-->
+              <!--  👉 Delete user dialog -->
+              <DeleteDialog
+                v-model:isDialogVisible="isUserDeleteDialogVisible"
+                :user-data="selectedUser"
+              />
 
-<!--              &lt;!&ndash;  👉 Edit user info dialog &ndash;&gt;-->
-<!--              <UserInfoEditingDialog-->
-<!--                v-model:isDialogVisible="isUserInfoEditDialogVisible"-->
-<!--                :user-data="selectedUser"-->
-<!--              />-->
+              <!--  👉 Edit user info dialog -->
+              <UserInfoEditingDialog
+                v-model:isDialogVisible="isUserInfoEditDialogVisible"
+                :user-data="selectedUser"
+              />
             </template>
 
             <!-- pagination -->
-<!--            <template #bottom>-->
-<!--              <VDivider />-->
-<!--              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">-->
-<!--                <p class="text-sm text-disabled mb-0">-->
-<!--                  {{ paginationMeta(options, totalUsers) }}-->
-<!--                </p>-->
+            <template #bottom>
+              <VDivider />
+              <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
+                <p class="text-sm text-disabled mb-0">
+                  {{ paginationMeta(options, totalUsers) }}
+                </p>
 
-<!--                <VPagination-->
-<!--                  v-model="options.page"-->
-<!--                  :length="Math.ceil(totalUsers / options.itemsPerPage)"-->
-<!--                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </template>-->
+                <VPagination
+                  v-model="options.page"
+                  :length="Math.ceil(totalUsers / options.itemsPerPage)"
+                  :total-visible="$vuetify.display.xs ? 1 : Math.ceil(totalUsers / options.itemsPerPage)"
+                />
+              </div>
+            </template>
           </VDataTableServer>
           <!-- SECTION -->
         </VCard>
 
-<!--        &lt;!&ndash; 👉 Add New User &ndash;&gt;-->
-<!--        <AddNewUserDrawer-->
-<!--          v-model:isDrawerOpen="isAddNewUserDrawerVisible"-->
-<!--          @user-data="addNewUser"-->
-<!--        />-->
+        <!-- 👉 Add New User -->
+        <AddNewUserDrawer
+          v-model:isDrawerOpen="isAddNewUserDrawerVisible"
+        />
       </VCol>
     </VRow>
   </section>
@@ -315,3 +291,9 @@ const editUser = (user: UserProperties) => {
   color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
 }
 </style>
+
+<route lang="yaml">
+meta:
+  action: read
+  subject: User
+</route>

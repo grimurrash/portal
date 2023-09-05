@@ -1,13 +1,14 @@
 // SECTION
 // Management: User
-import {Permission, Role} from "@/db/enums";
+import { PermissionEnum } from '@/types/enums/permission.enum'
+import { RoleEnum } from '@/types/enums/role.enum'
 
 export interface UserProperties {
   id: number
   name: string
   email: string
-  mainRole?: Array<Role>
-  permission?: Array<Permission>
+  mainRole?: RoleEnum
+  permission?: PermissionEnum
   avatar?: string
 }
 

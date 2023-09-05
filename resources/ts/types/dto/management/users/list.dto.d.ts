@@ -1,10 +1,13 @@
-import { RoleEnum } from '@/types/enums/role.enum'
+import { PermissionEnumEn } from '@/types/enums/permission.enum'
+import { RoleEnumEn } from '@/types/enums/role.enum'
 
 declare interface UserListFilterDto {
-  role: RoleEnum | undefined
+  role: RoleEnumEn | undefined
+  permission: PermissionEnumEn | undefined
 }
 
 declare interface UserListRequestDto {
   filters: UserListFilterDto,
   options: TableOptions
 }
+
