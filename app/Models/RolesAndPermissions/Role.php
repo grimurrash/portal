@@ -31,4 +31,6 @@ class Role extends BaseRole
     protected $casts = [
         'name' => RoleEnum::class
     ];
+
+    protected $guarded = ['id'];
 }

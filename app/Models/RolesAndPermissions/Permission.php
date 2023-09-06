@@ -33,4 +33,6 @@ class Permission extends BasePermission
     protected $casts = [
         'name' => PermissionEnum::class
     ];
+
+    protected $guarded = ['id'];
 }

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class assignRoleCommand extends Command
+class AssignRoleCommand extends Command
 {
     protected $signature = 'permissions:assign-role { email : Электронная почта } { role : Роль}';
 
