@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import { paginationMeta } from '@/db/utils'
+import { paginationMeta } from '@/utils/utils'
 import type { Options } from '@core/types'
-import { useWordCloudStore } from '@/views/events/word-cloud/useWordCloudStore'
+import { useWordCloudStore } from '@/views/word-cloud/useWordCloudStore'
 import type { WordCloudProperties } from '@/db/types'
 import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
-import AddNewWordCloudDrawer from '@/views/events/word-cloud/compoments/drawers/AddNewWordCloudDrawer.vue'
-import EditWordCloudDrawer from '@/views/events/word-cloud/compoments/drawers/EditWordCloudDrawer.vue'
+import AddNewWordCloudDrawer from '@/views/word-cloud/compoments/drawers/AddNewWordCloudDrawer.vue'
+import EditWordCloudDrawer from '@/views/word-cloud/compoments/drawers/EditWordCloudDrawer.vue'
 
 // 👉 Store
 const wordCloudStore = useWordCloudStore()

@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\Employee\EmployeeListRequest;
 use App\Http\Requests\Management\Employee\EmployeeOptionsByDepartmentRequest;
 use App\Http\Requests\Management\Employee\ImportEmployeeRequest;
-use App\Http\Resources\Management\Employee\EmployeeOptionItemResource;
+use App\Http\Resources\OptionItemResource;
 use App\Http\Resources\PaginateResource;
 use App\Models\Management\Employee;
 use Illuminate\Http\JsonResponse;
@@ -56,8 +56,7 @@ class EmployeeController extends Controller
 
     public function optionsByDepartment(EmployeeOptionsByDepartmentRequest $request): JsonResponse
     {
-        $this->authorize('view', Employee::class);
         $list = $this->employeeService->optionsByDepartment($request->get('department_id'));
-        return response()->json(EmployeeOptionItemResource::collection($list));
+        return response()->json(OptionItemResource::collection($list));
     }
 }

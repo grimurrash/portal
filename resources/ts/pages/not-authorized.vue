@@ -11,17 +11,15 @@ const authThemeMask = useGenerateImageVariant(miscMaskLight, miscMaskDark)
 <template>
   <div class="misc-wrapper">
     <div class="misc-center-content text-center mb-12">
-      <!-- 👉 Title and subtitle -->
       <h4 class="text-h4 font-weight-medium mb-3">
-        You are not authorized! 🔐
+        Вы не авторизованы! 🔐
       </h4>
-      <p>You don't have permission to access this page. Go Home!</p>
+      <p>У вас нет разрешения на доступ к этой странице!</p>
       <VBtn to="/">
-        Back to Home
+        Вернуться на главную страницу
       </VBtn>
     </div>
 
-    <!-- 👉 Image -->
     <div class="misc-avatar w-100 text-center">
       <VImg
         :src="page401"

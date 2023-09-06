@@ -2,6 +2,10 @@
 interface Props {
   isDialogVisible: boolean
 }
+defineOptions({
+  name: 'DeleteDialog',
+})
+
 interface Emit {
   (e: 'confirm'): void
   (e: 'update:isDialogVisible', val: boolean): void

@@ -5,15 +5,15 @@ namespace App\Repositories;
 use App\Contracts\Department\DepartmentRepositoryInterface;
 use App\Dto\Department\DepartmentListDto;
 use App\Dto\Department\DepartmentListFilterDto;
-use App\Dto\Department\DepartmentOptionItemDto;
 use App\Dto\Department\UpdateDepartmentDto;
+use App\Dto\OptionItemDto;
 use App\Models\Management\Department;
 use Illuminate\Support\Collection;
 
 readonly class DepartmentRepository implements DepartmentRepositoryInterface
 {
     /**
-     * @return Collection<DepartmentOptionItemDto>
+     * @return Collection<OptionItemDto>
      */
     public function getImportList(): Collection
     {
@@ -21,7 +21,7 @@ readonly class DepartmentRepository implements DepartmentRepositoryInterface
             ->map(fn(Department $department) => $department->toOptionItemDto());
     }
 
-    public function create(string $name): DepartmentOptionItemDto
+    public function create(string $name): OptionItemDto
     {
         $department = Department::where('name', $name)->first();
 

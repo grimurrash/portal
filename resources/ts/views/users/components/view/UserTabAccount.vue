@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+defineOptions({
+  name: 'UserTabAccount',
+})
 </script>
 
 <template>

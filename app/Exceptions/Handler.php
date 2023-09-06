@@ -14,7 +14,9 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (ValidationException $exception) {
             return response()->json([
-                'errors' => $exception->errors(),
+                'errors' => array_map(function ($errors) {
+                    return $errors[0] ?? null;
+                }, $exception->errors()),
                 'message' => $exception->getMessage(),
             ], 422);
         });

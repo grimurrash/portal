@@ -12,6 +12,10 @@ interface Emit {
   (e: 'userData', value: UserProperties): void
 }
 
+defineOptions({
+  name: 'AddNewUserDrawer',
+})
+
 interface Props {
   isDrawerOpen: boolean
 }

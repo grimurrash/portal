@@ -7,11 +7,15 @@ use App\Contracts\Department\DepartmentRepositoryInterface;
 use App\Contracts\Department\DepartmentServiceInterface;
 use App\Contracts\Employee\EmployeeRepositoryInterface;
 use App\Contracts\Employee\EmployeeServiceInterface;
+use App\Contracts\OrganizationProject\OrganizationProjectRepositoryInterface;
+use App\Contracts\OrganizationProject\OrganizationProjectServiceInterface;
 use App\Contracts\User\UserRepositoryInterface;
 use App\Contracts\User\UserServiceInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\EmployeeRepository;
+use App\Repositories\OrganizationProjectRepository;
 use App\Repositories\UserRepository;
+use App\Services\Activity\OrganizationProjectService;
 use App\Services\AuthService;
 use App\Services\Management\DepartmentService;
 use App\Services\Management\EmployeeService;
@@ -35,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(EmployeeRepositoryInterface::class, EmployeeRepository::class);
         $this->app->bind(EmployeeServiceInterface::class, EmployeeService::class);
+
+        $this->app->bind(OrganizationProjectRepositoryInterface::class, OrganizationProjectRepository::class);
+        $this->app->bind(OrganizationProjectServiceInterface::class, OrganizationProjectService::class);
     }
 
     public function boot(): void

@@ -10,10 +10,13 @@ import { themeConfig } from '@themeConfig'
 import { emailValidator, requiredValidator } from '@validators'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import { AuthService } from '@/services/auth/auth.service'
+import { useAuthStore } from '@/store/useAuthStore'
+import { AxiosResponse } from 'axios'
 
 const authThemeImg = useGenerateImageVariant(authLoginLight, authLoginDark, authLoginLight, authLoginDark, true)
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
+const authStore = useAuthStore()
 
 const isPasswordVisible = ref(false)
 
@@ -44,13 +47,16 @@ const { mutate } = useMutation({
     ability.update(loginResponse.abilities)
 
     localStorage.setItem('userData', JSON.stringify(loginResponse.user))
+    authStore.setUserData(loginResponse.user)
     localStorage.setItem('accessToken', JSON.stringify(loginResponse.token))
     localStorage.setItem('accessTokenExpiredAt', JSON.stringify(loginResponse.token_expired_at))
 
     router.replace(route.query.to ? String(route.query.to) : '/')
   },
-  onError: ({ error }) => {
-    errors.value = error.errors
+  onError: (error: AxiosResponse) => {
+    if (error.status === 422) {
+      errors.value = (error.data as UnprocessableErrorResponse).errors
+    }
   },
 })
 

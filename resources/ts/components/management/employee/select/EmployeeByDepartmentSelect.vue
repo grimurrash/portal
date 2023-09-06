@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
-import { EmployeeService } from '@/services/management/employees.service'
+import { EmployeeService } from '@/services/management/employee.service'
 
 interface Props {
   modelValue: number | undefined | null
@@ -33,7 +33,7 @@ const { data: queryResult } = useQuery({
   staleTime: 1000 * 60,
 })
 
-const options = computed((): EmployeeOptionItemModel[] => queryResult.value?.data ?? [])
+const options = computed((): OptionItemModel[] => queryResult.value?.data ?? [])
 
 const label = computed(() => useAttrs().label as string | 'Сотрудник отдела')
 
@@ -53,7 +53,7 @@ watch([selectValue], () => {
     :label="label"
     :items="options"
     item-value="id"
-    item-title="name"
+    item-title="label"
     v-bind="{
       ...$attrs,
     }"

@@ -7,6 +7,7 @@ use App\Dto\User\CreateUserDto;
 use App\Enums\RoleAndPermission\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
+use App\Http\Resources\OptionItemResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -33,5 +34,13 @@ class UserController extends Controller
         );
 
         return response()->json();
+    }
+
+    public function options(): JsonResponse
+    {
+        $list = User::all()
+            ->map(fn(User $user) => $user->toOptionItemDto())
+            ->toArray();
+        return response()->json(OptionItemResource::collection($list));
     }
 }

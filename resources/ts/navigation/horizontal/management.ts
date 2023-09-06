@@ -6,13 +6,18 @@ export default [
       {
         title: 'Отделы',
         icon: { icon: 'tabler-users' },
-        to: 'management-departments-list',
+        to: 'management-department-list',
       },
       {
-        title: 'Пользователи',
+        title: 'Сотрудники',
         icon: { icon: 'tabler-users' },
-        to: 'users-list',
+        to: 'management-employee-list',
       },
+      // {
+      //   title: 'Пользователи',
+      //   icon: { icon: 'tabler-users' },
+      //   to: 'users-list',
+      // },
     ],
   },
 ]

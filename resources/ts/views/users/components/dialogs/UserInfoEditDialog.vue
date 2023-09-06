@@ -2,6 +2,9 @@
 import { Permission, Role } from '@/db/enums'
 import { emailValidator, requiredValidator } from '@validators'
 
+defineOptions({
+  name: 'UserInfoEditDialog',
+})
 interface UserData {
   id: number | null
   fullName: string

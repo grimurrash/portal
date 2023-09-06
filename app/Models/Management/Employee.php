@@ -3,8 +3,8 @@
 namespace App\Models\Management;
 
 use App\Dto\Employee\EmployeeListItemDto;
-use App\Dto\Employee\EmployeeOptionItemDto;
 use App\Dto\Employee\ImportEmployeeDto;
+use App\Dto\OptionItemDto;
 use App\Enums\Employee\GenderEnum;
 use App\Models\User;
 use Database\Factories\Management\EmployeeFactory;
@@ -18,21 +18,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * App\Models\Employee
+ * App\Models\Management\Employee
  *
  * @property int $id
  * @property int $export_number № в таблице экспорта
- * @property int|null $user_id ID пользователя
  * @property string $full_name ФИО
  * @property int $department_id Отдел
- * @property string $work_position Должность
- * @property Carbon $date_of_birth Дата рождения
- * @property GenderEnum $gender Пол
  * @property string|null $phone Личный номер телефона
  * @property string|null $work_email Рабочая электронная почта в домене edu.mos.ru
  * @property string|null $work_phone Внутренний добавочный номер телефона
  * @property string|null $work_address Адрес СП, где находится основное место исполнения трудовых функций работника
  * @property string|null $work_room_number № кабинета
+ * @property string $work_position Должность
+ * @property Carbon $date_of_birth Дата рождения
+ * @property GenderEnum $gender Пол
  * @property string|null $education_level Уровень образования
  * @property string|null $academic_degree Ученая степень
  * @property Carbon|null $work_start_date Дата принятия на работу
@@ -49,39 +48,20 @@ use Illuminate\Support\Str;
  * @property string|null $organization_to_which_founders_representative_is_delegated ОО, в которую делегирован Представитель Учредителя
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int|null $user_id ID пользователя
+ * @property-read Department $department
+ * @property-read User|null $user
+ * @method static Builder|Employee ageFromFilter(?int $ageFrom)
+ * @method static Builder|Employee ageToFilter(?int $ageTo)
+ * @method static Builder|Employee departmentIdFilter(?int $departmentId)
+ * @method static Builder|Employee educationLevelFilter(?string $educationLevel)
  * @method static EmployeeFactory factory($count = null, $state = [])
+ * @method static Builder|Employee genderFilter(?GenderEnum $gender)
+ * @method static Builder|Employee isFoundersRepresentativeFilter(?bool $isFoundersRepresentative)
  * @method static Builder|Employee newModelQuery()
  * @method static Builder|Employee newQuery()
  * @method static Builder|Employee query()
- * @method static Builder|Employee whereAcademicDegree($value)
- * @method static Builder|Employee whereAdvancedTrainingCoursesForFoundersRepresentativesDate($value)
- * @method static Builder|Employee whereCertifiedForComplianceWithPositionHeldDate($value)
- * @method static Builder|Employee whereCertifiedForPositionOfHeadOfTheDonmDate($value)
- * @method static Builder|Employee whereCertifiedForPositionOfTeacher($value)
- * @method static Builder|Employee whereCreatedAt($value)
- * @method static Builder|Employee whereDateOfBirth($value)
- * @method static Builder|Employee whereDepartmentId($value)
- * @method static Builder|Employee whereEducationLevel($value)
- * @method static Builder|Employee whereExportNumber($value)
- * @method static Builder|Employee whereFullName($value)
- * @method static Builder|Employee whereGender($value)
- * @method static Builder|Employee whereId($value)
- * @method static Builder|Employee whereLastProfessionalRetrainingDate($value)
- * @method static Builder|Employee whereLastRefresherCourseDate($value)
- * @method static Builder|Employee whereOrganizationToWhichFoundersRepresentativeIsDelegated($value)
- * @method static Builder|Employee wherePhone($value)
- * @method static Builder|Employee whereRepresentativeOfFounderInTheDonm($value)
- * @method static Builder|Employee whereUpdatedAt($value)
- * @method static Builder|Employee whereUserId($value)
- * @method static Builder|Employee whereValidityPeriodOfCertificationFromDate($value)
- * @method static Builder|Employee whereValidityPeriodOfCertificationToDate($value)
- * @method static Builder|Employee whereWorkAddress($value)
- * @method static Builder|Employee whereWorkEmail($value)
- * @method static Builder|Employee whereWorkEndDate($value)
- * @method static Builder|Employee whereWorkPhone($value)
- * @method static Builder|Employee whereWorkPosition($value)
- * @method static Builder|Employee whereWorkRoomNumber($value)
- * @method static Builder|Employee whereWorkStartDate($value)
+ * @method static Builder|Employee searchFilter(?string $search)
  * @mixin Eloquent
  */
 class Employee extends Model
@@ -207,11 +187,11 @@ class Employee extends Model
         );
     }
 
-    public function toOptionItemDto(): EmployeeOptionItemDto
+    public function toOptionItemDto(): OptionItemDto
     {
-        return new EmployeeOptionItemDto(
+        return new OptionItemDto(
             id: $this->id,
-            name: $this->full_name
+            label: $this->full_name
         );
     }
 

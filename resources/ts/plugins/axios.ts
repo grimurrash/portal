@@ -1,10 +1,11 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import router from '@/router'
 
-const axiosIns = axios.create({
-  baseURL: 'http://localhost/api/',
+const prodUrl = '/api/'
+const devUrl = 'http://127.0.0.1/api/'
 
-  // timeout: 1000,
+const axiosIns = axios.create({
+  baseURL: import.meta.env.PROD ? prodUrl : devUrl,
 })
 
 axiosIns.interceptors.request.use(config => {
@@ -20,8 +21,8 @@ axiosIns.interceptors.request.use(config => {
 
 axiosIns.interceptors.response.use(response => {
   return response
-}, error => {
-  if (error.response.status === 401) {
+}, (error: AxiosError) => {
+  if (error.response?.status === 401) {
     localStorage.removeItem('userData')
 
     localStorage.removeItem('accessToken')
@@ -30,7 +31,7 @@ axiosIns.interceptors.response.use(response => {
     return router.push('/login')
   }
   else {
-    return Promise.reject(error)
+    return Promise.reject(error.response)
   }
 })
 

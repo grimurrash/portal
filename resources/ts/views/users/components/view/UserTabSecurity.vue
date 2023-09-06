@@ -1,4 +1,7 @@
 <script setup lang="ts">
+defineOptions({
+  name: 'UserTabSecurity',
+})
 const isNewPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
 </script>

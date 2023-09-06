@@ -4,6 +4,9 @@ import type { Permission, Role } from '@/db/enums'
 import { useUserListStore } from '@/views/users/useUserListStore'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 
+defineOptions({
+  name: 'UserBioPanel',
+})
 interface Props {
   userData: {
     id: number

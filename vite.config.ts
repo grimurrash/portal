@@ -29,7 +29,6 @@ export default defineConfig({
     }),
     vueJsx(),
 
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({
       styles: {
         configFile: 'resources/styles/variables/_vuetify.scss',
@@ -37,31 +36,7 @@ export default defineConfig({
     }),
     Pages({
       dirs: ['./resources/ts/pages'],
-
-      // ℹ️ We need three routes using single routes so we will ignore generating route for this SFC file
       onRoutesGenerated: routes => [
-        // Email filter
-        {
-          path: '/demo/apps/email/:filter',
-          name: 'demo-apps-email-filter',
-          component: '/resources/ts/pages/demo/apps/email/index.vue',
-          meta: {
-            navActiveLink: 'demo-apps-email',
-            layoutWrapperClasses: 'layout-content-height-fixed',
-          },
-        },
-
-        // Email label
-        {
-          path: '/demo/apps/email/label/:label',
-          name: 'demo-apps-email-label',
-          component: '/resources/ts/pages/demo/apps/email/index.vue',
-          meta: {
-            // contentClass: 'email-application',
-            navActiveLink: 'demo-apps-email',
-            layoutWrapperClasses: 'layout-content-height-fixed',
-          },
-        },
         ...routes,
       ],
     }),
@@ -69,7 +44,7 @@ export default defineConfig({
       layoutsDirs: './resources/ts/layouts/',
     }),
     Components({
-      dirs: ['resources/ts/@core/components', 'resources/ts/views/demos', 'resources/ts/components'],
+      dirs: ['resources/ts/@core/components', 'resources/ts/views', 'resources/ts/components'],
       dts: true,
     }),
     AutoImport({

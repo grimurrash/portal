@@ -3,11 +3,11 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { initialAbility } from '@/plugins/casl/ability'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import { avatarText } from '@core/utils/formatters'
-import { RoleEnum } from '@/types/enums/role.enum'
+import { RoleEnum, RoleNames } from '@/types/enums/role.enum'
 
 const router = useRouter()
 const ability = useAppAbility()
-const userData = JSON.parse(localStorage.getItem('userData') || 'null')
+const userData: UserModel = JSON.parse(localStorage.getItem('userData') || 'null')
 
 const logout = () => {
   // Remove "userData" from localStorage
@@ -30,26 +30,26 @@ const logout = () => {
 
 const userProfileList = [
   { type: 'divider' },
-  {
-    type: 'navItem',
-    icon: 'tabler-user',
-    title: 'Profile',
-    to: { name: 'demo-apps-user-view-id', params: { id: 21 } },
-  },
-  {
-    type: 'navItem',
-    icon: 'tabler-settings',
-    title: 'Settings',
-    to: { name: 'demo-pages-account-settings-tab', params: { tab: 'account' } },
-  },
+  // {
+  //   type: 'navItem',
+  //   icon: 'tabler-user',
+  //   title: 'Profile',
+  //   to: { name: 'demo-apps-user-view-id', params: { id: 21 } },
+  // },
+  // {
+  //   type: 'navItem',
+  //   icon: 'tabler-settings',
+  //   title: 'Settings',
+  //   to: { name: 'demo-pages-account-settings-tab', params: { tab: 'account' } },
+  // },
 
   //  { type: 'navItem', icon: 'tabler-credit-card', title: 'Billing', to: { name: 'demo-pages-account-settings-tab', params: { tab: 'billing-plans' } }, badgeProps: { color: 'error', content: '3' } },
 
-  { type: 'divider' },
-  { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'demo-pages-help-center' } },
-  { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'demo-pages-faq' } },
-  { type: 'divider' },
-  { type: 'navItem', icon: 'tabler-logout', title: 'Logout', onClick: logout },
+  // { type: 'divider' },
+  // { type: 'navItem', icon: 'tabler-lifebuoy', title: 'Help', to: { name: 'demo-pages-help-center' } },
+  // { type: 'navItem', icon: 'tabler-help', title: 'FAQ', to: { name: 'demo-pages-faq' } },
+  // { type: 'divider' },
+  { type: 'navItem', icon: 'tabler-logout', title: 'Выход', onClick: logout },
 ]
 </script>
 
@@ -109,7 +109,7 @@ const userProfileList = [
             <VListItemTitle class="font-weight-medium">
               {{ userData.name }}
             </VListItemTitle>
-            <VListItemSubtitle>{{ RoleEnum[userData.role] }}</VListItemSubtitle>
+            <VListItemSubtitle>{{ RoleNames[userData.role as RoleEnum] }}</VListItemSubtitle>
           </VListItem>
 
           <PerfectScrollbar :options="{ wheelPropagation: false }">

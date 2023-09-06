@@ -26,7 +26,7 @@ const { data: queryResult } = useQuery({
   staleTime: 1000 * 60,
 })
 
-const options = computed((): DepartmentOptionItemModel[] => queryResult.value?.data ?? [])
+const options = computed((): OptionItemModel[] => queryResult.value?.data ?? [])
 
 const label = computed(() => useAttrs().label as string | 'Родительский отдел')
 
@@ -46,7 +46,7 @@ watch([selectValue], () => {
     :label="label"
     :items="options"
     item-value="id"
-    item-title="name"
+    item-title="label"
     v-bind="{
       ...$attrs,
     }"

@@ -3,10 +3,11 @@
 namespace App\Models\Management;
 
 use App\Dto\Department\DepartmentListItemDto;
-use App\Dto\Department\DepartmentOptionItemDto;
+use App\Dto\OptionItemDto;
 use Database\Factories\Management\DepartmentFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * App\Models\Department
+ * App\Models\Management\Department
  *
  * @property int $id
  * @property string $name Наименование отдела
@@ -24,16 +25,16 @@ use Illuminate\Support\Str;
  * @property int|null $head_employee_id Руководитель отдела
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, Department> $childrenDepartments
+ * @property-read Collection<int, Employee> $employees
+ * @property-read Employee|null $headEmployee
+ * @property-read Department|null $parentDepartment
  * @method static DepartmentFactory factory($count = null, $state = [])
  * @method static Builder|Department newModelQuery()
  * @method static Builder|Department newQuery()
+ * @method static Builder|Department parentDepartmentIdFilter(?int $parentDepartmentId)
  * @method static Builder|Department query()
- * @method static Builder|Department whereCreatedAt($value)
- * @method static Builder|Department whereHeadEmployeeId($value)
- * @method static Builder|Department whereId($value)
- * @method static Builder|Department whereName($value)
- * @method static Builder|Department whereParentDepartmentId($value)
- * @method static Builder|Department whereUpdatedAt($value)
+ * @method static Builder|Department searchFilter(?string $search)
  * @mixin Eloquent
  */
 class Department extends Model
@@ -92,11 +93,11 @@ class Department extends Model
         );
     }
 
-    public function toOptionItemDto(): DepartmentOptionItemDto
+    public function toOptionItemDto(): OptionItemDto
     {
-        return new DepartmentOptionItemDto(
+        return new OptionItemDto(
             id: $this->id,
-            name: $this->name,
+            label: $this->name,
         );
     }
 }

@@ -4,10 +4,7 @@ import { useThemeConfig } from '@core/composable/useThemeConfig'
 import { themeConfig } from '@themeConfig'
 
 // Components
-import Footer from '@/layouts/components/Footer.vue'
-import NavBarNotifications from '@/layouts/components/NavBarNotifications.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
-import NavSearchBar from '@/layouts/components/NavSearchBar.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import { HorizontalNavLayout } from '@layouts'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
@@ -23,20 +20,20 @@ const { appRouteTransition } = useThemeConfig()
         to="/"
         class="app-logo d-flex align-center gap-x-3"
       >
-        <VNodeRenderer :nodes="themeConfig.app.logo" />
+        <VNodeRenderer :nodes="themeConfig.app.logo"/>
 
         <h1 class="app-title font-weight-bold leading-normal text-xl text-capitalize">
           {{ themeConfig.app.title }}
         </h1>
       </RouterLink>
-      <VSpacer />
+      <VSpacer/>
 
-      <NavSearchBar trigger-btn-class="ms-lg-n3" />
+<!--      <NavSearchBar trigger-btn-class="ms-lg-n3"/>-->
 
-      <NavbarThemeSwitcher class="me-1" />
+      <NavbarThemeSwitcher class="me-1"/>
       <!--      <NavbarShortcuts class="me-1" /> -->
-      <NavBarNotifications class="me-2" />
-      <UserProfile />
+<!--      <NavBarNotifications class="me-2"/>-->
+      <UserProfile/>
     </template>
 
     <!-- 👉 Pages -->
@@ -45,16 +42,16 @@ const { appRouteTransition } = useThemeConfig()
         :name="appRouteTransition"
         mode="out-in"
       >
-        <Component :is="Component" />
+        <Component :is="Component"/>
       </Transition>
     </RouterView>
 
     <!-- 👉 Footer -->
-    <template #footer>
-      <Footer />
-    </template>
+<!--    <template #footer>-->
+    <!--      <Footer/>-->
+    <!--    </template>-->
 
     <!-- 👉 Customizer -->
-    <TheCustomizer />
+     <TheCustomizer />
   </HorizontalNavLayout>
 </template>

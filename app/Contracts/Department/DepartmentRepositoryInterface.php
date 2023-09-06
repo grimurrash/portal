@@ -4,18 +4,18 @@ namespace App\Contracts\Department;
 
 use App\Dto\Department\DepartmentListDto;
 use App\Dto\Department\DepartmentListFilterDto;
-use App\Dto\Department\DepartmentOptionItemDto;
 use App\Dto\Department\UpdateDepartmentDto;
+use App\Dto\OptionItemDto;
 use Illuminate\Support\Collection;
 
 interface DepartmentRepositoryInterface
 {
     /**
-     * @return Collection<DepartmentOptionItemDto>
+     * @return Collection<OptionItemDto>
      */
     public function getImportList(): Collection;
 
-    public function create(string $name): DepartmentOptionItemDto;
+    public function create(string $name): OptionItemDto;
 
     public function update(UpdateDepartmentDto $dto): void;
 

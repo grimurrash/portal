@@ -10,7 +10,6 @@ class EmployeePolicy
 {
     use HandlesAuthorization;
 
-
     public function view(User $user): bool
     {
         return $user->hasPermission(PermissionEnum::READ_EMPLOYEE);

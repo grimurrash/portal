@@ -17,7 +17,6 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 
 loadFonts()
 
-// Create vue app
 const app = createApp(App)
 
 const vueQueryPluginOptions: VueQueryPluginOptions = {

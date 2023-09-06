@@ -1,8 +1,9 @@
 declare interface UserModel {
   id: number
+  name: string
   email: string
-  password: string
   role: string
+  avatar: ?string
 }
 
 declare interface UserAbility {

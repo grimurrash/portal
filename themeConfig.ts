@@ -11,12 +11,12 @@ import { AppContentLayoutNav, ContentWidth, FooterType, NavbarType } from '@layo
 
 export const { themeConfig, layoutConfig } = defineThemeConfig({
   app: {
-    title: 'портал мцпс',
+    title: 'иас патриот',
     logo: h('img', { src: logo, alt: 'app-logo', style: 'width: 35px; height: 35px' }),
     contentWidth: ContentWidth.Boxed,
     contentLayoutNav: AppContentLayoutNav.Vertical,
-    overlayNavFromBreakpoint: breakpointsVuetify.md + 16, // 16 for scrollbar. Docs: https://next.vuetifyjs.com/en/features/display-and-platform/
-    theme: 'system',
+    overlayNavFromBreakpoint: breakpointsVuetify.md + 16,
+    theme: 'light',
     isRtl: false,
     skin: Skins.Default,
     routeTransition: RouteTransitions.Fade,

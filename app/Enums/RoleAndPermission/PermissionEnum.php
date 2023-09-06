@@ -20,13 +20,21 @@ enum PermissionEnum: string
     case EXPORT_EMPLOYEE = 'export_employee';
     case IMPORT_EMPLOYEE = 'import_employee';
 
+    case READ_ORGANIZATION_PROJECT = 'read_organizationProject';
+    case CREATE_ORGANIZATION_PROJECT = 'create_organizationProject';
+    case UPDATE_ORGANIZATION_PROJECT = 'update_organizationProject';
+    case CONTROL_ORGANIZATION_PROJECT  = 'control_organizationProject';
+
+    case READ_WORD_CLOUD = 'read_WordCloud';
+    case CREATE_WORD_CLOUD = 'create_WordCloud';
+
     public function getSubject(): string
     {
-        return explode('_', $this->value)[1];
+        return substr(strstr($this->value, '_'),1);
     }
 
     public function getAction(): string
     {
-        return explode('_', $this->value)[0];
+        return strstr($this->value, '_', true);
     }
 }

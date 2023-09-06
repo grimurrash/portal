@@ -2,7 +2,7 @@
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { UserProperties } from '@/db/types'
 import { Permission, Role } from '@/db/enums'
-import { paginationMeta } from '@/db/utils'
+import { paginationMeta } from '@/utils/utils'
 import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
 import { useUserListStore } from '@/views/users/useUserListStore'
 import type { Options } from '@core/types'

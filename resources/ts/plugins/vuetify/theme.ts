@@ -2,7 +2,7 @@ import type { VuetifyOptions } from 'vuetify'
 import { resolveVuetifyTheme } from '@core/utils/vuetify'
 import { themeConfig } from '@themeConfig'
 
-export const staticPrimaryColor = '#7367F0'
+export const staticPrimaryColor = '#FF9F43'
 
 const theme: VuetifyOptions['theme'] = {
   defaultTheme: resolveVuetifyTheme(),

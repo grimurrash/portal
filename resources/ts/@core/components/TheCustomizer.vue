@@ -11,15 +11,10 @@ import { themeConfig } from '@themeConfig'
 const isNavDrawerOpen = ref(false)
 
 const {
-  theme,
-  skin,
-  navbarType,
-  footerType,
   isVerticalNavCollapsed,
   isVerticalNavSemiDark,
   appContentWidth,
   appContentLayoutNav,
-  isNavbarBlurEnabled,
   isLessThanOverlayNavBreakpoint,
 } = useThemeConfig()
 
@@ -90,9 +85,8 @@ const headerValues = computed(() => {
       <div class="customizer-heading d-flex align-center justify-space-between">
         <div>
           <h6 class="text-h6">
-            THEME CUSTOMIZER
+            НАСТРОЙКА ТЕМЫ
           </h6>
-          <span class="text-body-1">Customize & Preview in Real Time</span>
         </div>
         <IconBtn @click="isNavDrawerOpen = false">
           <VIcon
@@ -110,13 +104,13 @@ const headerValues = computed(() => {
       >
         <!-- SECTION Theming -->
         <CustomizerSection
-          title="THEMING"
+          title="ТЕМАТИЗАЦИЯ"
           :divider="false"
         >
           <!-- 👉 Primary color -->
           <!--  TODO: Перенести в настройки темы (позже добавим) -->
           <h6 class="mt-3 text-base font-weight-regular">
-            Primary Color
+            Основной цвет
           </h6>
           <div class="d-flex gap-x-4 mt-2">
             <div
@@ -142,10 +136,10 @@ const headerValues = computed(() => {
 
         <!-- SECTION LAYOUT -->
         <!--  TODO: Перенести в настройки темы (позже добавим) -->
-        <CustomizerSection title="LAYOUT">
+        <CustomizerSection title="МАКЕТ">
           <!-- 👉 Content Width -->
           <h6 class="text-base font-weight-regular">
-            Content width
+            Ширина контента
           </h6>
           <VRadioGroup
             v-model="appContentWidth"
@@ -163,10 +157,10 @@ const headerValues = computed(() => {
 
         <!-- SECTION Menu -->
         <!--  TODO: Перенести в настройки темы (позже добавим) -->
-        <CustomizerSection title="MENU">
+        <CustomizerSection title="МЕНЮ">
           <!-- 👉 Menu Type -->
           <h6 class="text-base font-weight-regular">
-            Menu Type
+            Тип меню
           </h6>
           <VRadioGroup
             v-model="appContentLayoutNav"

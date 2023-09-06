@@ -10,14 +10,14 @@ const authThemeMask = useGenerateImageVariant(miscMaskLight, miscMaskDark)
 <template>
   <div class="misc-wrapper">
     <ErrorHeader
-      error-title="Page Not Found :("
-      error-description="We couldn't find the page you are looking for."
+      error-title="Страница не найдена :("
+      error-description="Мы не смогли найти страницу, которую вы ищете."
     />
     <VBtn
       to="/"
       class="mb-12"
     >
-      Back to Home
+      Вернуться на главную страницу
     </VBtn>
 
     <!-- 👉 Image -->

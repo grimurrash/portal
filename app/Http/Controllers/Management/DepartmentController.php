@@ -9,7 +9,7 @@ use App\Enums\SortOrderEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\Department\DepartmentListRequest;
 use App\Http\Requests\Management\Department\UpdateDepartmentRequest;
-use App\Http\Resources\Management\Department\DepartmentOptionItemResource;
+use App\Http\Resources\OptionItemResource;
 use App\Http\Resources\PaginateResource;
 use App\Models\Management\Department;
 use Illuminate\Http\JsonResponse;
@@ -39,16 +39,14 @@ class DepartmentController extends Controller
 
     public function allDepartmentOptions(): JsonResponse
     {
-        $this->authorize('view', Department::class);
         $list = $this->departmentService->allDepartmentOptions();
-        return response()->json(DepartmentOptionItemResource::collection($list));
+        return response()->json(OptionItemResource::collection($list));
     }
 
     public function parentDepartmentOptions(): JsonResponse
     {
-        $this->authorize('view', Department::class);
         $list = $this->departmentService->parentDepartmentOptions();
-        return response()->json(DepartmentOptionItemResource::collection($list));
+        return response()->json(OptionItemResource::collection($list));
     }
 
     public function update(UpdateDepartmentRequest $request, int $id): JsonResponse

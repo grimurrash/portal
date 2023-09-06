@@ -12,8 +12,10 @@ class EmployeeListItemResource extends JsonResource
     {
         /** @var EmployeeListItemDto $this */
         return [
+            'id' => $this->id,
             'full_name' => $this->fullName,
             'department_id' => $this->departmentId,
+            'department_name' => $this->departmentName,
             'work_position' => $this->workPosition,
             'date_of_birth' => $this->dateOfBirth,
             'export_number' => $this->exportNumber,
