@@ -2,7 +2,7 @@
 import { emailValidator, requiredValidator } from '@validators'
 import { RoleEnum } from '@/types/enums/role.enum'
 import { PermissionEnum } from '@/types/enums/permission.enum'
-import { toRoleEnumRu } from '@/types/enums/utils'
+import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
 import { useMutation } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { UserListItemModel } from '@/types/model/management/user.model'
@@ -10,8 +10,8 @@ import { UserListItemModel } from '@/types/model/management/user.model'
 interface UserData {
   id: number | null
   name: string
-  role: RoleEnum | undefined
-  permission: PermissionEnum | undefined
+  roles: RoleEnum | undefined
+  permissions: PermissionEnum | undefined
   email: string
   avatar: string
 }
@@ -22,7 +22,6 @@ interface Props {
 }
 
 interface Emit {
-  (e: 'submit'): void
   (e: 'update:isDialogVisible', val: boolean): void
 }
 
@@ -31,8 +30,8 @@ const props = withDefaults(defineProps<Props>(), {
     id: 0,
     name: '',
     email: '',
-    role: undefined,
-    permission: undefined,
+    roles: undefined,
+    permissions: undefined,
     avatar: '',
   }),
 })
@@ -43,7 +42,12 @@ const userData = ref<UserData>(structuredClone(toRaw(props.userData)))
 
 watch(props, () => {
   userData.value = structuredClone(toRaw(props.userData))
-  userData.value.role = toRoleEnumRu(userData.value.role)
+  for (let i = 0; i < userData.value.roles.length; i++) {
+    userData.value.roles[i] = toRoleEnumRu(userData.value.roles[i])
+  }
+  for (let i = 0; i < userData.value.permissions.length; i++) {
+    userData.value.permissions[i] = toPermissionEnumRu(userData.value.permissions[i])
+  }
 })
 
 const { mutate } = useMutation({
@@ -52,7 +56,6 @@ const { mutate } = useMutation({
 
 const onFormSubmit = () => {
   mutate(userData.value)
-  emit('submit')
   emit('update:isDialogVisible', false)
 }
 
@@ -116,22 +119,24 @@ const dialogModelValueUpdate = (val: boolean) => {
             <!-- 👉 Role -->
             <VCol cols="12">
               <AppSelect
-                v-model="userData.role"
+                v-model="userData.roles"
                 label="Роль"
                 :rules="[requiredValidator]"
                 :items="Object.values(RoleEnum)"
                 chips
+                multiple
               />
             </VCol>
 
             <!-- 👉 Permission -->
             <VCol cols="12">
               <AppSelect
-                v-model="userData.permission"
+                v-model="userData.permissions"
                 label="Права доступа"
                 :rules="[requiredValidator]"
                 :items="Object.values(PermissionEnum)"
                 chips
+                multiple
               />
             </VCol>
 
@@ -158,3 +163,9 @@ const dialogModelValueUpdate = (val: boolean) => {
     </VCard>
   </VDialog>
 </template>
+
+<route lang="yaml">
+meta:
+  action: update
+  subject: User
+</route>

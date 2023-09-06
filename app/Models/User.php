@@ -100,12 +100,12 @@ class User extends Authenticatable
     
     public function toListItemDto(): UserListItemDto
     {
-//        $user = $this->toDto();
         return new UserListItemDto(
             id: $this->id,
             name: $this->name,
             email: $this->email,
-            role: RoleEnum::EMPLOYEE_MCPS,
+            roles: $this->roles->pluck('name')->map(fn($item) => RoleEnum::from($item))->toArray(),
+            permissions: $this->getAllPermissions()->pluck('name')->map(fn($item) => PermissionEnum::from($item))->toArray(),
         );
     }
 

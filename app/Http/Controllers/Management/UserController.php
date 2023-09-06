@@ -65,10 +65,9 @@ class UserController extends Controller
             id: $id,
             name: $request->get('name'),
             email: $request->get('email'),
-            mainRole: $request->enum('role', RoleEnum::class),
-            permissions: $request->enum('permission', PermissionEnum::class),
+            roles: collect($request->get('roles'))->map(fn($item) => RoleEnum::from($item))->toArray(),
+            permissions: collect($request->get('permissions'))->map(fn($item) => PermissionEnum::from($item))->toArray(),
         ));
-
         return response()->json();
     }
     public function destroy(int $id): JsonResponse

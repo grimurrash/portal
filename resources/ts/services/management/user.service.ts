@@ -30,11 +30,17 @@ export const UserService = {
     return axios.get<ShowUserResponse>(`/management/users/${id}/show`)
   },
   async update(user: UserListItemModel) {
+    for (let i = 0; i < user.roles.length; i++) {
+      user.roles[i] = toRoleEnum(user.roles[i])
+    }
+    for (let i = 0; i < user.permissions.length; i++) {
+      user.permissions[i] = toPermissionEnum(user.permissions[i])
+    }
     return axios.put(`/management/users/${user.id}/update`, {
       name: user.name,
       email: user.email,
-      role: toRoleEnum(user.role),
-      permission: toPermissionEnum(user.permission),
+      roles: user.roles,
+      permissions: user.permissions,
     })
   },
   async delete(id: number) {

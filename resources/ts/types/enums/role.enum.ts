@@ -1,7 +1,7 @@
 export enum RoleEnum {
-  admin = 'Админ',
-  employee = 'Сотрудник МЦПС',
-  external_employee = 'Внешний пользователь',
+  admin = <any>'Админ',
+  employee = <any>'Сотрудник МЦПС',
+  external_employee = <any>'Внешний пользователь',
 }
 export enum RoleEnumEn {
   admin = 'admin',

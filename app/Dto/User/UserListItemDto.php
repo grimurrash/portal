@@ -3,6 +3,7 @@
 namespace App\Dto\User;
 
 
+use App\Enums\RoleAndPermission\PermissionEnum;
 use App\Enums\RoleAndPermission\RoleEnum;
 
 readonly class UserListItemDto
@@ -11,13 +12,15 @@ readonly class UserListItemDto
      * @param int $id
      * @param string $name
      * @param string $email
-     * @param RoleEnum $role
+     * @param array<RoleEnum>|null $roles
+     * @param array<PermissionEnum>|null $permissions
      */
     public function __construct(
-        public int    $id,
-        public string $name,
-        public string    $email,
-        public RoleEnum $role,
+        public int          $id,
+        public string       $name,
+        public string       $email,
+        public array|null   $roles,
+        public array|null   $permissions
     )
     {
     }

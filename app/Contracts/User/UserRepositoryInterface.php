@@ -13,7 +13,7 @@ use App\Dto\User\UserListFilterDto;
 interface UserRepositoryInterface
 {
     public function create(CreateUserDto $dto): void;
-    public function list(UserListFilterDto $dto): UserListDto;
+    public function list(UserListFilterDto $filter): UserListDto;
     public function show(int $id): ShowUserDto;
     public function update(UpdateUserDto $dto): void;
     public function delete(int $id): void;

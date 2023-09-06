@@ -15,7 +15,8 @@ class UserListItemResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
+            'roles' => $this->roles,
+            'permissions' => $this->permissions,
         ];
     }
 }

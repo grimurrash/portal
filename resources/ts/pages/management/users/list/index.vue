@@ -2,7 +2,7 @@
 import type { UserProperties } from '@/db/types'
 import { avatarText } from '@core/utils/formatters'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { Ref } from 'vue'
 import { UserListFilterDto } from '@/types/dto/management/users/list.dto'
@@ -23,8 +23,8 @@ const selectedUser = ref()
 const headers = [
   { title: 'ФИО', key: 'name' },
   { title: 'ЭЛЕКТРОННАЯ ПОЧТА', key: 'email' },
-  { title: 'РОЛЬ', key: 'role', sortable: false },
-  { title: 'ПРАВА ДОСТУПА', key: 'permission', sortable: false },
+  { title: 'РОЛЬ', key: 'roles', sortable: false },
+  { title: 'ПРАВА ДОСТУПА', key: 'permissions', sortable: false },
   { title: 'ДЕЙСТВИЯ', key: 'actions', sortable: false },
 ]
 const options: Ref<TableOptions> = ref<TableOptions>({
@@ -59,9 +59,13 @@ const { data: mainListQueryResult } = useQuery({
 const users = computed((): UserListItemModel[] => mainListQueryResult.value?.data.items ?? [])
 const totalUsers = computed((): number => mainListQueryResult.value?.data.total_count ?? 0)
 
-const deleteUser = (user: UserProperties) => {
+const deleteMutation = useMutation({
+  mutationFn: (id: number) => UserService.delete(id),
+})
+
+const deleteUser = (id: number) => {
   isUserDeleteDialogVisible.value = true
-  selectedUser.value = user
+  deleteMutation.mutate(id)
 }
 const editUser = (user: UserProperties) => {
   isUserInfoEditDialogVisible.value = true
@@ -111,6 +115,7 @@ const editUser = (user: UserProperties) => {
 
           <VCardText class="d-flex flex-wrap py-4 gap-4">
             <div class="me-3 d-flex gap-3">
+              Показать
               <AppSelect
                 :model-value="options.itemsPerPage"
                 :items="[
@@ -123,6 +128,7 @@ const editUser = (user: UserProperties) => {
                 style="width: 6.25rem;"
                 @update:model-value="options.itemsPerPage = parseInt($event, 10)"
               />
+              пользователей
             </div>
             <VSpacer />
 
@@ -197,25 +203,25 @@ const editUser = (user: UserProperties) => {
             </template>
 
             <!-- 👉 Role -->
-            <template #item.role="{ item }">
+            <template #item.roles="{ item }">
               <div class="d-flex align-center gap-1">
                 <VChip
-                  v-if="item.raw.role"
+                  v-for="role in item.raw.roles"
                   color="primary"
                   size="small"
                   label
                   class="text-capitalize"
                 >
-                  <span>{{ toRoleEnumRu(item.raw.role) }}</span>
+                  <span>{{ toRoleEnumRu(role) }}</span>
                 </VChip>
               </div>
             </template>
 
             <!-- 👉 Permission -->
-            <template #item.permission="{ item }">
+            <template #item.permissions="{ item }">
               <div class="d-flex align-center gap-1">
                 <VChip
-                  v-for="permission in item.raw.permission"
+                  v-for="permission in item.raw.permissions"
                   :key="permission"
                   color="primary"
                   size="small"
@@ -229,7 +235,7 @@ const editUser = (user: UserProperties) => {
 
             <!-- Actions -->
             <template #item.actions="{ item }">
-              <IconBtn @click="deleteUser(item.raw)">
+              <IconBtn @click="deleteUser(item.raw.id)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
 
@@ -240,7 +246,6 @@ const editUser = (user: UserProperties) => {
               <!--  👉 Delete user dialog -->
               <DeleteDialog
                 v-model:isDialogVisible="isUserDeleteDialogVisible"
-                :user-data="selectedUser"
               />
 
               <!--  👉 Edit user info dialog -->

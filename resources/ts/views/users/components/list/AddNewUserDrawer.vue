@@ -162,3 +162,9 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
     </PerfectScrollbar>
   </VNavigationDrawer>
 </template>
+
+<route lang="yaml">
+meta:
+  action: create
+  subject: User
+</route>
