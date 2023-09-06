@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useMutation } from '@tanstack/vue-query'
-import { UserService } from '@/services/management/user.service'
 
 interface Props {
   isDialogVisible: boolean
-  userData: any
 }
 defineOptions({
   name: 'DeleteDialog',
@@ -17,17 +14,10 @@ interface Emit {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
-
-const { mutate } = useMutation({
-  mutationFn: (id: number) => UserService.delete(id),
-})
-
 const onConfirm = () => {
-  mutate(props.userData.id)
   emit('confirm')
   emit('update:isDialogVisible', false)
 }
-
 const dialogModelValueUpdate = (val: boolean) => {
   emit('update:isDialogVisible', val)
 }
@@ -71,6 +61,6 @@ const dialogModelValueUpdate = (val: boolean) => {
 
 <route lang="yaml">
 meta:
-  action: read
+  action: delete
   subject: User
 </route>

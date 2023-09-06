@@ -21,6 +21,6 @@ declare interface ShowUserResponse {
   id: number
   name: string
   email: string
-  role: RoleEnum
-  permission: PermissionEnum
+  roles: Array<RoleEnumEn>
+  permissions: Array<PermissionEnumEn>
 }

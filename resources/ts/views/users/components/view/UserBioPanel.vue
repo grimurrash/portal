@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { ShowUserResponse } from '@/types/model/management/user.model'
-import { toRoleEnumRu } from '@/types/enums/utils'
+import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
 import { avatarText } from '@core/utils/formatters'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
@@ -25,8 +25,12 @@ const { data: showQueryResult } = useQuery({
 
 const user = computed((): ShowUserResponse => showQueryResult.value?.data ?? undefined)
 
-const update = () => {
-  
+const deleteMutation = useMutation({
+  mutationFn: (id: number) => UserService.delete(id),
+})
+
+const deleteUser = () => {
+  deleteMutation.mutate(props.userData.id)
 }
 </script>
 
@@ -63,7 +67,7 @@ const update = () => {
           <!-- 👉 Role chip -->
           <div class="d-flex justify-center gap-1">
             <VChip
-              v-for="role in [user.role]"
+              v-for="role in user.roles"
               :key="role"
               color="primary"
               size="small"
@@ -111,15 +115,15 @@ const update = () => {
                     Права доступа:
                   </h6>
                   <VChip
-                    v-if="user.permission"
-                    v-for="permission in [user.permissions]"
+                    v-if="user.permissions"
+                    v-for="permission in user.permissions"
                     :key="permission"
                     color="primary"
                     size="small"
                     label
                     class="text-capitalize"
                   >
-                    <span>{{ permission }}</span>
+                    <span>{{ toPermissionEnumRu(permission) }}</span>
                   </VChip>
                 </div>
               </VListItemTitle>
@@ -153,14 +157,12 @@ const update = () => {
   <UserInfoEditingDialog
     v-model:isDialogVisible="isUserInfoEditDialogVisible"
     :user-data="user"
-    @submit="update"
   />
 
   <!--  👉 Delete user dialog -->
   <DeleteDialog
     v-model:isDialogVisible="isUserDeleteDialogVisible"
-    :user-data="user"
-    @confirm="update"
+    @confirm="deleteUser"
   />
 </template>
 
@@ -173,3 +175,9 @@ const update = () => {
   text-transform: capitalize !important;
 }
 </style>
+
+<route lang="yaml">
+meta:
+  action: read
+  subject: User
+</route>
