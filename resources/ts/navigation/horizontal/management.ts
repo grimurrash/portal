@@ -6,7 +6,7 @@ export default [
       {
         title: 'Отделы',
         icon: { icon: 'tabler-users' },
-        to: 'management-department-list',
+        // to: 'management-department-list',
       },
       {
         title: 'Сотрудники',

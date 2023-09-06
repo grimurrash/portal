@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+            Route::get('index', [UserController::class, 'index'])->name('list');
             Route::post('create', [UserController::class, 'create'])->name('create');
-            Route::get('options', [UserController::class, 'options'])->name('options');
+            Route::get('{id}/show', [UserController::class, 'show'])->name('show');
+            Route::put('{id}/update', [UserController::class, 'update'])->name('update');
+            Route::delete('{id}/delete', [UserController::class, 'destroy'])->name('delete');
         });
 
         Route::group(['prefix' => 'departments', 'as' => 'departments.'], function () {
