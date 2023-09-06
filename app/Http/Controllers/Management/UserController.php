@@ -13,8 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
 use App\Http\Requests\Management\User\UpdateUserRequest;
 use App\Http\Requests\Management\User\UserListRequest;
-use App\Http\Resources\OptionItemResource;
 use App\Http\Resources\PaginateResource;
+use App\Http\Resources\OptionItemResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 

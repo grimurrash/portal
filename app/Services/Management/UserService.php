@@ -63,4 +63,5 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка удаления пользователя', previous: $exception);
         }
     }
+
 }

@@ -15,6 +15,7 @@ Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'management', 'as' => 'management.'], function () {
+//        Route::resource('users', UserController::class);
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
             Route::get('index', [UserController::class, 'index'])->name('list');
             Route::post('create', [UserController::class, 'create'])->name('create');

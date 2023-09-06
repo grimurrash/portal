@@ -5,6 +5,7 @@ declare interface UserListFilterDto {
   role: RoleEnumEn | undefined
   permission: PermissionEnumEn | undefined
 }
+
 declare interface UserListRequestDto {
   filters: UserListFilterDto,
   options: TableOptions
