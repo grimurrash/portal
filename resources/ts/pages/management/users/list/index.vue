@@ -7,13 +7,12 @@ import { UserService } from '@/services/management/user.service'
 import { Ref } from 'vue'
 import { UserListFilterDto } from '@/types/dto/management/users/list.dto'
 import { UserListItemModel } from '@/types/model/management/user.model'
-import { RoleEnum } from '@/types/enums/role.enum'
-import { PermissionEnum } from '@/types/enums/permission.enum'
+import { PermissionNames } from '@/types/enums/permission.enum'
 import { paginationMeta } from '@/db/utils'
 import AddNewUserDrawer from '@/views/users/components/list/AddNewUserDrawer.vue'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
-import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
+import { RoleNames } from '@/types/enums/role.enum'
 
 const isAddNewUserDrawerVisible = ref(false)
 const isUserInfoEditDialogVisible = ref(false)
@@ -89,7 +88,7 @@ const editUser = (user: UserProperties) => {
                 <AppSelect
                   v-model="filters.role"
                   label="Роль"
-                  :items="Object.values(RoleEnum)"
+                  :items="Object.values(RoleNames)"
                   clearable
                   clear-icon="tabler-x"
                 />
@@ -103,7 +102,7 @@ const editUser = (user: UserProperties) => {
                 <AppSelect
                   v-model="filters.permission"
                   label="Права доступа"
-                  :items="Object.values(PermissionEnum)"
+                  :items="Object.values(PermissionNames)"
                   clearable
                   clear-icon="tabler-x"
                 />
@@ -212,7 +211,7 @@ const editUser = (user: UserProperties) => {
                   label
                   class="text-capitalize"
                 >
-                  <span>{{ toRoleEnumRu(role) }}</span>
+                  <span>{{ RoleNames[role as keyof typeof RoleNames] }}</span>
                 </VChip>
               </div>
             </template>
@@ -228,7 +227,7 @@ const editUser = (user: UserProperties) => {
                   label
                   class="text-capitalize"
                 >
-                  <span>{{ toPermissionEnumRu(permission) }}</span>
+                  <span>{{ PermissionNames[permission as keyof typeof PermissionNames] }}</span>
                 </VChip>
               </div>
             </template>

@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import router from '@/router'
 
 const prodUrl = '/api/'
-const devUrl = 'http://127.0.0.1/api/'
+const devUrl = 'http://localhost:8000/api/'
 
 const axiosIns = axios.create({
   baseURL: import.meta.env.PROD ? prodUrl : devUrl,

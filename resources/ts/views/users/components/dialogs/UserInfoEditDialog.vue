@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { emailValidator, requiredValidator } from '@validators'
-import { RoleEnum } from '@/types/enums/role.enum'
-import { PermissionEnum } from '@/types/enums/permission.enum'
-import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
+import { RoleEnum, RoleNames } from '@/types/enums/role.enum'
+import { PermissionEnum, PermissionNames } from '@/types/enums/permission.enum'
 import { useMutation } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { UserListItemModel } from '@/types/model/management/user.model'
@@ -11,11 +10,11 @@ defineOptions({
   name: 'UserInfoEditDialog',
 })
 interface UserData {
-  id: number | null
+  id: number
   name: string
-  roles: RoleEnum | undefined
-  permissions: PermissionEnum | undefined
   email: string
+  roles: Array<RoleEnum>
+  permissions: Array<PermissionEnum>
   avatar: string
 }
 
@@ -33,8 +32,8 @@ const props = withDefaults(defineProps<Props>(), {
     id: 0,
     name: '',
     email: '',
-    roles: undefined,
-    permissions: undefined,
+    roles: [RoleEnum.employee],
+    permissions: [PermissionEnum.read_user],
     avatar: '',
   }),
 })
@@ -46,10 +45,10 @@ const userData = ref<UserData>(structuredClone(toRaw(props.userData)))
 watch(props, () => {
   userData.value = structuredClone(toRaw(props.userData))
   for (let i = 0; i < userData.value.roles.length; i++) {
-    userData.value.roles[i] = toRoleEnumRu(userData.value.roles[i])
+    userData.value.roles[i] = RoleNames[userData.value.roles[i]]
   }
   for (let i = 0; i < userData.value.permissions.length; i++) {
-    userData.value.permissions[i] = toPermissionEnumRu(userData.value.permissions[i])
+    userData.value.permissions[i] = PermissionNames[userData.value.permissions[i]]
   }
 })
 
@@ -125,7 +124,7 @@ const dialogModelValueUpdate = (val: boolean) => {
                 v-model="userData.roles"
                 label="Роль"
                 :rules="[requiredValidator]"
-                :items="Object.values(RoleEnum)"
+                :items="Object.values(RoleNames)"
                 chips
                 multiple
               />
@@ -137,7 +136,7 @@ const dialogModelValueUpdate = (val: boolean) => {
                 v-model="userData.permissions"
                 label="Права доступа"
                 :rules="[requiredValidator]"
-                :items="Object.values(PermissionEnum)"
+                :items="Object.values(PermissionNames)"
                 chips
                 multiple
               />

@@ -4,8 +4,8 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import type { VForm } from 'vuetify/components/VForm'
 
 import { emailValidator, requiredValidator } from '@validators'
-import { PermissionEnum } from '@/types/enums/permission.enum'
-import { RoleEnum } from '@/types/enums/role.enum'
+import { PermissionNames } from '@/types/enums/permission.enum'
+import { RoleNames } from '@/types/enums/role.enum'
 import { useMutation } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { CreateUserDto } from '@/types/dto/management/users/create.dto'
@@ -127,7 +127,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                   v-model="createUser.role"
                   label="Роль"
                   :rules="[requiredValidator]"
-                  :items="Object.values(RoleEnum)"
+                  :items="Object.values(RoleNames)"
                   chips
                 />
               </VCol>
@@ -137,7 +137,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                 <AppSelect
                   label="Права доступа"
                   :rules="[requiredValidator]"
-                  :items="Object.values(PermissionEnum)"
+                  :items="Object.values(PermissionNames)"
                   chips
                 />
               </VCol>

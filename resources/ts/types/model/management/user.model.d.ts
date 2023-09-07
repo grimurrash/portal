@@ -16,6 +16,7 @@ declare interface UserOptionItemModel {
 
 declare interface UserListResponse extends PaginateListResponse{
   items: Array<UserListItemModel>
+  total_count: number
 }
 declare interface ShowUserResponse {
   id: number
