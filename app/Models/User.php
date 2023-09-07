@@ -102,7 +102,7 @@ class User extends Authenticatable
             id: $this->id,
             name: $this->name,
             email: $this->email,
-            roles: $this->roles->pluck('name')->map(fn($item) => RoleEnum::from($item))->toArray(),
+            roles: $this->getRoleNames()->map(fn($item) => RoleEnum::from($item))->toArray(),
             permissions: $this->getAllPermissions()->pluck('name')->map(fn($item) => PermissionEnum::from($item))->toArray(),
         );
     }
