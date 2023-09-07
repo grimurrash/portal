@@ -4,9 +4,6 @@ import { paginationMeta } from '@/utils/utils'
 import type { Options } from '@core/types'
 import { useWordCloudStore } from '@/views/word-cloud/useWordCloudStore'
 import type { WordCloudProperties } from '@/db/types'
-import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
-import AddNewWordCloudDrawer from '@/views/word-cloud/compoments/drawers/AddNewWordCloudDrawer.vue'
-import EditWordCloudDrawer from '@/views/word-cloud/compoments/drawers/EditWordCloudDrawer.vue'
 
 // 👉 Store
 const wordCloudStore = useWordCloudStore()
@@ -214,11 +211,6 @@ watchEffect(fetchWordClouds)
           v-model:isDrawerOpen="isWordCloudEditDrawerVisible"
           :word-cloud-data="selectedWordCloud"
           @submit="editWordCloud"
-        />
-        <!--  👉 Delete user dialog -->
-        <DeleteDialog
-          v-model:isDialogVisible="isWordCloudDeleteDialogVisible"
-          @confirm="deleteWordCloudConfirm"
         />
       </vcol>
     </vrow>
