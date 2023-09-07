@@ -2,12 +2,19 @@ export enum RoleEnum {
   admin = 'admin',
   employee = 'employee',
   external_employee = 'external_employee',
-  organizer = 'organizer',
+  organization_project_organizer = 'organization_project_organizer',
+  organization_project_moderator = 'organization_project_moderator'
 }
 
-export const RoleNames = {
+export const RoleNames: Record<RoleEnum, string> = {
   [RoleEnum.admin]: 'Админ',
   [RoleEnum.employee]: 'Сотрудник МЦПС',
   [RoleEnum.external_employee]: 'Внешний сотрудник',
-  [RoleEnum.organizer]: 'Организатор проектов',
+  [RoleEnum.organization_project_organizer]: 'Организатор проектов',
+  [RoleEnum.organization_project_moderator]: 'Модератор проектов'
+}
+
+export function roleKeyByValue(roles: Record<RoleEnum, string>, value: string) {
+  const [key] = Object.entries(roles).find(([key, val]) => val === value) || [];
+  return key || null;
 }

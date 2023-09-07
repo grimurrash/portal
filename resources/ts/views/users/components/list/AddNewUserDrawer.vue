@@ -32,7 +32,8 @@ const createUser = ref<CreateUserDto>({
   name: '',
   email: '',
   password: '',
-  role: undefined,
+  roles: undefined,
+  permissions: undefined,
   isEmailVerified: false,
 })
 
@@ -124,21 +125,24 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Role -->
               <VCol cols="12">
                 <AppSelect
-                  v-model="createUser.role"
+                  v-model="createUser.roles"
                   label="Роль"
                   :rules="[requiredValidator]"
                   :items="Object.values(RoleNames)"
                   chips
+                  multiple
                 />
               </VCol>
 
               <!-- 👉 Permission -->
               <VCol cols="12">
                 <AppSelect
+                  v-model="createUser.permissions"
                   label="Права доступа"
                   :rules="[requiredValidator]"
                   :items="Object.values(PermissionNames)"
                   chips
+                  multiple
                 />
               </VCol>
 

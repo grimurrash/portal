@@ -45,10 +45,10 @@ const userData = ref<UserData>(structuredClone(toRaw(props.userData)))
 watch(props, () => {
   userData.value = structuredClone(toRaw(props.userData))
   for (let i = 0; i < userData.value.roles.length; i++) {
-    userData.value.roles[i] = RoleNames[userData.value.roles[i]]
+    userData.value.roles[i] = RoleNames[userData.value.roles[i]] as RoleEnum
   }
   for (let i = 0; i < userData.value.permissions.length; i++) {
-    userData.value.permissions[i] = PermissionNames[userData.value.permissions[i]]
+    userData.value.permissions[i] = PermissionNames[userData.value.permissions[i]] as PermissionEnum
   }
 })
 

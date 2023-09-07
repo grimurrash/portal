@@ -19,7 +19,7 @@ export enum PermissionEnum {
   create_WordCloud = 'create_WordCloud',
 }
 
-export const PermissionNames = {
+export const PermissionNames: Record<PermissionEnum, string> = {
   [PermissionEnum.manage_all]: 'Полный доступ',
 
   [PermissionEnum.read_department]: 'Просмотр отделов',
@@ -45,3 +45,7 @@ export const PermissionNames = {
   [PermissionEnum.create_WordCloud]: 'Создание облака слов',
 }
 
+export function permissionKeyByValue(permissions: Record<PermissionEnum, string>, value: string) {
+  const [key] = Object.entries(permissions).find(([key, val]) => val === value) || [];
+  return key || null;
+}

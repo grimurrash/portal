@@ -1,9 +1,9 @@
-import { PermissionEnumEn } from '@/types/enums/permission.enum'
-import { RoleEnumEn } from '@/types/enums/role.enum'
+import { RoleEnum } from '@/types/enums/role.enum'
+import { PermissionEnum } from '@/types/enums/permission.enum'
 
 declare interface UserListFilterDto {
-  role: RoleEnumEn | undefined
-  permission: PermissionEnumEn | undefined
+  role: RoleEnum | undefined
+  permission: PermissionEnum | undefined
 }
 
 declare interface UserListRequestDto {

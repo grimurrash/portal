@@ -94,7 +94,6 @@ const editUser = (user: UserProperties) => {
                 />
               </VCol>
               <!-- 👉 Select Permission -->
-
               <VCol
                 cols="12"
                 sm="4"

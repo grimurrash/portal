@@ -26,9 +26,12 @@ readonly class UserRepository implements UserRepositoryInterface
             'password' =>  bcrypt($dto->password),
             'email_verified_at' => $dto->isEmailVerified ? Carbon::now() : null,
         ]);
-
-        $user->assignRole($dto->role->value);
-
+        foreach ($dto->roles as $role) {
+            $user->assignRole($role->value);
+        }
+        foreach ($dto->permissions as $permission) {
+            $user->givePermissionTo($permission->value);
+        }
     }
     public function list(UserListFilterDto $filter): UserListDto
     {

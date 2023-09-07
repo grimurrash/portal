@@ -2,10 +2,11 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
 import { ShowUserResponse } from '@/types/model/management/user.model'
-import { toPermissionEnumRu, toRoleEnumRu } from '@/types/enums/utils'
 import { avatarText } from '@core/utils/formatters'
 import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
 import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
+import { RoleNames } from '../../../../types/enums/role.enum'
+import { PermissionNames } from '@/types/enums/permission.enum'
 
 defineOptions({
   name: 'UserBioPanel',
@@ -23,14 +24,14 @@ const { data: showQueryResult } = useQuery({
   queryFn: () => UserService.show(props.userId)
 })
 
-const user = computed((): ShowUserResponse => showQueryResult.value?.data ?? undefined)
+const user = computed((): ShowUserResponse | undefined => showQueryResult.value?.data ?? undefined)
 
 const deleteMutation = useMutation({
   mutationFn: (id: number) => UserService.delete(id),
 })
 
 const deleteUser = () => {
-  deleteMutation.mutate(props.userData.id)
+  deleteMutation.mutate(props.userId)
 }
 </script>
 
@@ -74,7 +75,7 @@ const deleteUser = () => {
               label
               class="text-capitalize mt-3"
             >
-              <span>{{ toRoleEnumRu(role) }}</span>
+              <span>{{ RoleNames[role as keyof typeof RoleNames] }}</span>
             </VChip>
           </div>
         </VCardText>
@@ -123,7 +124,7 @@ const deleteUser = () => {
                     label
                     class="text-capitalize"
                   >
-                    <span>{{ toPermissionEnumRu(permission) }}</span>
+                    <span>{{ PermissionNames[permission as keyof typeof PermissionNames] }}</span>
                   </VChip>
                 </div>
               </VListItemTitle>

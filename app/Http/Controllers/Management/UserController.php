@@ -13,8 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Management\User\CreateUserRequest;
 use App\Http\Requests\Management\User\UpdateUserRequest;
 use App\Http\Requests\Management\User\UserListRequest;
-use App\Http\Resources\PaginateResource;
 use App\Http\Resources\OptionItemResource;
+use App\Http\Resources\PaginateResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -33,7 +33,8 @@ class UserController extends Controller
                 name: $request->get('name'),
                 email: $request->get('email'),
                 password: $request->get('password'),
-                role: $request->enum('role', RoleEnum::class),
+                roles: collect($request->get('roles'))->map(fn($item) => RoleEnum::from($item))->toArray(),
+                permissions: collect($request->get('permissions'))->map(fn($item) => PermissionEnum::from($item))->toArray(),
                 isEmailVerified: $request->boolean('is_email_verified'),
             )
         );
