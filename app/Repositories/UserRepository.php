@@ -36,7 +36,7 @@ readonly class UserRepository implements UserRepositoryInterface
     public function list(UserListFilterDto $filter): UserListDto
     {
         $list = User::query()
-            ->with('roles', 'permissions')
+            ->with('roles', 'roles.permissions', 'permissions')
             ->when($filter->role, function ($q) use ($filter) {
                 $q->whereHas('roles', function ($q) use ($filter) {
                     $q->where('name', $filter->role->value);
@@ -44,7 +44,9 @@ readonly class UserRepository implements UserRepositoryInterface
             })
             ->when($filter->permission, function ($q) use ($filter) {
                 $q->whereHas('permissions', function ($q) use ($filter) {
-                    $q->where('name', $filter->permission->value);
+                        $q->where('name', $filter->permission->value);
+                    })->orWhereHas('roles.permissions', function ($q) use ($filter) {
+                        $q->where('name', $filter->permission->value);
                 });
             })
             ->when($filter->search, function ($q) use ($filter) {
