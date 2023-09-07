@@ -54,6 +54,7 @@ const totalItemCount = computed((): number => queryResult.value?.data.total_coun
 
 const selectProjectId: Ref<number> = ref(0)
 const isShowEditProjectDialog = ref(false)
+
 const openEditDialog = (projectId: number) => {
   selectProjectId.value = projectId
   isShowEditProjectDialog.value = true

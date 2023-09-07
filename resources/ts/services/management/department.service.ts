@@ -1,9 +1,8 @@
-import type { AxiosResponse } from 'axios'
 import axios from '@axios'
 import { tableOptionsToObject } from '@/utils/utils'
 
 export const DepartmentService = {
-  async list(data: DepartmentListRequestDto): Promise<AxiosResponse<PaginateListResponse<DepartmentListItemModel>>> {
+  async list(data: DepartmentListRequestDto) {
     return axios.get<PaginateListResponse<DepartmentListItemModel>>('/management/departments', {
       params: {
         ...data.filters,
@@ -12,11 +11,11 @@ export const DepartmentService = {
     })
   },
 
-  async parentDepartmentOptions(): Promise<AxiosResponse<OptionItemModel[]>> {
+  async parentDepartmentOptions() {
     return axios.get<OptionItemModel[]>('/management/departments/parent-department-options')
   },
 
-  async allDepartmentOptions(): Promise<AxiosResponse<OptionItemModel[]>> {
+  async allDepartmentOptions() {
     return axios.get<OptionItemModel[]>('/management/departments/all-department-options')
   },
 

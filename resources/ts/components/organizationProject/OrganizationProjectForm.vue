@@ -3,7 +3,7 @@ import { VForm } from 'vuetify/components/VForm'
 import { integerValidator, requiredValidator } from '@validators'
 
 defineOptions({
-  name: 'OrganizationProjectCard',
+  name: 'OrganizationProjectForm',
   inheritAttrs: false,
 })
 

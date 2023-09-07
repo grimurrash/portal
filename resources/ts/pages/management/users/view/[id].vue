@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import UserBioPanel from '@/views/users/components/view/UserBioPanel.vue'
-import UserTabSecurity from '@/views/users/components/view/UserTabSecurity.vue'
-import UserTabAccount from '@/views/users/components/view/UserTabAccount.vue'
+import { useQuery } from '@tanstack/vue-query'
+import { UserService } from '@/services/management/user.service'
 
 const route = useRoute()
 const userTab = ref(null)
@@ -10,6 +9,20 @@ const tabs = [
   { icon: 'tabler-user-check', title: 'Подробно', key: 'account' },
   { icon: 'tabler-lock', title: 'Безопасность', key: 'security' },
 ]
+const userId = route.params.id as string
+
+const { data: showQueryResult } = useQuery({
+  queryKey: ['users', 'show', userId],
+  queryFn: () => UserService.show(userId)
+})
+
+const user = computed((): UserInfoResponse => showQueryResult.value?.data ?? {
+  id: 0,
+  name: '',
+  email: '',
+  roles: [],
+  permissions: [],
+})
 
 
 </script>
@@ -21,7 +34,7 @@ const tabs = [
       md="5"
       lg="4"
     >
-      <UserBioPanel :user-id="parseInt(route.params.id)"/>
+      <UserBioPanel v-if="user" :user="user"/>
     </VCol>
 
     <VCol

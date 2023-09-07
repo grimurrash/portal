@@ -10,8 +10,9 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const onInput = useDebounceFn(value => {
-  emit('update:modelValue', value)
+const onInput = useDebounceFn((event: Event) => {
+  const element = event.target as HTMLInputElement
+  emit('update:modelValue', element.value)
 }, 500)
 </script>
 
@@ -20,6 +21,13 @@ const onInput = useDebounceFn(value => {
     v-bind="{
       ...$attrs,
     }"
-    @input="onInput($event.target.value)"
+    class="table-search-input"
+    @input="onInput"
   />
 </template>
+
+<style lang="scss">
+.table-search-input {
+  inline-size: 18rem;
+}
+</style>

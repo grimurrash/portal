@@ -16,7 +16,7 @@ export const { themeConfig, layoutConfig } = defineThemeConfig({
     contentWidth: ContentWidth.Boxed,
     contentLayoutNav: AppContentLayoutNav.Vertical,
     overlayNavFromBreakpoint: breakpointsVuetify.md + 16,
-    theme: 'light',
+    theme: 'system',
     isRtl: false,
     skin: Skins.Default,
     routeTransition: RouteTransitions.Fade,

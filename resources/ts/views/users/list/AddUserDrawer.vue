@@ -1,41 +1,40 @@
 <script setup lang="ts">
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import type { VForm } from 'vuetify/components/VForm'
-
+import { VForm } from 'vuetify/components/VForm'
 import { emailValidator, requiredValidator } from '@validators'
 import { PermissionNames } from '@/types/enums/permission.enum'
 import { RoleNames } from '@/types/enums/role.enum'
-import { useMutation } from '@tanstack/vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
-import { CreateUserDto } from '@/types/dto/management/users/create.dto'
-
-interface Emit {
-  (e: 'update:isDrawerOpen', value: boolean): void
-}
+import { objectToOptions } from '@/utils/enums'
+import { AxiosResponse } from 'axios'
+import { useNotificationStore } from '@/store/useNotificationStore'
 
 defineOptions({
-  name: 'AddNewUserDrawer',
+  name: 'AddUserDrawer',
 })
-
 interface Props {
   isDrawerOpen: boolean
+}
+interface Emit {
+  (e: 'update:isDrawerOpen', value: boolean): void
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
 
-const isFormValid = ref(false)
 const refForm = ref<VForm>()
 const isPasswordVisible = ref(false)
-const createUser = ref<CreateUserDto>({
+
+const userData = ref<CreateUserRequestDto>({
   name: '',
   email: '',
   password: '',
-  roles: undefined,
-  permissions: undefined,
-  isEmailVerified: false,
+  roles: [],
+  permissions: [],
+  isEmailVerified: true,
 })
+const errors = ref<Record<string, string>>({})
 
 // 👉 drawer close
 const closeNavigationDrawer = () => {
@@ -45,19 +44,28 @@ const closeNavigationDrawer = () => {
     refForm.value?.resetValidation()
   })
 }
-const { mutate } = useMutation({
-  mutationFn: (userData: CreateUserDto) => UserService.create(userData),
+
+const queryClient = useQueryClient()
+const notificationStore = useNotificationStore()
+
+const { mutate: createUser } = useMutation({
+  mutationFn: (userData: CreateUserRequestDto) => UserService.create(userData),
+  onSuccess: () => {
+    closeNavigationDrawer()
+    queryClient.invalidateQueries({ queryKey: ['users'] })
+  },
+  onError: (error: AxiosResponse) => {
+    if (error.status === 422) {
+      errors.value = (error.data as UnprocessableErrorResponse).errors
+    }
+    notificationStore.sendErrorNotification((error.data as BaseAxiosErrorResponse).message)
+  },
 })
 
 const onSubmit = () => {
   refForm.value?.validate().then(({ valid }) => {
     if (valid) {
-      mutate(createUser.value)
-      emit('update:isDrawerOpen', false)
-      nextTick(() => {
-        refForm.value?.reset()
-        refForm.value?.resetValidation()
-      })
+      createUser(userData.value)
     }
   })
 }
@@ -65,6 +73,8 @@ const onSubmit = () => {
 const handleDrawerModelValueUpdate = (val: boolean) => {
   emit('update:isDrawerOpen', val)
 }
+const roleOptions = objectToOptions(RoleNames)
+const permissionOptions = objectToOptions(PermissionNames)
 </script>
 
 <template>
@@ -85,17 +95,15 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
     <PerfectScrollbar :options="{ wheelPropagation: false }">
       <VCard flat>
         <VCardText>
-          <!-- 👉 Form -->
           <VForm
             ref="refForm"
-            v-model="isFormValid"
             @submit.prevent="onSubmit"
           >
             <VRow>
-              <!-- 👉 Full name -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="createUser.name"
+                  v-model="userData.name"
+                  :error-messages="errors.name"
                   :rules="[requiredValidator]"
                   label="ФИО"
                 />
@@ -104,7 +112,8 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Email -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="createUser.email"
+                  v-model="userData.email"
+                  :error-messages="errors.name"
                   :rules="[requiredValidator, emailValidator]"
                   label="Электронная почта"
                 />
@@ -113,7 +122,8 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
               <!-- 👉 Password -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="createUser.password"
+                  v-model="userData.password"
+                  :error-messages="errors.password"
                   label="Пароль"
                   :rules="[requiredValidator]"
                   :type="isPasswordVisible ? 'text' : 'password'"
@@ -122,31 +132,45 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                 />
               </VCol>
 
-              <!-- 👉 Role -->
               <VCol cols="12">
                 <AppSelect
-                  v-model="createUser.roles"
+                  v-model="userData.roles"
+                  :error-messages="errors.roles"
                   label="Роль"
                   :rules="[requiredValidator]"
-                  :items="Object.values(RoleNames)"
+                  :items="roleOptions"
+                  item-value="id"
+                  item-title="label"
                   chips
                   multiple
                 />
               </VCol>
 
-              <!-- 👉 Permission -->
               <VCol cols="12">
                 <AppSelect
-                  v-model="createUser.permissions"
+                  v-model="userData.permissions"
+                  :error-messages="errors.permissions"
                   label="Права доступа"
                   :rules="[requiredValidator]"
-                  :items="Object.values(PermissionNames)"
+                  :items="permissionOptions"
+                  item-value="id"
+                  item-title="label"
                   chips
                   multiple
                 />
               </VCol>
 
-              <!-- 👉 Add and Cancel -->
+              <VCol cols="12">
+                <VSwitch
+                  v-model="userData.isEmailVerified"
+                  :error-messages="errors.isEmailVerified"
+                  :inset="false"
+                  color="secondary"
+                  disabled
+                  label="Без подтверждения почты"
+                />
+              </VCol>
+
               <VCol cols="12">
                 <VBtn
                   type="submit"
@@ -154,6 +178,7 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
                 >
                   Добавить
                 </VBtn>
+
                 <VBtn
                   type="reset"
                   variant="tonal"
@@ -170,9 +195,3 @@ const handleDrawerModelValueUpdate = (val: boolean) => {
     </PerfectScrollbar>
   </VNavigationDrawer>
 </template>
-
-<route lang="yaml">
-meta:
-  action: create
-  subject: User
-</route>

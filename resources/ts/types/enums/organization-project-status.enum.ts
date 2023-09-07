@@ -13,7 +13,6 @@ export const OrganizationProjectStatusNames = {
   [OrganizationProjectStatusEnum.APPROVE]: 'Прошел модерацию',
   [OrganizationProjectStatusEnum.FINISH]: 'Завершен',
 }
-
 export const OrganizationProjectStatusColors = {
   [OrganizationProjectStatusEnum.CANCEL]: 'error',
   [OrganizationProjectStatusEnum.CREATE]: 'secondary',

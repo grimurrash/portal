@@ -2,7 +2,6 @@
 import { Ref } from 'vue'
 import {
   OrganizationProjectStatusColors,
-  OrganizationProjectStatusEnum,
   OrganizationProjectStatusNames
 } from '@/types/enums/organization-project-status.enum'
 
@@ -12,7 +11,7 @@ defineOptions({
 })
 
 interface Props {
-  project:  OrganizationProjectListItemModel
+  project: OrganizationProjectListItemModel
 }
 
 defineProps<Props>()
@@ -26,6 +25,7 @@ const showDetail = (id: Number) => {
     isShowDetails.value.set(id, true)
   }
 }
+
 </script>
 
 <template>
@@ -49,10 +49,10 @@ const showDetail = (id: Number) => {
       <p class="mb-0">
         Статус:
         <VChip
-          :color="OrganizationProjectStatusColors[project.status as OrganizationProjectStatusEnum]"
+          :color="OrganizationProjectStatusColors[project.status as keyof typeof OrganizationProjectStatusColors]"
           variant="elevated"
         >
-          {{ OrganizationProjectStatusNames[project.status as OrganizationProjectStatusEnum] }}
+          {{ OrganizationProjectStatusNames[project.status as keyof typeof OrganizationProjectStatusNames] }}
         </VChip>
       </p>
     </VCardText>

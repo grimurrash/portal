@@ -93,12 +93,10 @@ const isImportDialogVisible = ref(false)
             <VSpacer/>
 
             <div class="app-user-search-filter d-flex align-center flex-wrap gap-4">
-              <div style="inline-size: 30rem;">
-                <TableSearchInput
-                  v-model="options.search"
-                  placeholder="Поиск по ФИО"
-                />
-              </div>
+              <TableSearchInput
+                v-model="options.search"
+                placeholder="Поиск по ФИО"
+              />
             </div>
             <VBtn
               variant="tonal"

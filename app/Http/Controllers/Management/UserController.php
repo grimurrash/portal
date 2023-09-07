@@ -33,8 +33,8 @@ class UserController extends Controller
                 name: $request->get('name'),
                 email: $request->get('email'),
                 password: $request->get('password'),
-                roles: collect($request->get('roles'))->map(fn($item) => RoleEnum::from($item))->toArray(),
-                permissions: collect($request->get('permissions'))->map(fn($item) => PermissionEnum::from($item))->toArray(),
+                roles: array_map(fn($item) => RoleEnum::from($item), $request->get('roles', [])),
+                permissions: array_map(fn($item) => PermissionEnum::from($item), $request->get('permissions', [])),
                 isEmailVerified: $request->boolean('is_email_verified'),
             )
         );
@@ -67,8 +67,8 @@ class UserController extends Controller
             id: $id,
             name: $request->get('name'),
             email: $request->get('email'),
-            roles: collect($request->get('roles'))->map(fn($item) => RoleEnum::from($item))->toArray(),
-            permissions: collect($request->get('permissions'))->map(fn($item) => PermissionEnum::from($item))->toArray(),
+            roles: array_map(fn($item) => RoleEnum::from($item), $request->get('roles', [])),
+            permissions: array_map(fn($item) => PermissionEnum::from($item), $request->get('permissions', [])),
         ));
         return response()->json();
     }
@@ -78,6 +78,7 @@ class UserController extends Controller
         $this->userService->delete($id);
         return response()->json();
     }
+
     public function options(): JsonResponse
     {
         $list = User::all()

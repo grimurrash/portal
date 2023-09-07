@@ -38,14 +38,9 @@ export const PermissionNames: Record<PermissionEnum, string> = {
 
   [PermissionEnum.read_organizationProject]: 'Просмотр проектов',
   [PermissionEnum.create_organizationProject]: 'Создание проектов',
-  [PermissionEnum.update_organizationProject]: 'Обновление проектов',
+  [PermissionEnum.update_organizationProject]: 'Модерация проектов',
   [PermissionEnum.control_organizationProject]: 'Контроль проектов',
 
   [PermissionEnum.read_WordCloud]: 'Просмотр облака слов',
   [PermissionEnum.create_WordCloud]: 'Создание облака слов',
-}
-
-export function permissionKeyByValue(permissions: Record<PermissionEnum, string>, value: string) {
-  const [key] = Object.entries(permissions).find(([key, val]) => val === value) || [];
-  return key || null;
 }

@@ -1,25 +1,20 @@
 <script setup lang="ts">
 import { emailValidator, requiredValidator } from '@validators'
-import { RoleEnum, RoleNames } from '@/types/enums/role.enum'
-import { PermissionEnum, PermissionNames } from '@/types/enums/permission.enum'
-import { useMutation } from '@tanstack/vue-query'
+import { RoleNames } from '@/types/enums/role.enum'
+import { PermissionNames } from '@/types/enums/permission.enum'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { UserService } from '@/services/management/user.service'
-import { UserListItemModel } from '@/types/model/management/user.model'
+import { AxiosResponse } from 'axios'
+import { useNotificationStore } from '@/store/useNotificationStore'
+import { VForm } from 'vuetify/components/VForm'
+import { objectToOptions } from '@/utils/enums'
 
 defineOptions({
-  name: 'UserInfoEditDialog',
+  name: 'UserEditDialog',
 })
-interface UserData {
-  id: number
-  name: string
-  email: string
-  roles: Array<RoleEnum>
-  permissions: Array<PermissionEnum>
-  avatar: string
-}
 
 interface Props {
-  userData?: UserData
+  userData?: UpdateUserRequestDto
   isDialogVisible: boolean
 }
 
@@ -27,38 +22,49 @@ interface Emit {
   (e: 'update:isDialogVisible', val: boolean): void
 }
 
+const errors = ref<Record<string, string>>({})
 const props = withDefaults(defineProps<Props>(), {
   userData: () => ({
     id: 0,
     name: '',
     email: '',
-    roles: [RoleEnum.employee],
-    permissions: [PermissionEnum.read_user],
-    avatar: '',
+    roles: [],
+    permissions: [],
   }),
 })
 
 const emit = defineEmits<Emit>()
 
-const userData = ref<UserData>(structuredClone(toRaw(props.userData)))
+const userData = ref<UpdateUserRequestDto>(props.userData)
 
 watch(props, () => {
   userData.value = structuredClone(toRaw(props.userData))
-  for (let i = 0; i < userData.value.roles.length; i++) {
-    userData.value.roles[i] = RoleNames[userData.value.roles[i]] as RoleEnum
-  }
-  for (let i = 0; i < userData.value.permissions.length; i++) {
-    userData.value.permissions[i] = PermissionNames[userData.value.permissions[i]] as PermissionEnum
-  }
 })
 
-const { mutate } = useMutation({
-  mutationFn: (user: UserListItemModel) => UserService.update(user),
-})
+const queryClient = useQueryClient()
+const notificationStore = useNotificationStore()
 
+const { mutate: updateUser } = useMutation({
+  mutationFn: (user: UpdateUserRequestDto) => UserService.update(user),
+  onSuccess: () => {
+    dialogModelValueUpdate(false)
+    queryClient.invalidateQueries({ queryKey: ['users'] })
+  },
+  onError: (error: AxiosResponse) => {
+    if (error.status === 422) {
+      errors.value = (error.data as UnprocessableErrorResponse).errors
+    }
+    notificationStore.sendErrorNotification((error.data as BaseAxiosErrorResponse).message)
+  },
+})
+const refForm = ref<VForm>()
 const onFormSubmit = () => {
-  mutate(userData.value)
-  emit('update:isDialogVisible', false)
+  errors.value = {}
+  return refForm.value?.validate().then(({valid: isValid}) => {
+    if (isValid) {
+      updateUser(userData.value)
+    }
+  })
 }
 
 const onFormReset = () => {
@@ -69,6 +75,9 @@ const onFormReset = () => {
 const dialogModelValueUpdate = (val: boolean) => {
   emit('update:isDialogVisible', val)
 }
+
+const roleOptions = objectToOptions(RoleNames)
+const permissionOptions = objectToOptions(PermissionNames)
 </script>
 
 <template>
@@ -91,10 +100,10 @@ const dialogModelValueUpdate = (val: boolean) => {
         <!-- 👉 Form -->
         <VForm
           class="mt-6"
+          ref="refForm"
           @submit.prevent="onFormSubmit"
         >
           <VRow>
-            <!-- 👉 Full Name -->
             <VCol
               cols="12"
               md="6"
@@ -102,11 +111,11 @@ const dialogModelValueUpdate = (val: boolean) => {
               <AppTextField
                 v-model="userData.name"
                 label="ФИО"
+                :error-messages="errors.name"
                 :rules="[requiredValidator]"
               />
             </VCol>
 
-            <!-- 👉 Email -->
             <VCol
               cols="12"
               md="6"
@@ -114,35 +123,39 @@ const dialogModelValueUpdate = (val: boolean) => {
               <AppTextField
                 v-model="userData.email"
                 label="Электронная почта"
+                :error-messages="errors.email"
                 :rules="[requiredValidator, emailValidator]"
               />
             </VCol>
 
-            <!-- 👉 Role -->
             <VCol cols="12">
               <AppSelect
                 v-model="userData.roles"
                 label="Роль"
+                :error-messages="errors.roles"
                 :rules="[requiredValidator]"
-                :items="Object.values(RoleNames)"
+                :items="roleOptions"
+                item-value="id"
+                item-title="label"
                 chips
                 multiple
               />
             </VCol>
 
-            <!-- 👉 Permission -->
             <VCol cols="12">
               <AppSelect
                 v-model="userData.permissions"
                 label="Права доступа"
+                :error-messages="errors.permissions"
                 :rules="[requiredValidator]"
-                :items="Object.values(PermissionNames)"
+                :items="permissionOptions"
+                item-value="id"
+                item-title="label"
                 chips
                 multiple
               />
             </VCol>
 
-            <!-- 👉 Submit and Cancel -->
             <VCol
               cols="12"
               class="d-flex flex-wrap justify-center gap-4"
@@ -152,8 +165,8 @@ const dialogModelValueUpdate = (val: boolean) => {
               </VBtn>
 
               <VBtn
-                color="secondary"
                 variant="tonal"
+                color="secondary"
                 @click="onFormReset"
               >
                 Назад
@@ -165,9 +178,3 @@ const dialogModelValueUpdate = (val: boolean) => {
     </VCard>
   </VDialog>
 </template>
-
-<route lang="yaml">
-meta:
-  action: update
-  subject: User
-</route>

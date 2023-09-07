@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Dto\Auth\UserDto;
+use App\Dto\OptionItemDto;
 use App\Dto\User\UserListItemDto;
 use App\Enums\RoleAndPermission\PermissionEnum;
 use App\Enums\RoleAndPermission\RoleEnum;
@@ -119,5 +120,13 @@ class User extends Authenticatable
     public function hasPermission(PermissionEnum $permission): bool
     {
         return $this->isSuperUser() || $this->hasPermissionTo($permission->value, 'api');
+    }
+
+    public function toOptionItemDto(): OptionItemDto
+    {
+        return new OptionItemDto(
+            id: $this->id,
+            label: $this->name,
+        );
     }
 }

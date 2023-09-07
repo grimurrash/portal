@@ -1,9 +1,8 @@
-import type { AxiosResponse } from 'axios'
 import axios from '@axios'
 import { tableOptionsToObject } from '@/utils/utils'
 
 export const EmployeeService = {
-  async list (data: EmployeeListRequestDto): Promise<AxiosResponse<PaginateListResponse<EmployeeListItemModel>>> {
+  async list (data: EmployeeListRequestDto){
     return axios.get<PaginateListResponse<EmployeeListItemModel>>('/management/employees', {
       params: {
         ...data.filters,
@@ -25,7 +24,7 @@ export const EmployeeService = {
       }
     })
   },
-  async employeesOptionsByDepartmentId (departmentId: number): Promise<AxiosResponse<OptionItemModel[]>> {
+  async employeesOptionsByDepartmentId (departmentId: number) {
     return axios.get<OptionItemModel[]>('/management/employees/options-by-department', {
       params: {
         department_id: departmentId,

@@ -3,10 +3,10 @@ declare type SortItem = {
   order?: boolean | 'asc' | 'desc'
 }
 
-declare interface TableOptions {
+declare type TableOptions = {
   page: number
   itemsPerPage: number
   sortBy: SortItem[]
   groupBy: SortItem[]
-  search: string | undefined
+  search?: string
 }

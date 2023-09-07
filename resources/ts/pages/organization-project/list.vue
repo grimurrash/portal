@@ -3,9 +3,10 @@ import { Ref } from 'vue'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { OrganizationProjectService } from '@/services/activity/organization-project.service'
 import { useAuthStore } from '@/store/useAuthStore'
-import { OrganizationProjectStatusEnum } from '@/types/enums/organization-project-status.enum'
 import { AxiosResponse } from 'axios'
 import { paginationMeta } from '@/utils/utils'
+import { useNotificationStore } from '@/store/useNotificationStore'
+import { OrganizationProjectStatusEnum } from '@/types/enums/organization-project-status.enum'
 
 const authStore = useAuthStore()
 const userData = authStore.getUserData()
@@ -40,9 +41,7 @@ const { isLoading, data: queryResult } = useQuery({
 })
 
 const queryClient = useQueryClient()
-
-const globalError = ref()
-const isSnackbarVisible = ref(false)
+const notificationStore = useNotificationStore()
 
 const { mutate: sendToModerate } = useMutation({
   mutationFn: (id: number) => OrganizationProjectService.postForModeration(id),
@@ -50,8 +49,7 @@ const { mutate: sendToModerate } = useMutation({
     queryClient.invalidateQueries({ queryKey: ['organization-projects'] })
   },
   onError: (error: AxiosResponse) => {
-    globalError.value = (error.data as BaseAxiosErrorResponse).message
-    isSnackbarVisible.value = true
+    notificationStore.sendErrorNotification((error.data as BaseAxiosErrorResponse).message)
   },
 })
 
@@ -122,16 +120,6 @@ const isShowAddNewProjectDialog = ref(false)
         />
       </VCol>
     </VROW>
-    <VSnackbar
-      v-model="isSnackbarVisible"
-      transition="scale-transition"
-      location="top end"
-      variant="flat"
-      color="error"
-      :timeout="2000"
-    >
-      {{ globalError }}
-    </VSnackbar>
   </section>
 </template>
 

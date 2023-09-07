@@ -24,7 +24,8 @@ class CreateUserCommand extends Command
             name: $name,
             email: $email,
             password: $password,
-            role: RoleEnum::from($role),
+            roles: [RoleEnum::from($role)],
+            permissions: [],
             isEmailVerified: true
         ));
     }

@@ -1,72 +1,52 @@
 <script setup lang="ts">
-import { useMutation, useQuery } from '@tanstack/vue-query'
-import { UserService } from '@/services/management/user.service'
-import { ShowUserResponse } from '@/types/model/management/user.model'
-import { avatarText } from '@core/utils/formatters'
-import UserInfoEditingDialog from '@/views/users/components/dialogs/UserInfoEditDialog.vue'
-import DeleteDialog from '@/views/users/components/dialogs/DeleteDialog.vue'
-import { RoleNames } from '../../../../types/enums/role.enum'
 import { PermissionNames } from '@/types/enums/permission.enum'
+import { RoleNames } from '@/types/enums/role.enum'
+import { avatarText } from '@core/utils/formatters'
 
 defineOptions({
   name: 'UserBioPanel',
 })
 interface Props {
-  userId: number
+  user: UserInfoResponse
 }
 
 const props = defineProps<Props>()
 const isUserInfoEditDialogVisible = ref(false)
 const isUserDeleteDialogVisible = ref(false)
 
-const { data: showQueryResult } = useQuery({
-  queryKey: ['show-user'],
-  queryFn: () => UserService.show(props.userId)
-})
-
-const user = computed((): ShowUserResponse | undefined => showQueryResult.value?.data ?? undefined)
-
-const deleteMutation = useMutation({
-  mutationFn: (id: number) => UserService.delete(id),
-})
-
-const deleteUser = () => {
-  deleteMutation.mutate(props.userId)
-}
+const roleLabel = (role:string) => RoleNames[role as keyof typeof RoleNames]
+const permissionLabel = (permission: string) => PermissionNames[permission as keyof typeof PermissionNames]
 </script>
 
 <template>
   <VRow>
-    <!-- SECTION User Details -->
+    <UserDeleteDialog v-model:is-dialog-visible="isUserDeleteDialogVisible" :user-id="props.user.id" />
+
+    <UserEditDialog
+      v-model:isDialogVisible="isUserInfoEditDialogVisible"
+      :user-data="user"
+    />
+
     <VCol cols="12">
-      <VCard v-if="user">
+      <VCard>
         <VCardText class="text-center pt-15">
           <!-- 👉 Avatar -->
           <VAvatar
             rounded
             :size="100"
-            :color="!user.avatar ? 'primary' : undefined"
-            :variant="!user.avatar ? 'tonal' : undefined"
+            color="primary"
+            variant="tonal"
           >
-            <VImg
-              v-if="user.avatar"
-              :src="user.avatar"
-            />
-            <span
-              v-else
-              class="text-5xl font-weight-medium"
-            >
+            <span class="text-5xl font-weight-medium">
               {{ avatarText(user.name) }}
             </span>
           </VAvatar>
 
-          <!-- 👉 User fullName -->
           <h6 class="text-h4 mt-4">
             {{ user.name }}
           </h6>
 
-          <!-- 👉 Role chip -->
-          <div class="d-flex justify-center gap-1">
+          <div class="d-flex justify-center gap-1 flex-wrap">
             <VChip
               v-for="role in user.roles"
               :key="role"
@@ -75,7 +55,7 @@ const deleteUser = () => {
               label
               class="text-capitalize mt-3"
             >
-              <span>{{ RoleNames[role as keyof typeof RoleNames] }}</span>
+              <span>{{ roleLabel(role) }}</span>
             </VChip>
           </div>
         </VCardText>
@@ -93,9 +73,7 @@ const deleteUser = () => {
               <VListItemTitle>
                 <h6 class="text-h6">
                   ФИО:
-                  <span class="text-body-1">
-                    {{ user.name }}
-                  </span>
+                  <span class="text-body-1">{{ user.name }}</span>
                 </h6>
               </VListItemTitle>
             </VListItem>
@@ -111,10 +89,10 @@ const deleteUser = () => {
 
             <VListItem>
               <VListItemTitle>
-                <div class="d-flex align-center gap-1">
-                  <h6 class="text-h6">
-                    Права доступа:
-                  </h6>
+                <h6 class="text-h6 mb-2">
+                  Права доступа:
+                </h6>
+                <div class="d-flex align-center gap-1 flex-wrap" >
                   <VChip
                     v-if="user.permissions"
                     v-for="permission in user.permissions"
@@ -124,7 +102,7 @@ const deleteUser = () => {
                     label
                     class="text-capitalize"
                   >
-                    <span>{{ PermissionNames[permission as keyof typeof PermissionNames] }}</span>
+                    <span>{{ permissionLabel(permission) }}</span>
                   </VChip>
                 </div>
               </VListItemTitle>
@@ -132,11 +110,11 @@ const deleteUser = () => {
           </VList>
         </VCardText>
 
-        <!-- 👉 Edit and Delete button -->
         <VCardText class="d-flex justify-center">
           <VBtn
             variant="elevated"
             class="me-4"
+            v-if="$can('update', 'user')"
             @click="isUserInfoEditDialogVisible = true"
           >
             Редактировать
@@ -144,6 +122,7 @@ const deleteUser = () => {
           <VBtn
             variant="tonal"
             color="error"
+            v-if="$can('delete', 'user')"
             @click="isUserDeleteDialogVisible = true"
           >
             Удалить
@@ -151,29 +130,12 @@ const deleteUser = () => {
         </VCardText>
       </VCard>
     </VCol>
-    <!-- !SECTION -->
   </VRow>
-
-  <!--  👉 Edit user info dialog -->
-  <UserInfoEditingDialog
-    v-model:isDialogVisible="isUserInfoEditDialogVisible"
-    :user-data="user"
-  />
-
-  <!--  👉 Delete user dialog -->
-  <DeleteDialog
-    v-model:isDialogVisible="isUserDeleteDialogVisible"
-    @confirm="deleteUser"
-  />
 </template>
 
 <style lang="scss" scoped>
 .card-list {
   --v-card-list-gap: 0.75rem;
-}
-
-.text-capitalize {
-  text-transform: capitalize !important;
 }
 </style>
 

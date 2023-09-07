@@ -14,7 +14,6 @@ defineOptions({
 
 <template>
   <VCardText class="d-flex flex-wrap py-4 gap-4">
-
     <div class="me-3 d-flex gap-3">
       <AppSelect
         :model-value="options.itemsPerPage"
@@ -34,16 +33,12 @@ defineOptions({
       </slot>
     </div>
     <VSpacer/>
-
-    <div class="app-user-search-filter d-flex align-center flex-wrap gap-4">
-      <div style="inline-size: 30rem;">
-        <TableSearchInput
-          v-model="options.search"
-          placeholder="Поиск по названию проекта"
-        />
-      </div>
+    <div class="app-user-search-filter gap-4">
+      <TableSearchInput
+        v-model="options.search"
+        placeholder="Поиск по названию проекта"
+      />
     </div>
-
     <slot name="actions">
 
     </slot>

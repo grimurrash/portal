@@ -11,17 +11,17 @@ readonly class CreateUserDto
      * @param string $name
      * @param string $email
      * @param string $password
-     * @param array<RoleEnum>|null $roles
-     * @param array<PermissionEnum>|null $permissions
+     * @param array<RoleEnum> $roles
+     * @param array<PermissionEnum> $permissions
      * @param bool $isEmailVerified
      */
     public function __construct(
-        public string           $name,
-        public string           $email,
-        public string           $password,
-        public array|null       $roles,
-        public array|null       $permissions,
-        public bool             $isEmailVerified,
+        public string $name,
+        public string $email,
+        public string $password,
+        public array  $roles,
+        public array  $permissions,
+        public bool   $isEmailVerified,
     )
     {
     }

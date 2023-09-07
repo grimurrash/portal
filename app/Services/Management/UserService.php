@@ -35,6 +35,10 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка создания пользователя', previous: $exception);
         }
     }
+
+    /**
+     * @throws BadRequestException
+     */
     public function list(UserListFilterDto $filter): UserListDto
     {
         try {
@@ -43,6 +47,10 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка при выводе списка пользователей', previous: $exception);
         }
     }
+
+    /**
+     * @throws BadRequestException
+     */
     public function show(int $id): ShowUserDto
     {
         try {
@@ -51,6 +59,10 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка при выводе пользователя', previous: $exception);
         }
     }
+
+    /**
+     * @throws BadRequestException
+     */
     public function update(UpdateUserDto $dto): void
     {
         try {
@@ -59,6 +71,10 @@ readonly class UserService implements UserServiceInterface
             throw new BadRequestException('Ошибка обновления пользователя', previous: $exception);
         }
     }
+
+    /**
+     * @throws BadRequestException
+     */
     public function delete(int $id): void
     {
         try {

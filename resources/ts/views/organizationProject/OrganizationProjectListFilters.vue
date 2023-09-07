@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import {
-  OrganizationProjectStatusEnum,
-  OrganizationProjectStatusNames
-} from '@/types/enums/organization-project-status.enum'
+import { objectToOptions } from '@/utils/enums'
+import { OrganizationProjectStatusNames } from '@/types/enums/organization-project-status.enum'
 
 const emit = defineEmits(['update:filters'])
 
@@ -27,13 +25,7 @@ watch(selectFilter, () => {
   emit('update:filters', selectFilter.value)
 })
 
-const statusOptions = [
-  { value: OrganizationProjectStatusEnum.CREATE, title: OrganizationProjectStatusNames[OrganizationProjectStatusEnum.CREATE] },
-  { value: OrganizationProjectStatusEnum.MODERATION, title: OrganizationProjectStatusNames[OrganizationProjectStatusEnum.MODERATION] },
-  { value: OrganizationProjectStatusEnum.APPROVE, title: OrganizationProjectStatusNames[OrganizationProjectStatusEnum.APPROVE] },
-  { value: OrganizationProjectStatusEnum.FINISH, title: OrganizationProjectStatusNames[OrganizationProjectStatusEnum.FINISH] },
-  { value: OrganizationProjectStatusEnum.CANCEL, title: OrganizationProjectStatusNames[OrganizationProjectStatusEnum.CANCEL] },
-]
+const statusOptions = objectToOptions(OrganizationProjectStatusNames)
 </script>
 
 <template>
@@ -46,6 +38,8 @@ const statusOptions = [
         <AppSelect
           v-model="selectStatus"
           :items="statusOptions"
+          item-value="id"
+          item-title="label"
           label="Статус"
           placeholder="Выбор статуса"
           clearable

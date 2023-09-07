@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { OrganizationProjectService } from '@/services/activity/organization-project.service'
 import { AxiosResponse } from 'axios'
 import { useNotificationStore } from '@/store/useNotificationStore'
-import OrganizationProjectForm from '@/components/organizationProject/OrganizationProjectForm.vue'
 
 interface Props {
   isDialogVisible: boolean

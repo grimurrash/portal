@@ -26,11 +26,11 @@ readonly class UserRepository implements UserRepositoryInterface
             'password' =>  bcrypt($dto->password),
             'email_verified_at' => $dto->isEmailVerified ? Carbon::now() : null,
         ]);
-        foreach ($dto->roles as $role) {
-            $user->assignRole($role->value);
+        if (!empty($dto->roles)) {
+            $user->assignRole(array_column($dto->roles, 'value'));
         }
-        foreach ($dto->permissions as $permission) {
-            $user->givePermissionTo($permission->value);
+        if (!empty($dto->permissions)) {
+            $user->givePermissionTo(array_column($dto->permissions, 'value'));
         }
     }
     public function list(UserListFilterDto $filter): UserListDto
@@ -39,15 +39,15 @@ readonly class UserRepository implements UserRepositoryInterface
             ->with('roles', 'permissions')
             ->when($filter->role, function ($q) use ($filter) {
                 $q->whereHas('roles', function ($q) use ($filter) {
-                    $q->where('name', $filter->role);
+                    $q->where('name', $filter->role->value);
                 });
             })
             ->when($filter->permission, function ($q) use ($filter) {
                 $q->whereHas('permissions', function ($q) use ($filter) {
-                    $q->where('name', $filter->permission);
+                    $q->where('name', $filter->permission->value);
                 });
             })
-            ->where(function ($q) use ($filter) {
+            ->when($filter->search, function ($q) use ($filter) {
                 $q->where('name', 'like', "%$filter->search%")
                     ->orWhere('email', 'like', "%$filter->search%");
             })
@@ -82,7 +82,7 @@ readonly class UserRepository implements UserRepositoryInterface
         foreach ($dto->roles as $role) {
             $user->assignRole($role->value);
         }
-        foreach ($user->getAllPermissions()->pluck('name') as $permission) {
+        foreach ($user->getAllPermissions() as $permission) {
             $user->revokePermissionTo($permission);
         }
         foreach ($dto->permissions as $permission) {
