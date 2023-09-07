@@ -1,9 +1,9 @@
 export const paginationMeta = computed(() => {
   return <T extends { page: number; itemsPerPage: number }>(options: T, total: number) => {
-    const start = (options.page - 1) * options.itemsPerPage + 1
+    const start = total === 0 ? 0 : (options.page - 1) * options.itemsPerPage + 1
     const end = Math.min(options.page * options.itemsPerPage, total)
 
-    return `Показаны ${start} c ${end} по ${total} записей`
+    return `Показаны ${start} по ${end} из ${total} записей`
   }
 })
 

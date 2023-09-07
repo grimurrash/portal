@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="{{ asset('favicon.png') }}" />
+  <link rel="icon" href="{{ asset('favicon.ico') }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ИАС ПАТРИОТ</title>
   <link rel="stylesheet" type="text/css" href="{{ asset('loader.css') }}" />

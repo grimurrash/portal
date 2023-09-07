@@ -102,7 +102,7 @@ const onSubmit = (event: Event) => {
     >
       <VCard
         flat
-        :max-width="500"
+        :max-width="450"
         class="mt-12 mt-sm-0 pa-4"
       >
         <VCardText>
@@ -161,7 +161,7 @@ const onSubmit = (event: Event) => {
                   block
                   type="submit"
                 >
-                  Login
+                  Войти
                 </VBtn>
               </VCol>
             </VRow>

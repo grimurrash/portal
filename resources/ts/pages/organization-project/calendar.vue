@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FullCalendar from '@fullcalendar/vue3'
 import { useResponsiveLeftSidebar } from '@core/composable/useResponsiveSidebar'
+import { blankEvent, useCalendar } from '@/views/organizationProject/calendar/useOrganizationProjectCalendar'
 
 // 👉 Event
 const event = ref(structuredClone(blankEvent))
