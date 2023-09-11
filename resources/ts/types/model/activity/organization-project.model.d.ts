@@ -12,6 +12,9 @@ declare interface OrganizationProjectListItemModel {
   curator_user_name: string
   organizer_user_id: number
   organizer_user_name: string
+  moderator_user_id: number
+  moderator_user_name: string
+  dates: OrganizationProjectDateItemModel[]
 }
 
 declare interface OrganizationProjectInfoModelDto {
@@ -26,13 +29,19 @@ declare interface OrganizationProjectInfoModelDto {
   planned_coverage: number
   actual_coverage: number
   responsible_user_id: number
+  responsible_user_name: string
   curator_user_id: number
+  curator_user_name: string
+  organizer_user_id: number
+  organizer_user_name: string
+  moderator_user_id: ?number
+  moderator_user_name: ?string
   change_logs: OrganizationProjectChangeLogItemModel[]
 }
 
 declare interface OrganizationProjectDateItemModel {
   name: ?string
-  date: ?Date
+  date: Date | string | null
 }
 
 declare interface OrganizationProjectChangeLogItemModel {
@@ -40,7 +49,7 @@ declare interface OrganizationProjectChangeLogItemModel {
   user_id: number,
   user_name: string,
   datetime: string,
-  description: string|null
+  description: string | null
 }
 
 declare interface OrganizationProjectCalendarItemModel extends CalendarEvent {

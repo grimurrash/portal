@@ -44,10 +44,6 @@ class OrganizationProjectPolicy
 
     public function moderate(User $user, OrganizationProject $organizationProject): bool
     {
-        if ($organizationProject->status !== OrganizationProjectStatusEnum::MODERATION) {
-            return false;
-        }
-
         return $user->hasPermission(PermissionEnum::UPDATE_ORGANIZATION_PROJECT);
     }
 }

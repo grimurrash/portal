@@ -35,7 +35,7 @@ class UserController extends Controller
                 password: $request->get('password'),
                 roles: array_map(fn($item) => RoleEnum::from($item), $request->get('roles', [])),
                 permissions: array_map(fn($item) => PermissionEnum::from($item), $request->get('permissions', [])),
-                isEmailVerified: $request->boolean('is_email_verified'),
+                isEmailVerified: $request->boolean('is_email_verified', true),
             )
         );
         return response()->json();

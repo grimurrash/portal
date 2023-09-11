@@ -82,6 +82,18 @@ const showDetail = (id: Number) => {
           </p>
           <p class="mb-2">Описание:</p>
           <p>{{ project.description }}</p>
+          <VList v-if="project.dates.length > 0">
+            <VListSubheader>
+              Ключевые даты
+            </VListSubheader>
+            <VListItem
+              class="px-0"
+              v-for="(folder, index) in project.dates"
+              :key="index"
+              :title="folder.name as string"
+              :subtitle="folder.date as string"
+            />
+          </VList>
         </VCardText>
       </div>
     </VExpandTransition>

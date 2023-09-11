@@ -26,6 +26,8 @@ class OrganizationProjectListItemResource extends JsonResource
             'curator_user_name' => $this->curatorUserName,
             'organizer_user_id' => $this->organizerUserId,
             'organizer_user_name' => $this->organizerUserName,
+            'moderator_user_id' => $this->moderatorUserId,
+            'moderator_user_name' => $this->moderatorUserName,
         ];
     }
 }

@@ -151,7 +151,6 @@ const permissionOptions = objectToOptions(PermissionNames)
                   v-model="userData.permissions"
                   :error-messages="errors.permissions"
                   label="Права доступа"
-                  :rules="[requiredValidator]"
                   :items="permissionOptions"
                   item-value="id"
                   item-title="label"

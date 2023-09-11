@@ -2,8 +2,8 @@
 import FullCalendar from '@fullcalendar/vue3'
 import { useResponsiveLeftSidebar } from '@core/composable/useResponsiveSidebar'
 import { blankEvent, useCalendar } from '@/views/organizationProject/calendar/useOrganizationProjectCalendar'
+import { isEmpty } from '@core/utils'
 
-// 👉 Event
 const event = ref(structuredClone(blankEvent))
 const isEventHandlerSidebarActive = ref(false)
 
@@ -19,6 +19,8 @@ const { refCalendar, calendarOptions, jumpToDate } = useCalendar(event, isEventH
 
 <template>
   <div>
+    <OrganizationProjectViewDialog v-if="!isEmpty(event.id)" v-model:is-dialog-visible="isEventHandlerSidebarActive" :project-id="Number(event.extendedProps.project_id)" />
+
     <VCard>
       <VLayout style="z-index: 0;">
         <VNavigationDrawer
@@ -50,13 +52,6 @@ const { refCalendar, calendarOptions, jumpToDate } = useCalendar(event, isEventH
         </VMain>
       </VLayout>
     </VCard>
-<!--    <CalendarEventHandler-->
-<!--      v-model:isDrawerOpen="isEventHandlerSidebarActive"-->
-<!--      :event="event"-->
-<!--      @add-event="addEvent"-->
-<!--      @update-event="updateEvent"-->
-<!--      @remove-event="removeEvent"-->
-<!--    />-->
   </div>
 </template>
 

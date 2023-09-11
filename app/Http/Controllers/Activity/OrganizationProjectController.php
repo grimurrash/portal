@@ -159,7 +159,7 @@ class OrganizationProjectController extends Controller
         // TODO: Переместить потом в repository
         try {
             $organizationProject->logChange(new OrganizationProjectChangeLogItemDto(
-                name: 'Редактирование при модерации',
+                name: 'Редактирование модератором',
                 userId: $user->id,
                 userName: $user->name,
                 datetime: Carbon::now(),
@@ -179,7 +179,6 @@ class OrganizationProjectController extends Controller
                     'actual_coverage' => $request->get('actual_coverage'),
                     'responsible_user_id' => $request->get('responsible_user_id'),
                     'curator_user_id' => $request->get('curator_user_id'),
-                    'organizer_user_id' => $request->get('curator_user_id'),
                     'change_logs' => $organizationProject->change_logs,
                 ]);
         } catch (Throwable $exception) {
@@ -198,6 +197,7 @@ class OrganizationProjectController extends Controller
 
         // TODO: Переместить потом в repository
         $organizationProject->status = OrganizationProjectStatusEnum::APPROVE;
+        $organizationProject->moderator_user_id = $user->id;
         $organizationProject->logChange(
             new OrganizationProjectChangeLogItemDto(
                 name: 'Прошел модерацию',

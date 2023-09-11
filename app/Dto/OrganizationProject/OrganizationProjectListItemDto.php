@@ -22,6 +22,8 @@ readonly class OrganizationProjectListItemDto
         public string                        $curatorUserName,
         public int                           $organizerUserId,
         public string                        $organizerUserName,
+        public ?int                          $moderatorUserId,
+        public ?string                       $moderatorUserName,
     )
     {
     }

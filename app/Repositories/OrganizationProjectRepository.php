@@ -53,10 +53,11 @@ readonly class OrganizationProjectRepository implements OrganizationProjectRepos
     public function list(OrganizationProjectListFilterDto $filter): OrganizationProjectListDto
     {
         $list = OrganizationProject::query()
-            ->with(['organizerUser', 'curatorUser', 'responsibleUser'])
+            ->with(['organizerUser', 'curatorUser', 'responsibleUser', 'moderatorUser'])
             ->where(function ($q) use ($filter) {
                 $q->where('responsible_user_id', $filter->userId)
                     ->orWhere('curator_user_id', $filter->userId)
+                    ->orWhere('moderator_user_id', $filter->userId)
                     ->orWhere('organizer_user_id', $filter->userId);
             })
             ->searchFilter($filter->search)

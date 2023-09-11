@@ -24,18 +24,25 @@ const removeItem = (index: number) => {
       <transition-group name="scale" tag="div" >
         <template v-for="(date, index) in items" :key="`date_` + index">
           <VRow>
-            <VCol cols="7">
+            <VCol :cols="4">
+              <AppDateTimePicker
+                v-if="!isReadOnly"
+                v-model="date.date"
+                :readonly="isReadOnly"
+                placeholder="Дата и время"
+              />
+              <AppTextField
+                v-else
+                v-model="date.date"
+                placeholder="Комментарий"
+                readonly
+              />
+            </VCol>
+            <VCol :cols="isReadOnly ? 8 : 7">
               <AppTextField
                 v-model="date.name"
                 placeholder="Комментарий"
                 :readonly="isReadOnly"
-              />
-            </VCol>
-            <VCol :cols="isReadOnly ? 6 : 4">
-              <AppDateTimePicker
-                v-model="date.date"
-                :readonly="isReadOnly"
-                placeholder="Дата и время"
               />
             </VCol>
             <VCol v-if="!isReadOnly" cols="1">

@@ -38,7 +38,7 @@ export const useCalendar = (event: Ref<OrganizationProjectCalendarItemModel>, is
       end: eventApi.end,
       url: eventApi.url,
       extendedProps: {
-        project_id: eventApi.extendedProps.project_id,
+        project_id: eventApi.extendedProps.project_id as number,
         project_name: eventApi.extendedProps.project_name,
       },
       allDay: eventApi.allDay,

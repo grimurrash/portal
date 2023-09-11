@@ -25,6 +25,8 @@ class OrganizationProjectInfoResource extends JsonResource
             'curator_user_name' => $this->curatorUserName,
             'organizer_user_id' => $this->organizerUserId,
             'organizer_user_name' => $this->organizerUserName,
+            'moderator_user_id' => $this->moderatorUserId,
+            'moderator_user_name' => $this->moderatorUserName,
             'dates' => $this->dates,
             'metrics' => $this->metrics,
             'change_logs' => $this->changeLogs,

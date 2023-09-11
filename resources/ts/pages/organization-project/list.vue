@@ -56,11 +56,29 @@ const { mutate: sendToModerate } = useMutation({
 const projects = computed((): OrganizationProjectListItemModel[] => queryResult.value?.data.items ?? [])
 const totalItemCount = computed((): number => queryResult.value?.data.total_count ?? 0)
 const isShowAddNewProjectDialog = ref(false)
+
+const selectProjectId: Ref<number> = ref(0)
+const isShowEditProjectDialog = ref(false)
+const openEditDialog = (projectId: number) => {
+  selectProjectId.value = projectId
+  isShowEditProjectDialog.value = true
+}
+const isShowViewDialog = ref(false)
+const openViewDialog = (projectId: number) => {
+  selectProjectId.value = projectId
+  isShowViewDialog.value = true
+}
 </script>
 
 <template>
   <section>
+    <OrganizationProjectViewDialog
+      v-if="selectProjectId > 0"
+      :project-id="selectProjectId"
+      v-model:is-dialog-visible="isShowViewDialog"
+    />
     <OrganizationProjectAddNewDialog v-model:is-dialog-visible="isShowAddNewProjectDialog"/>
+    <OrganizationProjectEditDialog v-if="selectProjectId > 0" :project-id="selectProjectId" v-model:is-dialog-visible="isShowEditProjectDialog"/>
 
     <VRow>
       <VCol cols="12">
@@ -96,15 +114,24 @@ const isShowAddNewProjectDialog = ref(false)
           <transition-group name="fade" v-for="project in projects">
             <VCol
               :key="project.id"
-              cols="4"
+              cols="12"
               md="6"
               lg="4">
               <OrganizationProjectCard :project="project">
                 <template #actions>
                   <VBtn
+                    @click="openViewDialog(project.id)">
+                    Подробнее
+                  </VBtn>
+                  <VBtn
                     v-if="project.status === OrganizationProjectStatusEnum.CREATE && project.organizer_user_id === userData.id"
                     @click="sendToModerate(project.id)">
                     На модерацию
+                  </VBtn>
+                  <VBtn
+                    v-if="project.moderator_user_id === userData.id"
+                    @click="openEditDialog(project.id)">
+                    Редактировать
                   </VBtn>
                 </template>
               </OrganizationProjectCard>

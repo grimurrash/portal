@@ -38,7 +38,7 @@ const emit = defineEmits<Emit>()
 
 const projectData: Ref<UpdateOrganizationProjectRequestDto> = ref<UpdateOrganizationProjectRequestDto>(emptyProject)
 
-const { refetch: fetchProfileInfo, data: projectInfoResult } = useQuery({
+const { refetch: fetchProfileInfo, isLoading, isSuccess, data: projectInfoResult } = useQuery({
   queryKey: ['organization-projects', 'show', props.projectId],
   queryFn: () => OrganizationProjectService.showProject(props.projectId),
   keepPreviousData: true,
@@ -103,9 +103,15 @@ const refForm = ref<OrganizationProjectForm>()
     @update:model-value="dialogModelValueUpdate"
     scrollable
   >
-    <DialogCloseBtn @click="dialogModelValueUpdate(false)"/>
-
-    <VCard title="Редактирование проекта">
+    <VProgressCircular
+      v-if="isLoading"
+      :size="60"
+      color="warning"
+      indeterminate
+      style="position: absolute; left: 50%;"
+    />
+    <DialogCloseBtn v-show="isSuccess" @click="dialogModelValueUpdate(false)"/>
+    <VCard v-show="isSuccess" title="Редактирование проекта">
       <VCardText>
         <OrganizationProjectForm v-model:project-data="projectData" :errors="errors" @submit="onFormSubmit()" ref="refForm"/>
       </VCardText>

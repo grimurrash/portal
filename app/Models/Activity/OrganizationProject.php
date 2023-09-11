@@ -91,6 +91,11 @@ class OrganizationProject extends Model
         return $query->where('end_date', '<=', $endDate);
     }
 
+    public function moderatorUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'moderator_user_id');
+    }
+
     public function responsibleUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'responsible_user_id');
@@ -123,6 +128,8 @@ class OrganizationProject extends Model
             curatorUserName: $this->curatorUser->name,
             organizerUserId: $this->organizer_user_id,
             organizerUserName: $this->organizerUser->name,
+            moderatorUserId: $this->moderator_user_id,
+            moderatorUserName: $this->moderatorUser?->name,
         );
     }
 
@@ -146,6 +153,8 @@ class OrganizationProject extends Model
             curatorUserName: $this->curatorUser->name,
             organizerUserId: $this->organizer_user_id,
             organizerUserName: $this->organizerUser->name,
+            moderatorUserId: $this->moderator_user_id,
+            moderatorUserName: $this->moderatorUser?->name,
             changeLogs: $this->change_logs,
         );
     }

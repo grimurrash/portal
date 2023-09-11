@@ -9,6 +9,7 @@ defineOptions({
 
 interface Props {
   modelValue: number | null
+  options: Array<{id: number, label: string}>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,15 +23,13 @@ const elementId = computed(() => {
 })
 const emit = defineEmits(['update:modelValue'])
 
-const selectValue: Ref<{id: number, label: string}|undefined>= ref()
+const selectValue: Ref<{id: number, label: string}|undefined>= ref(props.options.find(o => o.id === props.modelValue))
 
 const label = computed(() => useAttrs().title as string | undefined)
 
-const options: Array<{id: number, label: string}> = useAttrs().options as Array<{id: number, label: string}>
-
 watch(props, () => {
   if (props.modelValue !== selectValue.value?.id) {
-    selectValue.value = options.find(o => o.id === props.modelValue)
+    selectValue.value = props.options.find(o => o.id === props.modelValue)
   }
 })
 

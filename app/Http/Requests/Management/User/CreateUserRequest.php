@@ -12,10 +12,8 @@ class CreateUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users'],
             'password' => ['required', 'string', 'min:4'],
-//            , Rule::enum(RoleEnum::class)
-            'roles' => ['required', 'array'],
-//            , Rule::enum(PermissionEnum::class)
-            'permissions' => ['required', 'array'],
+            'roles' => ['sometimes', 'array'],
+            'permissions' => ['sometimes', 'array'],
             'is_email_verified' => ['sometimes', 'bool']
         ];
     }

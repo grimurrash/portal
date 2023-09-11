@@ -39,7 +39,7 @@ const { data: queryResult } = useQuery({
 const queryClient = useQueryClient()
 const notificationStore = useNotificationStore()
 
-const {isLoading, mutate: approveProject } = useMutation({
+const { isLoading, mutate: approveProject } = useMutation({
   mutationFn: (projectId: number) => OrganizationProjectService.approve(projectId),
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['organization-projects'] })
@@ -59,12 +59,25 @@ const openEditDialog = (projectId: number) => {
   selectProjectId.value = projectId
   isShowEditProjectDialog.value = true
 }
-
+const isShowViewDialog = ref(false)
+const openViewDialog = (projectId: number) => {
+  selectProjectId.value = projectId
+  isShowViewDialog.value = true
+}
 </script>
 
 <template>
   <section>
-    <OrganizationProjectEditDialog v-model:project-id="selectProjectId" v-model:is-dialog-visible="isShowEditProjectDialog"/>
+    <OrganizationProjectViewDialog
+      v-if="selectProjectId > 0"
+      :project-id="selectProjectId"
+      v-model:is-dialog-visible="isShowViewDialog"
+    />
+    <OrganizationProjectEditDialog
+      v-if="selectProjectId > 0"
+      :project-id="selectProjectId"
+      v-model:is-dialog-visible="isShowEditProjectDialog"
+    />
 
     <VRow>
       <VCol cols="12">
@@ -90,11 +103,15 @@ const openEditDialog = (projectId: number) => {
           <transition-group name="fade" v-for="project in projects">
             <VCol
               :key="project.id"
-              cols="4"
+              cols="12"
               md="6"
               lg="4">
               <OrganizationProjectCard :project="project">
                 <template #actions>
+                  <VBtn
+                    @click="openViewDialog(project.id)">
+                    Подробнее
+                  </VBtn>
                   <VBtn
                     v-if="$can('update', 'organizationProject')"
                     @click="openEditDialog(project.id)">

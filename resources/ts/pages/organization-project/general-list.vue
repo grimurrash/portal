@@ -36,11 +36,21 @@ const { isLoading, data: queryResult } = useQuery({
 
 const projects = computed((): OrganizationProjectListItemModel[] => queryResult.value?.data.items ?? [])
 const totalItemCount = computed((): number => queryResult.value?.data.total_count ?? 0)
-
+const isShowViewDialog = ref(false)
+const selectProjectId: Ref<number> = ref(0)
+const openViewDialog = (projectId: number) => {
+  selectProjectId.value = projectId
+  isShowViewDialog.value = true
+}
 </script>
 
 <template>
   <section>
+    <OrganizationProjectViewDialog
+      v-if="selectProjectId > 0"
+      :project-id="selectProjectId"
+      v-model:is-dialog-visible="isShowViewDialog"
+    />
     <VRow>
       <VCol cols="12">
         <VCard title="Фильтры" class="mb-2">
@@ -65,10 +75,17 @@ const totalItemCount = computed((): number => queryResult.value?.data.total_coun
           <transition-group name="fade" v-for="project in projects">
             <VCol
               :key="project.id"
-              cols="4"
+              cols="12"
               md="6"
               lg="4">
-              <OrganizationProjectCard :project="project"/>
+              <OrganizationProjectCard :project="project">
+                <template #actions>
+                  <VBtn
+                    @click="openViewDialog(project.id)">
+                    Подробнее
+                  </VBtn>
+                </template>
+              </OrganizationProjectCard>
             </VCol>
           </transition-group>
         </VRow>
