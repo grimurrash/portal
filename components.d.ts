@@ -54,7 +54,6 @@ declare module '@vue/runtime-core' {
     MoreBtn: typeof import('./resources/ts/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./resources/ts/@core/components/Notifications.vue')['default']
     OrganizationProjectAddNewDialog: typeof import('./resources/ts/views/organizationProject/OrganizationProjectAddNewDialog.vue')['default']
-    OrganizationProjectCalendarEventHandler: typeof import('./resources/ts/views/organizationProject/OrganizationProjectCalendarEventHandler.vue')['default']
     OrganizationProjectCard: typeof import('./resources/ts/components/organizationProject/OrganizationProjectCard.vue')['default']
     OrganizationProjectDateList: typeof import('./resources/ts/components/organizationProject/OrganizationProjectDateList.vue')['default']
     OrganizationProjectEditDialog: typeof import('./resources/ts/views/organizationProject/OrganizationProjectEditDialog.vue')['default']
